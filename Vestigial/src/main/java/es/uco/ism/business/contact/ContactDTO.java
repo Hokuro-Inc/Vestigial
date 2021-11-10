@@ -8,6 +8,7 @@ public class ContactDTO implements Serializable {
 	private String phone;
 	private String prefix;
 	private String name;
+	private String surname;
 	private String alias;
 	private String email;
 	private String description;
@@ -25,10 +26,11 @@ public class ContactDTO implements Serializable {
 	 * @param address Dirección del contacto
 	 * @param owner Propietario del contacto
 	 */
-	public ContactDTO(String phone, String prefix, String name, String alias, String email, String description, String address, String owner) {
+	public ContactDTO(String phone, String prefix, String name, String surname, String alias, String email, String description, String address, String owner) {
 		this.phone = phone;
 		this.prefix = prefix;
 		this.name = name;
+		this.surname = surname;
 		this.alias = alias;
 		this.email = email;
 		this.description = description;
@@ -88,6 +90,24 @@ public class ContactDTO implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * Devuelve el apellido del contacto
+	 * 
+	 * @return Nombre del contacto
+	 */
+	public String getSurname() {
+		return surname;
+	}
+
+	/**
+	 * Asigna un apellido a un contacto
+	 * 
+	 * @param name Nombre a asignar al contacto
+	 */
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	/**

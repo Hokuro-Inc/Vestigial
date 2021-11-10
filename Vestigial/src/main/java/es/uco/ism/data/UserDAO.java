@@ -41,9 +41,9 @@ public class UserDAO extends DBConnectImpl {
 
             if (set.next()) {
             	
-            	String[] tokens = set.getString(4).split("+");
+            	String[] tokens = set.getString(3).split("+");
             			
-            	user = new UserDTO(email, set.getString(2), set.getString(3), tokens[1], tokens[0]);
+            	user = new UserDTO(email, set.getString(1), set.getString(2), tokens[1], tokens[0]);
             }
 
             if (stmt != null) {

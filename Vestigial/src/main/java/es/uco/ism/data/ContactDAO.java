@@ -39,7 +39,10 @@ public class ContactDAO extends DBConnectImpl{
             ResultSet set = stmt.executeQuery();
 
             if (set.next()) {
-            	contacto = new ContactDTO(phone, set.getString(1), set.getString(2), set.getString(3),set.getString(4),set.getString(5),set.getString(6),set.getString(7));
+            	
+            	String[] tokens = set.getString(3).split("+");
+            	
+            	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7));
             }
 
             if (stmt != null) {
@@ -66,9 +69,9 @@ public class ContactDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Insert_Contact");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, contacto.getPhone());
-            stmt.setString(2, contacto.getPrefix());
-            stmt.setString(3, contacto.getName());
+            stmt.setString(1, contacto.getPhone()+"+"+contacto.getPrefix());
+            stmt.setString(2, contacto.getName());
+            stmt.setString(3, contacto.getSurname());
             stmt.setString(4, contacto.getAlias());
             stmt.setString(5, contacto.getEmail());  
             stmt.setString(6, contacto.getDescription());  
