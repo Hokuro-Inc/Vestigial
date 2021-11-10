@@ -1,12 +1,12 @@
 package es.uco.ism.data;
 
-import es.uco.ism.data.db.impl.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import es.uco.ism.data.db.impl.*;
 import es.uco.ism.business.user.UserDTO;
 
 public class UserDAO extends DBConnectImpl {
@@ -40,7 +40,10 @@ public class UserDAO extends DBConnectImpl {
             ResultSet set = stmt.executeQuery();
 
             if (set.next()) {
-            	user = new UserDTO(email, set.getString(1), set.getString(2), set.getString(3),set.getString(4));
+            	
+            	String[] tokens = set.getString(4).split("+");
+            			
+            	user = new UserDTO(email, set.getString(2), set.getString(3), tokens[1], tokens[0]);
             }
 
             if (stmt != null) {
@@ -64,14 +67,14 @@ public class UserDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Insert_Usuario");
+        	
+            String statement = sqlProp.getProperty("Insert_User");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getPwd());
             stmt.setString(3, user.getSalt());
-            stmt.setString(4, user.getPhone());
-            stmt.setString(5, user.getPrefix());            
+            stmt.setString(4, user.getPhone()+"+"+user.getPrefix());           
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -95,14 +98,13 @@ public class UserDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Update_Usuario");
+            String statement = sqlProp.getProperty("Update_User");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(5, user.getEmail());
-            stmt.setString(1, user.getPwd());
-            stmt.setString(2, user.getSalt());
-            stmt.setString(3, user.getPhone());
-            stmt.setString(4, user.getPrefix());  
+            stmt.setString(2, user.getEmail());
+
+            stmt.setString(1, user.getPhone()+"+"+user.getPrefix());
+
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -126,11 +128,12 @@ public class UserDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Update_Password");
+            String statement = sqlProp.getProperty("Update_Pwd_User");
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(2, user.getEmail());
             stmt.setString(1, user.getPwd());
+            stmt.setString(2, user.getSalt());
+            stmt.setString(3, user.getEmail());
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -155,14 +158,9 @@ public class UserDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Delete_Usuario");
+            String statement = sqlProp.getProperty("Delete_User");
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, email);
-            results.add(stmt.executeUpdate());
-            
-            statement = sqlProp.getProperty("Delete_Password");
-            stmt = con.prepareStatement(statement);
             stmt.setString(1, email);
             results.add(stmt.executeUpdate());
             
