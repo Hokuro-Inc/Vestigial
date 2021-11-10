@@ -1,5 +1,6 @@
 package es.uco.ism.data;
 
+import es.uco.ism.data.db.impl.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.util.Properties;
 import es.uco.ism.business.task.Status;
 import es.uco.ism.business.task.TaskDTO;
 
-public class TaskDAO extends DAO{
+public class TaskDAO extends DBConnectImpl{
 	/**
      * Constructor de DAO que carga los ficheros properties
      * 

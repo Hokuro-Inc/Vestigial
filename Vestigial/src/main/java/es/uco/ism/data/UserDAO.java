@@ -1,5 +1,6 @@
 package es.uco.ism.data;
 
+import es.uco.ism.data.db.impl.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,7 @@ import java.util.Properties;
 
 import es.uco.ism.business.user.UserDTO;
 
-public class UserDAO extends DAO {
+public class UserDAO extends DBConnectImpl {
 
     /**
      * Constructor de DAO que carga los ficheros properties

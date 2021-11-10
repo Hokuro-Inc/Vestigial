@@ -1,5 +1,6 @@
 package es.uco.ism.data;
 
+import es.uco.ism.data.db.impl.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,7 @@ import java.util.Properties;
 
 import es.uco.ism.business.event.EventDTO;
 
-public class EventDAO extends DAO{
+public class EventDAO extends DBConnectImpl{
 	/**
      * Constructor de DAO que carga los ficheros properties
      * 
