@@ -47,7 +47,7 @@ public class UserGroupDAO extends DBConnectImpl{
      * @param user Datos de login del usuario a introducir en la base de datos
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
-    public int Insert(UserDTO user, String group) {
+    public int Insert(UserDTO user) {
         int status = 0;
 
         try {
@@ -55,7 +55,7 @@ public class UserGroupDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, user.getEmail());
-            stmt.setString(2, group);
+            stmt.setString(2, user.getGroups()[0]);
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -75,7 +75,7 @@ public class UserGroupDAO extends DBConnectImpl{
      * @param user Usuario a actualizar
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
-    public int Update(UserDTO user, String group, String new_group) {
+    public int Update(UserDTO user) {
         int status = 0;
 
         try {
@@ -83,8 +83,8 @@ public class UserGroupDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, group);
-            stmt.setString(1, new_group);
+            stmt.setString(3, user.getGroups()[0]);
+            stmt.setString(1, user.getGroups()[1]);
 
             status = stmt.executeUpdate();
             
@@ -105,7 +105,7 @@ public class UserGroupDAO extends DBConnectImpl{
      * @param email Email del usuario a borrar
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
-    public int Delete(UserDTO user, String group) {
+    public int Delete(UserDTO user) {
     	ArrayList<Integer> results = new ArrayList<Integer>();
         int status = 0;
 
@@ -114,7 +114,7 @@ public class UserGroupDAO extends DBConnectImpl{
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, user.getEmail());
-            stmt.setString(2, group);
+            stmt.setString(2, user.getGroups()[0]);
             results.add(stmt.executeUpdate());
             status = CheckResults(results);
             

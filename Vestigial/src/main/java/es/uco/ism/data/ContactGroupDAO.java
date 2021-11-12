@@ -41,7 +41,7 @@ public class ContactGroupDAO extends DBConnectImpl{
         return groups;
     }
     
-    public int Insert(ContactDTO contact, String group) {
+    public int Insert(ContactDTO contact) {
         int status = 0;
 
         try {
@@ -49,7 +49,7 @@ public class ContactGroupDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
-            stmt.setString(2, group);
+            stmt.setString(2, contact.getGroups()[0]);
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -63,7 +63,7 @@ public class ContactGroupDAO extends DBConnectImpl{
         return status;
     }
     
-    public int Update(ContactDTO contact, String group, String new_group) {
+    public int Update(ContactDTO contact) {
         int status = 0;
 
         try {
@@ -71,8 +71,8 @@ public class ContactGroupDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(2, contact.getPhone()+"-"+contact.getPrefix());
-            stmt.setString(3, group);
-            stmt.setString(1, new_group);
+            stmt.setString(3, contact.getGroups()[0]);
+            stmt.setString(1, contact.getGroups()[1]);
 
             status = stmt.executeUpdate();
             
@@ -87,7 +87,7 @@ public class ContactGroupDAO extends DBConnectImpl{
         return status;
     }
     
-    public int Delete(ContactDTO contact, String group) {
+    public int Delete(ContactDTO contact) {
     	ArrayList<Integer> results = new ArrayList<Integer>();
         int status = 0;
 
@@ -96,7 +96,7 @@ public class ContactGroupDAO extends DBConnectImpl{
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
-            stmt.setString(2, group);
+            stmt.setString(2, contact.getGroups()[0]);
             results.add(stmt.executeUpdate());
             status = CheckResults(results);
             
