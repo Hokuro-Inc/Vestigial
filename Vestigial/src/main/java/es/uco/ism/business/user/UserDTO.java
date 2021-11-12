@@ -10,7 +10,8 @@ public class UserDTO implements Serializable {
 	private String salt;
 	private String phone;
 	private String prefix;
-	
+	private String[] groups;
+ 	
 	/**
 	 * Constructor completo de un usuario para el login
 	 * 
@@ -19,6 +20,15 @@ public class UserDTO implements Serializable {
 	 * @param salt Salt del login del usuario
 	 * @param phonePrefix Teléfono del usuario
 	 */
+	public UserDTO(String email, String password, String salt, String phone, String prefix, String[] groups) {
+		this.email = email;
+		this.pwd = password;
+		this.salt = salt;
+		this.phone = phone;
+		this.prefix = prefix;
+		this.groups = groups;
+	}
+	
 	public UserDTO(String email, String password, String salt, String phone, String prefix) {
 		this.email = email;
 		this.pwd = password;
@@ -116,6 +126,16 @@ public class UserDTO implements Serializable {
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
+	
+	public String[] getGroups() {
+		
+		return groups;
+	}
+	
+	public void setGroups(String[] groups) {
+		
+		this.groups = groups;
+	}
 
 	@Override
 	/**
@@ -125,7 +145,7 @@ public class UserDTO implements Serializable {
 	 */
 	public String toString() {
 		return "UserDTO [email=" + email + ", pwd=" + pwd + ", salt=" + salt + ", phone=" + phone + ", prefix=" + prefix
-				+ "]";
+				+ ", groups=" + groups + "]";
 	}
 
 

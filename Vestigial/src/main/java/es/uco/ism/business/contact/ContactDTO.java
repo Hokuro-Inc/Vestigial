@@ -14,6 +14,7 @@ public class ContactDTO implements Serializable {
 	private String description;
 	private String address;
 	private String owner;
+	private String[] groups;
 
 	/**
 	 * Constructor completo del contacto 
@@ -26,6 +27,20 @@ public class ContactDTO implements Serializable {
 	 * @param address Dirección del contacto
 	 * @param owner Propietario del contacto
 	 */
+	
+	public ContactDTO(String phone, String prefix, String name, String surname, String alias, String email, String description, String address, String owner, String[] groups) {
+		this.phone = phone;
+		this.prefix = prefix;
+		this.name = name;
+		this.surname = surname;
+		this.alias = alias;
+		this.email = email;
+		this.description = description;
+		this.address = address;
+		this.owner = owner;
+		this.groups = groups;
+	}
+	
 	public ContactDTO(String phone, String prefix, String name, String surname, String alias, String email, String description, String address, String owner) {
 		this.phone = phone;
 		this.prefix = prefix;
@@ -199,6 +214,16 @@ public class ContactDTO implements Serializable {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
+	
+	public String[] getGroups() {
+		
+		return groups;
+	}
+	
+	public void setGroups(String[] groups) {
+		
+		this.groups = groups;
+	}
 
 	@Override
 	/**
@@ -208,7 +233,7 @@ public class ContactDTO implements Serializable {
 	 */
 	public String toString() {
 		return "ContactDTO [phone=" + phone + ", prefix=" + prefix + ", name=" + name + ", alias=" + alias + ", email="
-				+ email + ", description=" + description + ", address=" + address + ", owner=" + owner + "]";
+				+ email + ", description=" + description + ", address=" + address + ", owner=" + owner + ", groups:" + groups + "]";
 	}
 	
 }

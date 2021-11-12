@@ -30,7 +30,6 @@ public class TestContactDAO {
 		String salt = PasswordHashing.createSalt();
 		String passwordHash = PasswordHashing.createHash(password, salt);
 				
-		
 		UserDTO propietarioTest = new UserDTO("chris@gmail.com",passwordHash,salt,"660651903","123");
 		ContactDTO contactoTest = new ContactDTO("660651993","123","Juan","Fernandez Garcia","Rekeka", "rekeka@gmail.com","Colaborador del proyecto","Direccion",propietarioTest.getEmail());
 		

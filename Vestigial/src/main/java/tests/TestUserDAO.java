@@ -28,6 +28,7 @@ public class TestUserDAO {
 		String salt = PasswordHashing.createSalt();
 		String passwordHash = PasswordHashing.createHash(password, salt);
 		
+		
 		UserDTO userDTO = new UserDTO("testUser@gmail.com", passwordHash, salt, "660651903", "123");
 		
 		assert userDAO.Insert(userDTO) > 0 : "No se ha introducido el usuario";
