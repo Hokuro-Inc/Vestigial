@@ -52,6 +52,8 @@ public class TestContactDAO {
 		assert contactDAO.Delete(contactoTest.getPhone()) > 0: "Error al borrar el contacto";
 		
 		assert contactDAO.QueryByPhone(contactoTest.getPhone()) == null : "Error se ha encontrado un contacto borrado";
+		
+		System.out.println("Fin del test");
 	}
 	
 }

@@ -3,6 +3,7 @@ package es.uco.ism.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.data.db.impl.*;
@@ -38,9 +39,12 @@ public class UserDAO extends DBConnectImpl {
             stmt.setString(1, email);
             ResultSet set = stmt.executeQuery();
 
-            if (set.next()) {            	
-            	String[] tokens = set.getString(3).split("+");
-            	user = new UserDTO(email, set.getString(1), set.getString(2), tokens[0], tokens[1]);
+            if (set.next()) {
+            	
+            	String phone = set.getString(3);
+            	String[] tokens = phone.split("-");
+            	
+            	user = new UserDTO(email, set.getString(1), set.getString(2), tokens[1], tokens[0]);
             }
 
             if (stmt != null) {
@@ -62,7 +66,6 @@ public class UserDAO extends DBConnectImpl {
      */
     public int Insert(UserDTO user) {
         int status = 0;
-
         try {
         	
             String statement = sqlProp.getProperty("Insert_User");
@@ -71,7 +74,7 @@ public class UserDAO extends DBConnectImpl {
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getPwd());
             stmt.setString(3, user.getSalt());
-            stmt.setString(4, user.getPhone() + "+" + user.getPrefix());           
+            stmt.setString(4, user.getPhone()+"-"+user.getPrefix());           
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -99,7 +102,9 @@ public class UserDAO extends DBConnectImpl {
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(2, user.getEmail());
-            stmt.setString(1, user.getPhone() + "+" + user.getPrefix());
+
+            stmt.setString(1, user.getPhone()+"-"+user.getPrefix());
+
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -149,6 +154,7 @@ public class UserDAO extends DBConnectImpl {
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
     public int Delete(String email) {
+    	ArrayList<Integer> results = new ArrayList<Integer>();
         int status = 0;
 
         try {
@@ -156,7 +162,9 @@ public class UserDAO extends DBConnectImpl {
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, email);
-            status = stmt.executeUpdate();
+            results.add(stmt.executeUpdate());
+            
+            status = CheckResults(results);
             
             if (stmt != null) {
             	stmt.close();

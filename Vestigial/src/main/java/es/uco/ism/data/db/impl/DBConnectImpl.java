@@ -38,7 +38,7 @@ public abstract class DBConnectImpl implements DBConnectDAO{
 		try 
     	{
 			
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             
             con = (Connection) DriverManager.getConnection(url, user, pwd);  
     	} 

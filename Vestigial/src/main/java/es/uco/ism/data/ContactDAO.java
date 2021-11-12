@@ -40,7 +40,7 @@ public class ContactDAO extends DBConnectImpl{
 
             if (set.next()) {
             	
-            	String[] tokens = set.getString(3).split("+");
+            	String[] tokens = set.getString(3).split("-");
             	
             	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7));
             }
@@ -69,7 +69,7 @@ public class ContactDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Insert_Contact");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, contacto.getPhone()+"+"+contacto.getPrefix());
+            stmt.setString(1, contacto.getPhone()+"-"+contacto.getPrefix());
             stmt.setString(2, contacto.getName());
             stmt.setString(3, contacto.getSurname());
             stmt.setString(4, contacto.getAlias());
@@ -103,14 +103,15 @@ public class ContactDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Update_Contact");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(8, contacto.getPhone());
-            stmt.setString(1, contacto.getPrefix());
-            stmt.setString(2, contacto.getName());
+            stmt.setString(9, contacto.getPhone()+"-"+contacto.getPrefix());
+            stmt.setString(1, contacto.getName());
+            stmt.setString(2, contacto.getSurname());
             stmt.setString(3, contacto.getAlias());
             stmt.setString(4, contacto.getEmail());  
             stmt.setString(5, contacto.getDescription());  
             stmt.setString(6, contacto.getAddress());  
             stmt.setString(7, contacto.getOwner());  
+            stmt.setString(8, contacto.getPhone()+"+"+contacto.getPrefix());  
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -140,8 +141,6 @@ public class ContactDAO extends DBConnectImpl{
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, telefono);
             results.add(stmt.executeUpdate());
-
-            
             status = CheckResults(results);
             
             if (stmt != null) {

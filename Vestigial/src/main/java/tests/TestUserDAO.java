@@ -34,9 +34,9 @@ public class TestUserDAO {
 		
 		UserDTO queryRes = userDAO.QueryByEmail("testUser@gmail.com");
 		
-		assert queryRes != null : "No se encontró al usuario";
+		assert queryRes == null : "No se encontrï¿½ al usuario";
 		
-		assert PasswordHashing.createHash(password, queryRes.getSalt()).equals(queryRes.getPwd()) : "Error en la contraseña";
+		assert PasswordHashing.createHash(password, queryRes.getSalt()).equals(queryRes.getPwd()) : "Error en la contraseï¿½a";
 		
 		password = "password";
 		
@@ -44,11 +44,11 @@ public class TestUserDAO {
 		
 		queryRes.setPwd(passwordHash);
 		
-		assert userDAO.UpdatePassword(queryRes) > 0 : "Error al actualizar la contraseña";
+		assert userDAO.UpdatePassword(queryRes) > 0 : "Error al actualizar la contraseï¿½a";
 		
 		queryRes = userDAO.QueryByEmail("testUser@gmail.com");
 		
-		assert queryRes.getPwd().equals(passwordHash) : "Error en la contraseña actualizada";
+		assert queryRes.getPwd().equals(passwordHash) : "Error en la contraseï¿½a actualizada";
 		
 		assert userDAO.Delete("testUser@gmail.com") > 0 : "Error en el borrado del usuario";
 		
