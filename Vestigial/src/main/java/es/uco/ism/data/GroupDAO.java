@@ -62,15 +62,15 @@ public class GroupDAO extends DBConnectImpl {
         return status;
 	}
 	
-    public int Update(String name) {
+    public int Update(String oldName,String newName) {
         int status = 0;
 
         try {
             String statement = sqlProp.getProperty("Update_Group");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, name);
-            stmt.setString(2, name);
+            stmt.setString(1, oldName);
+            stmt.setString(2, newName);
             status = stmt.executeUpdate();
             
             if (stmt != null) {
