@@ -13,7 +13,7 @@ public class GroupDAO extends DBConnectImpl {
     	super(url, user, pwd, sqlProp);
     }
 	
-	public ArrayList<String> QueryAll(String group) {
+	public ArrayList<String> QueryAll() {
 		
     	ArrayList<String> groups = new ArrayList<String>();
 
