@@ -1,4 +1,4 @@
-package es.uco.ism.servlet;
+package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,16 +18,16 @@ import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
 
 /**
- * Servlet implementation class UpdateEventController
+ * Servlet implementation class RemoveEventController
  */
-@WebServlet("/UpdateEventController")
-public class UpdateEventController extends HttpServlet {
+@WebServlet("/RemoveEventController")
+public class RemoveEventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateEventController() {
+    public RemoveEventController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -57,50 +57,22 @@ public class UpdateEventController extends HttpServlet {
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
 		String mensajeNextPage = "";
+		
 		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
 			String idEvent = request.getParameter("idEvent");
-			String nameEvent = request.getParameter("nameEvent");
-			if (nameEvent != null  && !nameEvent.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String descriptionEvent = request.getParameter("descriptionEvent");
+			if (idEvent != null  && !idEvent.equals("")) {
+				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
 				
-				SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				
-				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				
-				Date startEvent = inputFormat.parse(request.getParameter("startEvent"));
-				Date endEvent = outputFormat.parse(request.getParameter("endEvent"));
-				
-				EventDTO updateEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
-				if (eventDAO.Update(updateEvent) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
-					nextPage = "ACTUALIZAR_EVENTO";
+				if (eventDAO.Delete(idEvent) < 0 ) {
+					mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el evento";
 				}
 				else {
-					session.removeAttribute("EventToUpdate");
-					nextPage = "VISTA_MOSTRAR_CALENDARIO";
-					mensajeNextPage = "Se ha actualizado correctamente";
+					mensajeNextPage = "Se ha eliminado correctamente";
 				}
+				
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
-				if (idEvent != null  && !idEvent.equals("")) {
-					EventDTO eventToUpdate = eventDAO.QueryById(idEvent);
-					EventBean eventBean = new EventBean();
-					eventBean.setEvent(eventToUpdate);
-					nextPage = "VISTA_EDITAR_EVENTO";
-					session.setAttribute("EventToUpdate", eventBean);
-				}
-				else {
-					mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del evento a modificar";
-				}
-			}
-						
 		}
-		else{
+		else {
 			// No se encuentra logueado, mandamos a la pagina de login.
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";

@@ -1,4 +1,4 @@
-package es.uco.ism.servlet;
+package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;

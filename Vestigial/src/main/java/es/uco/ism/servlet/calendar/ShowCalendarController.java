@@ -1,9 +1,8 @@
-package es.uco.ism.servlet;
+package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,16 +17,16 @@ import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
 
 /**
- * Servlet implementation class RemoveEventController
+ * Servlet implementation class ShowCalendar
  */
-@WebServlet("/RemoveEventController")
-public class RemoveEventController extends HttpServlet {
+@WebServlet("/ShowCalendar")
+public class ShowCalendarController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RemoveEventController() {
+    public ShowCalendarController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,6 +36,8 @@ public class RemoveEventController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		//Obtenemos los parametros para poder realizar las conexiones con la base de datos
 		HttpSession session = request.getSession();
 		String url_bd = request.getServletContext().getInitParameter("URL");
 		String username_bd = request.getServletContext().getInitParameter("USER");
@@ -59,24 +60,24 @@ public class RemoveEventController extends HttpServlet {
 		String mensajeNextPage = "";
 		
 		if (login) {
-			String idEvent = request.getParameter("idEvent");
-			if (idEvent != null  && !idEvent.equals("")) {
-				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
-				
-				if (eventDAO.Delete(idEvent) < 0 ) {
-					mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el evento";
-				}
-				else {
-					mensajeNextPage = "Se ha eliminado correctamente";
-				}
-				
-			}
+			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+			
+			//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
+			ArrayList <EventDTO> listadoEventos = eventDAO.QueryByEmail(usuario.getEmail());
+			
+			CalendarioBeans calendarioUsuario = new CalendarioBeans ();
+			
+			calendarioUsuario.setEventos (listadoEventos);
+			
+			session.setAttribute("Calendario", calendarioUsuario);
+			
 		}
-		else {
+		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		
 	}
 
 	/**
