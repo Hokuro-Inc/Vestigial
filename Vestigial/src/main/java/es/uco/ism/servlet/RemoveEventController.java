@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +18,16 @@ import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
 
 /**
- * Servlet implementation class CreateEventController
+ * Servlet implementation class RemoveEventController
  */
-@WebServlet("/CreateEventController")
-public class CreateEventController extends HttpServlet {
+@WebServlet("/RemoveEventController")
+public class RemoveEventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateEventController() {
+    public RemoveEventController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -58,36 +59,20 @@ public class CreateEventController extends HttpServlet {
 		String mensajeNextPage = "";
 		
 		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String nameEvent = request.getParameter("nameEvent");
-			if (nameEvent != null  && !nameEvent.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String descriptionEvent = request.getParameter("descriptionEvent");
+			String idEvent = request.getParameter("idEvent");
+			if (idEvent != null  && !idEvent.equals("")) {
+				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
 				
-				SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				
-				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				
-				Date startEvent = inputFormat.parse(request.getParameter("startEvent"));
-				Date endEvent = outputFormat.parse(request.getParameter("endEvent"));
-				
-				String idEvent; // Generar ID evento
-				EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
-				if (eventDAO.Insert(newEvent) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
-					nextPage = "CREAR_EVENTO";
+				if (eventDAO.Delete(idEvent) < 0 ) {
+					mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el evento";
 				}
-
+				else {
+					mensajeNextPage = "Se ha eliminado correctamente";
+				}
+				
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear evento.
-				nextPage = "VISTA_CREAR_EVENTO";
-			}
-						
 		}
-		else{
+		else {
 			// No se encuentra logueado, mandamos a la pagina de login.
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";

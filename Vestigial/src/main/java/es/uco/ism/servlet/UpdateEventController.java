@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +18,16 @@ import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
 
 /**
- * Servlet implementation class CreateEventController
+ * Servlet implementation class UpdateEventController
  */
-@WebServlet("/CreateEventController")
-public class CreateEventController extends HttpServlet {
+@WebServlet("/UpdateEventController")
+public class UpdateEventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateEventController() {
+    public UpdateEventController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -56,10 +57,10 @@ public class CreateEventController extends HttpServlet {
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
 		String mensajeNextPage = "";
-		
 		if (login) {
 			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
 			
+			String idEvent = request.getParameter("idEvent");
 			String nameEvent = request.getParameter("nameEvent");
 			if (nameEvent != null  && !nameEvent.equals("")) {
 				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
@@ -72,18 +73,30 @@ public class CreateEventController extends HttpServlet {
 				Date startEvent = inputFormat.parse(request.getParameter("startEvent"));
 				Date endEvent = outputFormat.parse(request.getParameter("endEvent"));
 				
-				String idEvent; // Generar ID evento
-				EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
-				if (eventDAO.Insert(newEvent) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
-					nextPage = "CREAR_EVENTO";
+				EventDTO updateEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+				if (eventDAO.Update(updateEvent) <=0 )  {
+					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
+					nextPage = "ACTUALIZAR_EVENTO";
 				}
-
+				else {
+					session.removeAttribute("EventToUpdate");
+					nextPage = "VISTA_MOSTRAR_CALENDARIO";
+					mensajeNextPage = "Se ha actualizado correctamente";
+				}
 			}
 			else {
 				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear evento.
-				nextPage = "VISTA_CREAR_EVENTO";
+				// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
+				if (idEvent != null  && !idEvent.equals("")) {
+					EventDTO eventToUpdate = eventDAO.QueryById(idEvent);
+					EventBean eventBean = new EventBean();
+					eventBean.setEvent(eventToUpdate);
+					nextPage = "VISTA_EDITAR_EVENTO";
+					session.setAttribute("EventToUpdate", eventBean);
+				}
+				else {
+					mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del evento a modificar";
+				}
 			}
 						
 		}

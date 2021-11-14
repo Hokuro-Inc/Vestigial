@@ -2,7 +2,9 @@ package es.uco.ism.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
 
 /**
@@ -72,6 +75,7 @@ public class ShowCalendarController extends HttpServlet {
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
 			nextPage = "LOGIN";
+			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		
 	}
