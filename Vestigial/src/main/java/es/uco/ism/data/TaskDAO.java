@@ -39,8 +39,8 @@ public class TaskDAO extends DBConnectImpl{
             stmt.setString(1, id);
             ResultSet set = stmt.executeQuery();
             if (set.next()) {
-            	task = new TaskDTO(id, set.getString(1),set.getString(2), set.getString(3),Status.InProcess);
-            	task.setStatus(set.getString(4));
+            	
+            	task = new TaskDTO(id, set.getString(4),set.getString(1), set.getString(2), Status.valueOf(set.getString(3)));
             }
 
             if (stmt != null) {
@@ -68,11 +68,10 @@ public class TaskDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, task.getId());
-            stmt.setString(2, task.getOwner());
-            stmt.setString(3, task.getName());
-            stmt.setString(4, task.getDescription());
-            stmt.setString(5, task.getDescription());  
-            stmt.setString(6, task.getStatus().toString());        
+            stmt.setString(2, task.getName());
+            stmt.setString(3, task.getDescription());
+            stmt.setString(4, task.getStatus().toString());
+            stmt.setString(5, task.getOwner());  
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -99,12 +98,11 @@ public class TaskDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Update_Task");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(6, task.getId());
-            stmt.setString(1, task.getOwner());
-            stmt.setString(2, task.getName());
-            stmt.setString(3, task.getDescription());
-            stmt.setString(4, task.getDescription());  
-            stmt.setString(5, task.getStatus().toString());    
+            stmt.setString(5, task.getId());
+            stmt.setString(1, task.getName());
+            stmt.setString(2, task.getDescription());
+            stmt.setString(3, task.getStatus().toString());
+            stmt.setString(4, task.getOwner());    
             
             if (stmt != null) {
             	stmt.close();
@@ -134,7 +132,6 @@ public class TaskDAO extends DBConnectImpl{
             stmt.setString(1, id);
             results.add(stmt.executeUpdate());
 
-            
             status = CheckResults(results);
             
             if (stmt != null) {

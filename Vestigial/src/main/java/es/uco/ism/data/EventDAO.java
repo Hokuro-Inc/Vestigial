@@ -38,7 +38,8 @@ public class EventDAO extends DBConnectImpl{
             stmt.setString(1, id);
             ResultSet set = stmt.executeQuery();
             if (set.next()) {
-            	//evento = new EventDTO(id, set.getString(1), DATE(set.getString(2)),  DATE(set.getString(3)),set.getString(4),set.getString(5));
+            	
+            	evento = new EventDTO(id, set.getString(5), set.getDate(3), set.getDate(4), set.getString(1), set.getString(2));
             }
 
             if (stmt != null) {
@@ -66,11 +67,11 @@ public class EventDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, evento.getId());
-            stmt.setString(2, evento.getOwner());
-            stmt.setDate(3, (java.sql.Date) evento.getStart());
-            stmt.setDate(4, (java.sql.Date) evento.getEnd());
-            stmt.setString(5, evento.getName());  
-            stmt.setString(6, evento.getDescription());        
+            stmt.setString(2, evento.getName());
+            stmt.setString(3, evento.getDescription());
+            stmt.setDate(4, (java.sql.Date) evento.getStart());
+            stmt.setDate(5, (java.sql.Date) evento.getEnd());
+            stmt.setString(6, evento.getOwner());        
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -98,11 +99,11 @@ public class EventDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(6, evento.getId());
-            stmt.setString(1, evento.getOwner());
-            stmt.setDate(2, (java.sql.Date) evento.getStart());
-            stmt.setDate(3, (java.sql.Date) evento.getEnd());
-            stmt.setString(4, evento.getName());  
-            stmt.setString(5, evento.getDescription());
+            stmt.setString(1, evento.getName());
+            stmt.setString(2, evento.getDescription());
+            stmt.setDate(3, (java.sql.Date) evento.getStart());
+            stmt.setDate(4, (java.sql.Date) evento.getEnd());
+            stmt.setString(5, evento.getOwner());        
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -133,7 +134,6 @@ public class EventDAO extends DBConnectImpl{
             stmt.setString(1, id);
             results.add(stmt.executeUpdate());
 
-            
             status = CheckResults(results);
             
             if (stmt != null) {
