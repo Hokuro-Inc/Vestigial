@@ -14,6 +14,36 @@ public class UserGroupDAO extends DBConnectImpl{
     	super(url, user, pwd, sqlProp);
     }
 	
+	public ArrayList<ArrayList<String>> QueryByAll() {
+		
+    	ArrayList<ArrayList<String>> user_groups = new ArrayList<ArrayList<String>>();
+    	ArrayList<String> user_group = new ArrayList<String>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_User_Group");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+            
+            if (set.next()) {
+            	
+            	user_group.add(set.getString(1));
+            	user_group.add(set.getString(2));
+            	
+            	user_groups.add(user_group);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return user_groups;
+    }
+	
 	public ArrayList<String> QueryByUser(UserDTO user) {
 			
 	    	ArrayList<String> groups = new ArrayList<String>();

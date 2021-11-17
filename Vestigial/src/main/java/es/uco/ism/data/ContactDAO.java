@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.business.contact.ContactDTO;
+import es.uco.ism.business.user.UserDTO;
 
 public class ContactDAO extends DBConnectImpl{
 	/**
@@ -28,6 +29,36 @@ public class ContactDAO extends DBConnectImpl{
      * @param email Email del usuario a buscar
      * @return Usuario cuyo email coincide con el dado
      */
+    
+    public ArrayList<ContactDTO> QueryByAll() {
+    	ContactDTO contacto = null;
+    	ArrayList<ContactDTO> contacts = new ArrayList<ContactDTO>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_Contact");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+
+            if (set.next()) {
+            	
+            	String[] tokens = set.getString(1).split("-");
+            	
+            	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7), set.getString(8));
+            	contacts.add(contacto);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return contacts;
+    }
+    
     public ContactDTO QueryByPhone(String phone) {
     	ContactDTO contacto = null;
 
@@ -40,7 +71,7 @@ public class ContactDAO extends DBConnectImpl{
 
             if (set.next()) {
             	
-            	String[] tokens = set.getString(3).split("-");
+            	String[] tokens = phone.split("-");
             	
             	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7));
             }

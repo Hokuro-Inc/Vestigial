@@ -14,6 +14,36 @@ public class ContactGroupDAO extends DBConnectImpl{
     	super(url, user, pwd, sqlProp);
     }
 	
+public ArrayList<ArrayList<String>> QueryByAll() {
+		
+    	ArrayList<ArrayList<String>> contact_groups = new ArrayList<ArrayList<String>>();
+    	ArrayList<String> contact_group = new ArrayList<String>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_Contact_Group");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+            
+            if (set.next()) {
+            	
+            	contact_group.add(set.getString(1));
+            	contact_group.add(set.getString(2));
+            	
+            	contact_groups.add(contact_group);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return contact_groups;
+    }
+	
 	public ArrayList<String> QueryByContact(ContactDTO contact) {
 		
     	ArrayList<String> groups = new ArrayList<String>();

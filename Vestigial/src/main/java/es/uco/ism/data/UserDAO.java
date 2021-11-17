@@ -29,6 +29,37 @@ public class UserDAO extends DBConnectImpl {
      * @param email Email del usuario a buscar
      * @return Usuario cuyo email coincide con el dado
      */
+    
+    public ArrayList<UserDTO> QueryByAll() {
+    	UserDTO user = null;
+    	ArrayList<UserDTO> users = new ArrayList<UserDTO>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_User");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+
+            if (set.next()) {
+            	
+            	String phone = set.getString(4);
+            	String[] tokens = phone.split("-");
+            	
+            	user = new UserDTO(set.getString(1), set.getString(2), set.getString(3), tokens[1], tokens[0]);
+            	users.add(user);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return users;
+    }
+    
     public UserDTO QueryByEmail(String email) {
     	UserDTO user = null;
 

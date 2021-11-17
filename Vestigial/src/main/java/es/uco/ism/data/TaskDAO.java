@@ -29,6 +29,32 @@ public class TaskDAO extends DBConnectImpl{
      * @param email Email del usuario a buscar
      * @return Usuario cuyo email coincide con el dado
      */
+    public ArrayList<TaskDTO> QueryByAll() {
+    	TaskDTO task = null;
+    	ArrayList<TaskDTO> tasks = new ArrayList<TaskDTO>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_Task");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+            if (set.next()) {
+            	
+            	task = new TaskDTO(set.getString(1), set.getString(5),set.getString(2), set.getString(3), Status.valueOf(set.getString(4)));
+            	tasks.add(task);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return tasks;
+    }
+    
     public TaskDTO QueryById(String id) {
     	TaskDTO task = null;
 

@@ -28,6 +28,33 @@ public class EventDAO extends DBConnectImpl{
      * @param email Email del usuario a buscar
      * @return Usuario cuyo email coincide con el dado
      */
+    
+    public ArrayList<EventDTO> QueryByAll() {
+    	EventDTO evento = null;
+    	ArrayList<EventDTO> events = new ArrayList<EventDTO>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_Event");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+            if (set.next()) {
+            	
+            	evento = new EventDTO(set.getString(1), set.getString(6), set.getDate(4), set.getDate(5), set.getString(2), set.getString(3));
+            	events.add(evento);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return events;
+    }
+    
     public EventDTO QueryById(String id) {
     	EventDTO evento = null;
 
