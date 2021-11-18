@@ -2,7 +2,7 @@
 
 <%@ page import ="es.uco.ism.business.user.UserDTO" %>
 
-<jsp:useBean  id="UsuarioInfoBean" scope="session" class="LINCARBEAN_UserBean"></jsp:useBean> 
+<jsp:useBean  id="UsuarioInfoBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,7 @@
 </head>
 <body>
 	<% 
-		boolean logged = clienteBean != null && !clienteBean.getDni().equals("");
+		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getDni().equals("");
 		String nextPage = "CONTROLADOR-LOGIN" ;
 		String menssageNextPage = (String) request.getAttribute("mensaje");
 		if (menssageNextPage == null ) menssageNextPage = "";
@@ -35,10 +35,10 @@
 		else {
 			//Se encuentra logueado
 			nextPage = "PAGINA PRINCIPAL";
-			mensajeNextPage = "Ya se encuentra logueado";
+			menssageNextPage = "Ya se encuentra logueado";
 			%>
 			<jsp:forward page="<%=nextPage%>">
-				<jsp:param value="<%=mensajeNextPage%>" name="message"/>
+				<jsp:param value="<%=menssageNextPage%>" name="message"/>
 			</jsp:forward>
 
 		<%} %>

@@ -2,7 +2,7 @@
 
 <%@ page import ="es.uco.ism.business.user.UserDTO" %>
 
-<jsp:useBean  id="UsuarioInfoBean" scope="session" class="LINCARBEAN_UserBean"></jsp:useBean> 
+<jsp:useBean  id="UsuarioInfoBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
 
 <%%>
 <!DOCTYPE html>
