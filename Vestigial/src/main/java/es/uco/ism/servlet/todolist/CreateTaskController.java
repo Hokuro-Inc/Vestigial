@@ -57,6 +57,7 @@ public class CreateTaskController extends HttpServlet {
 		TaskDAO taskDAO = new TaskDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_TAREA"; 
 		String mensajeNextPage = "";
+		
 		if (login) {
 			String nameTask = request.getParameter("nameTask");
 			if (nameTask != null  && !nameTask.equals("")) {
@@ -65,16 +66,19 @@ public class CreateTaskController extends HttpServlet {
 		
 				String idTask; // Generar ID evento
 				TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess);
+				
 				if (taskDAO.Insert(newTask) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear la tarea";
-					nextPage = "CREAR_TASk";
+					nextPage = "VISTA_CREAR_TASK";
 				}
-				nextPage = "MOSTRAR_LISTA_TAREAS";
+				else {
+					nextPage = "MOSTRAR_LISTA_TAREAS";
+				}
 			}
 			else {
 				// Tenemos que dirigirnos a la vista
 				// No se si necesitamos enviarle algo a la vista de crear tarea.
-				nextPage = "VISTA_CREAR_TASk";
+				nextPage = "VISTA_CREAR_TASK";
 			}
 		}
 		else{

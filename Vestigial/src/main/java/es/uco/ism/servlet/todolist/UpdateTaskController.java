@@ -62,7 +62,7 @@ public class UpdateTaskController extends HttpServlet {
 			String idTask = request.getParameter("idTask");
 			String nameTask = request.getParameter("nameTask");
 			if (nameTask != null  && !nameTask.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el task al usuario y regresarlo al controlador de calendario.
+				// Venimos de la vista por lo cual debemos de actualizar el task del usuario y regresarlo al controlador de calendario.
 				String descriptionTask= request.getParameter("descriptionTask");
 				Status estadoTask = Status.valueOf(request.getParameter("statusTask")) ;
 				TaskDTO updateTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask);

@@ -48,10 +48,29 @@ public class CreateToDoListController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
+		ToDoListDAO toDoListDAO = new ToDoListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_LISTA"; 
 		String mensajeNextPage = "";
+		
 		if (login) {
+			String idLista = request.getParameter("idLista");
 			
+			if (idLista != null && !idLista.equals("")) {
+				ToDoListDTO toDoListDTO = new ToDoListDTO(idLista);
+				
+				if (toDoListDAO.Insert(toDoListDTO) <= 0) {
+					mensajeNextPage = "Ha surgido un problema a la hora de crear la lista de tareas";
+					nextPage = "VISTA_CREAR_LISTA";
+				}
+				else {
+					nextPage = "VISTA_MOSTRAR_TO_DO_LIST";
+				}
+			}
+			else {
+				// Tenemos que dirigirnos a la vista
+				// No se si necesitamos enviarle algo a la vista de crear la lista.
+				nextPage = "VISTA_CREAR_LISTA";
+			}
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.

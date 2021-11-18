@@ -65,7 +65,7 @@ public class ShowToDoListController extends HttpServlet {
 				//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
 				ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuario.getEmail(),idLista);
 				
-				ToDoListBeans listaTareasUsuario = new ToDoListBeans ();
+				ToDoListBean listaTareasUsuario = new ToDoListBean ();
 				
 				listaTareasUsuario.setToDoList (listaTareas);
 				
@@ -76,13 +76,13 @@ public class ShowToDoListController extends HttpServlet {
 			else {
 				//Sigfica que queremos mostrar el conjunto de listas de tareas que tiene el usuario.
 				
-				ArrayList<String> listadoListasTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
+				ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
 				
-				ListBeans listadoTareas = new ListBeans();
+				ToDoListBean listaTareasUsuario = new ToDoListBean();
 				
-				listadoTareas.setList(listadoListasTareas);
+				listaTareasUsuario.setToDoList(listaTareas);
 				
-				session.setAttribute("ListadoListas", listadoTareas);
+				session.setAttribute("ListadoListas", listaTareasUsuario);
 				nextPage = "MOSTRAR_TODAS_LAS_LISTAS";
 			}
 		}

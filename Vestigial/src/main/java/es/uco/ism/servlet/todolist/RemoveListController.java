@@ -48,10 +48,28 @@ public class RemoveListController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_LISTA"; 
+		ToDoListDAO toDoListDAO = new ToDoListDAO(url_bd, username_bd, password_bd, prop);
+		String nextPage ="VISTA_MOSTRAR_TO_DO_LIST"; 
 		String mensajeNextPage = "";
+		
 		if (login) {
+			String idLista = request.getParameter("idLista");
 			
+			if (idLista != null && !idLista.equals("")) {			
+				if (toDoListDAO.Delete(idLista) <= 0) {
+					mensajeNextPage = "Se ha borrado correctamente la tarea con ID -> " + idLista;
+				}
+				else {
+					mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idLista;
+				}
+				
+				nextPage = "VISTA_MOSTRAR_TO_DO_LIST";
+			}
+			else {
+				// Tenemos que dirigirnos a la vista
+				// No se si necesitamos enviarle algo a la vista de crear la lista.
+				nextPage = "VISTA_CREAR_LISTA";
+			}
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.

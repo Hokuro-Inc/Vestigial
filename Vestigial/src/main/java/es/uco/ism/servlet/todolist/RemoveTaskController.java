@@ -55,7 +55,6 @@ public class RemoveTaskController extends HttpServlet {
 		if (login) {
 			String idTask = request.getParameter("idTask");
 			if (idTask != null && !idTask.equals("")) {
-				String idListTask = request.getParameter("idTask");
 				// Deseamos eliminar la tarea de la lista actual.
 				if (taskDAO.Delete(idTask) > 0 ) {
 					// Significa que se ha borrado correctamente
@@ -65,7 +64,7 @@ public class RemoveTaskController extends HttpServlet {
 					mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idTask;
 					
 				}
-				nextPage = "MOSTRARLISTADOTAREAS";
+				nextPage = "VISTA_MOSTRAR_LISTA";
 			}
 			
 		}
