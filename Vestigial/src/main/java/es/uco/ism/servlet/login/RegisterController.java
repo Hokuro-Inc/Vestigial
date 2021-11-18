@@ -57,7 +57,7 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		UserBean usuario = (UserBean) session.getAttribute("userBean");
 
-		Boolean login = usuario != null && !usuario.getDni().equals("");
+		Boolean login = usuario != null && !usuario.getEmail().equals("");
 
 		RequestDispatcher disparador = null;
 		UserDAO userDAO = new UsuarioDAO (url_bd, username_bd, password_bd, prop);
