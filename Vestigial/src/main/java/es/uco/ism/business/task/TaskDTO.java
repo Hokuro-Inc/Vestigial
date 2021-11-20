@@ -10,6 +10,7 @@ public class TaskDTO implements Serializable {
 	private String name;
 	private String description;
 	private Status status;
+	private String list;
 
 	/**
 	 * Constructor completo de la tarea 
@@ -20,12 +21,13 @@ public class TaskDTO implements Serializable {
 	 * @param description Descripción de la tarea
 	 * @param status Estado de la tarea
 	 */
-	public TaskDTO(String id, String owner, String name, String description, Status status) {
+	public TaskDTO(String id, String owner, String name, String description, Status status, String list) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
 		this.description = description;
 		this.status = status;
+		this.list = list;
 	}
 
 	/**
@@ -114,18 +116,18 @@ public class TaskDTO implements Serializable {
 	 *
 	 * @param status Estado a asignar a la tarea
 	 */
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	/**
-	 * Asigna un estado a una tarea
-	 *
-	 * @param status Estado a asignar a la tarea
-	 */
 	public void setStatus(String status) {
 		this.status = Status.valueOf(status);
 	}
+	
+	public String getList() {
+		return list;
+	}
+	
+	public void setList(String list) {
+		this.list = list;
+	}
+
 
 	@Override
 	/**

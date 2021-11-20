@@ -40,7 +40,7 @@ public class TaskDAO extends DBConnectImpl{
             ResultSet set = stmt.executeQuery();
             if (set.next()) {
             	
-            	task = new TaskDTO(set.getString(1), set.getString(5),set.getString(2), set.getString(3), Status.valueOf(set.getString(4)));
+            	task = new TaskDTO(set.getString(1), set.getString(5),set.getString(2), set.getString(3), Status.valueOf(set.getString(4)), set.getString(6));
             	tasks.add(task);
             }
 
@@ -66,7 +66,7 @@ public class TaskDAO extends DBConnectImpl{
             ResultSet set = stmt.executeQuery();
             if (set.next()) {
             	
-            	task = new TaskDTO(id, set.getString(4),set.getString(1), set.getString(2), Status.valueOf(set.getString(3)));
+            	task = new TaskDTO(id, set.getString(4),set.getString(1), set.getString(2), Status.valueOf(set.getString(3)), set.getString(5));
             }
 
             if (stmt != null) {
@@ -98,6 +98,7 @@ public class TaskDAO extends DBConnectImpl{
             stmt.setString(3, task.getDescription());
             stmt.setString(4, task.getStatus().toString());
             stmt.setString(5, task.getOwner());  
+            stmt.setString(6, task.getList());
             stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -124,11 +125,12 @@ public class TaskDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Update_Task");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(5, task.getId());
+            stmt.setString(6, task.getId());
             stmt.setString(1, task.getName());
             stmt.setString(2, task.getDescription());
             stmt.setString(3, task.getStatus().toString());
-            stmt.setString(4, task.getOwner());    
+            stmt.setString(4, task.getOwner());
+            stmt.setString(5, task.getList());
             
             if (stmt != null) {
             	stmt.close();

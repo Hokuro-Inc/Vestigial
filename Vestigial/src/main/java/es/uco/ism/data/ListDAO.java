@@ -1,15 +1,16 @@
 package es.uco.ism.data;
 
-import es.uco.ism.data.db.impl.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class GroupDAO extends DBConnectImpl {
+import es.uco.ism.data.db.impl.DBConnectImpl;
 
-	public GroupDAO(String url, String user, String pwd, Properties sqlProp) {
+public class ListDAO extends DBConnectImpl {
+	
+	public ListDAO(String url, String user, String pwd, Properties sqlProp) {
     	super(url, user, pwd, sqlProp);
     }
 	
@@ -19,7 +20,7 @@ public class GroupDAO extends DBConnectImpl {
 
         try {
             Connection con = getConnection();
-            String statement = sqlProp.getProperty("Select_All_Group");
+            String statement = sqlProp.getProperty("Select_All_List");
             PreparedStatement stmt = con.prepareStatement(statement);
  
             ResultSet set = stmt.executeQuery();
@@ -45,7 +46,7 @@ public class GroupDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Insert_Group");
+            String statement = sqlProp.getProperty("Insert_List");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, name);
@@ -66,7 +67,7 @@ public class GroupDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Update_Group");
+            String statement = sqlProp.getProperty("Update_List");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(2, oldName);
@@ -89,7 +90,7 @@ public class GroupDAO extends DBConnectImpl {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Delete_Group");
+            String statement = sqlProp.getProperty("Delete_List");
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, name);
@@ -106,4 +107,5 @@ public class GroupDAO extends DBConnectImpl {
 
         return status;
     }
+	
 }

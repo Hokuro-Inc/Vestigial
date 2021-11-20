@@ -11,6 +11,7 @@ public class UserDTO implements Serializable {
 	private String phone;
 	private String prefix;
 	private String[] groups;
+	private String[] lists;
  	
 	/**
 	 * Constructor completo de un usuario para el login
@@ -135,6 +136,16 @@ public class UserDTO implements Serializable {
 	public void setGroups(String[] groups) {
 		
 		this.groups = groups;
+	}
+	
+public String[] getLists() {
+		
+		return lists;
+	}
+	
+	public void setLists(String[] lists) {
+		
+		this.lists = lists;
 	}
 
 	@Override
