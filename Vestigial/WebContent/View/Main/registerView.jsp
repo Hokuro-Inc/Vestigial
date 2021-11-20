@@ -12,7 +12,7 @@
 </head>
 <body>
 	<% 
-		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getDni().equals("");
+		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
 		String nextPage = "CONTROLADOR-LOGIN" ;
 		String menssageNextPage = (String) request.getAttribute("mensaje");
 		if (menssageNextPage == null ) menssageNextPage = "";

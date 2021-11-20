@@ -2,7 +2,7 @@
 <%@ page import ="es.uco.ism.business.user.UserDTO, es.uco.ism.business.event.EventDTO,java.util.ArrayList" %>
 
 <jsp:useBean  id="UsuarioInfoBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
-<jsp:useBean  id="CalendarBean" scope="session" class="es.uco.ism.display.CalendarBean"></jsp:useBean> 
+<jsp:useBean  id="CalendarCompleteBean" scope="session" class="es.uco.ism.display.CalendarBean"></jsp:useBean> 
 
 <!DOCTYPE html>
 <html>
@@ -12,14 +12,14 @@
 </head>
 <body>
 	<% 
-		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getDni().equals("");
+		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
 		String nextPage = "CONTROLADOR-LOGIN" ;
 		String menssageNextPage = (String) request.getAttribute("mensaje");
 		if (menssageNextPage == null ) menssageNextPage = "";
 		
 		if (logged) {
 			
-			ArrayList <EventDTO > listadoEventos = CalendarBean.getEvents();
+			ArrayList <EventDTO > listadoEventos = CalendarCompleteBean.getEvents();
 			for (int i = 0; i <  listadoEventos.size(); i++) {
 			
 	%>

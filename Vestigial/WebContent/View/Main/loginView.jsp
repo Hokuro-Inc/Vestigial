@@ -14,7 +14,7 @@
 
 	<body>
 	<% 
-		boolean logged = clienteBean != null && !clienteBean.getDni().equals("");
+		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
 		String nextPage = "CONTROLADOR-LOGIN" ;
 		String menssageNextPage = (String) request.getAttribute("mensaje");
 		if (menssageNextPage == null ) menssageNextPage = "";
@@ -36,10 +36,10 @@
 		else {
 			//Se encuentra logueado
 			nextPage = "PAGINA PRINCIPAL";
-			mensajeNextPage = "Ya se encuentra logueado";
+			menssageNextPage = "Ya se encuentra logueado";
 			%>
 			<jsp:forward page="<%=nextPage%>">
-				<jsp:param value="<%=mensajeNextPage%>" name="message"/>
+				<jsp:param value="<%=menssageNextPage%>" name="message"/>
 			</jsp:forward>
 
 		<%} %>
