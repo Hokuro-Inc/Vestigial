@@ -86,6 +86,35 @@ public class ContactDAO extends DBConnectImpl{
         return contacto;
     }
 
+	public ArrayList<ContactDTO> QueryByOwner(String email) {
+		ContactDTO contacto = null;
+    	ArrayList<ContactDTO> contacts = new ArrayList<ContactDTO>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_Contact_Owner");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            stmt.setString(1, email);
+            ResultSet set = stmt.executeQuery();
+
+            if (set.next()) {
+            	
+            	String[] tokens = set.getString(1).split("-");
+            	
+            	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7), set.getString(8));
+            	contacts.add(contacto);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return contacts;
+	}
     /**
      * Inserta un usuario en la base de datos
      * 
@@ -183,5 +212,7 @@ public class ContactDAO extends DBConnectImpl{
 
         return status;
     }
+
+
 
 }
