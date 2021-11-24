@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
+import es.uco.ism.display.UserBean;
 
 /**
  * Servlet implementation class UpdateEventController
@@ -105,6 +106,9 @@ public class UpdateEventController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

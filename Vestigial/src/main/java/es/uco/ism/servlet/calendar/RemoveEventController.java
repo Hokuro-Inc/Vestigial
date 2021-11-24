@@ -2,8 +2,6 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
+import es.uco.ism.display.UserBean;
 
 /**
  * Servlet implementation class RemoveEventController
@@ -71,12 +69,17 @@ public class RemoveEventController extends HttpServlet {
 				}
 				
 			}
+			
 		}
 		else {
 			// No se encuentra logueado, mandamos a la pagina de login.
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

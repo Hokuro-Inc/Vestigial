@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import es.uco.ism.data.ListDAO;
+import es.uco.ism.display.UserBean;
+
 /**
  * Servlet implementation class CreateToDoListController
  */
@@ -48,7 +51,7 @@ public class CreateToDoListController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		ToDoListDAO toDoListDAO = new ToDoListDAO(url_bd, username_bd, password_bd, prop);
+		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_LISTA"; 
 		String mensajeNextPage = "";
 		
@@ -56,9 +59,8 @@ public class CreateToDoListController extends HttpServlet {
 			String idLista = request.getParameter("idLista");
 			
 			if (idLista != null && !idLista.equals("")) {
-				ToDoListDTO toDoListDTO = new ToDoListDTO(idLista);
 				
-				if (toDoListDAO.Insert(toDoListDTO) <= 0) {
+				if (toDoListDAO.Insert(idLista) <= 0) {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear la lista de tareas";
 					nextPage = "VISTA_CREAR_LISTA";
 				}
@@ -77,6 +79,9 @@ public class CreateToDoListController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

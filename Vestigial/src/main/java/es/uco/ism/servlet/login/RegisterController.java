@@ -1,9 +1,7 @@
-package es.uco.ism.servlet.general;
+package es.uco.ism.servlet.login;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.UserDAO;
+import es.uco.ism.display.UserBean;
 import es.uco.ism.utils.PasswordHashing;
 
 
@@ -60,9 +59,9 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 
 		RequestDispatcher disparador = null;
-		UserDAO userDAO = new UsuarioDAO (url_bd, username_bd, password_bd, prop);
+		UserDAO userDAO = new UserDAO (url_bd, username_bd, password_bd, prop);
 		String nextPage ="REGISTER"; 
-
+		String mensajeNextPage ="";
 		if (!login) {
 			String userEmail = request.getParameter("email");
 			
@@ -88,8 +87,8 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 				// Se debe de ir a la vista
 			
 					nextPage = "REGISTER"; 
-					disparador = request.getRequestDispatcher(nextPage);
-					String mensajeNextPage = "Rellene todos los campos obligatorios para registrarse";
+					
+					mensajeNextPage = "Rellene todos los campos obligatorios para registrarse";
 					request.setAttribute("mensaje", mensajeNextPage);
 				
 				
@@ -100,10 +99,11 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 			//ya esta logeado, se va al home
 			nextPage = "REGISTER";
 			disparador = request.getRequestDispatcher("/Home"); // mirar
-			String mensajeNextPage = "Ya estas logeado";
-			request.setAttribute("mensaje", mensajeNextPage);
+			mensajeNextPage = "Ya estas logeado";
+
 		}
-		
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
 		disparador.forward(request, response);
 	}
 

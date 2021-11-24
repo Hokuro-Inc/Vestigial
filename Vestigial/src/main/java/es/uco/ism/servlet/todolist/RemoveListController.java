@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import es.uco.ism.data.ListDAO;
+import es.uco.ism.display.UserBean;
+
 /**
  * Servlet implementation class RemoveListController
  */
@@ -48,7 +51,7 @@ public class RemoveListController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		ToDoListDAO toDoListDAO = new ToDoListDAO(url_bd, username_bd, password_bd, prop);
+		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_TO_DO_LIST"; 
 		String mensajeNextPage = "";
 		
@@ -76,6 +79,9 @@ public class RemoveListController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

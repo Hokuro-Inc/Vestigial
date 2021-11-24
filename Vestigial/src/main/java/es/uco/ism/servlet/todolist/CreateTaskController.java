@@ -2,8 +2,6 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -17,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import es.uco.ism.business.task.Status;
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
+import es.uco.ism.display.UserBean;
 
 /**
  * Servlet implementation class CreateTaskController
@@ -63,9 +62,9 @@ public class CreateTaskController extends HttpServlet {
 			if (nameTask != null  && !nameTask.equals("")) {
 				// Venimos de la vista por lo cual debemos de agregar el tarea al usuario y regresarlo al controlador de la lista de tareas.
 				String descriptionTask= request.getParameter("descriptionTask");
-		
-				String idTask; // Generar ID evento
-				TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess);
+				String idLista= request.getParameter("idList");
+				String idTask = ""; // Generar ID evento
+				TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess,idLista);
 				
 				if (taskDAO.Insert(newTask) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear la tarea";
@@ -79,6 +78,8 @@ public class CreateTaskController extends HttpServlet {
 				// Tenemos que dirigirnos a la vista
 				// No se si necesitamos enviarle algo a la vista de crear tarea.
 				nextPage = "VISTA_CREAR_TASK";
+				String idLista= request.getParameter("idList");
+				session.setAttribute("idList", idLista);
 			}
 		}
 		else{
@@ -86,6 +87,10 @@ public class CreateTaskController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

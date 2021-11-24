@@ -2,9 +2,11 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
+import es.uco.ism.display.UserBean;
 
 /**
  * Servlet implementation class CreateEventController
@@ -69,10 +72,22 @@ public class CreateEventController extends HttpServlet {
 				
 				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				
-				Date startEvent = inputFormat.parse(request.getParameter("startEvent"));
-				Date endEvent = outputFormat.parse(request.getParameter("endEvent"));
+				Date startEvent = null;
+				try {
+					startEvent = inputFormat.parse(request.getParameter("startEvent"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Date endEvent = null ;
+				try {
+					endEvent = outputFormat.parse(request.getParameter("endEvent"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-				String idEvent; // Generar ID evento
+				String idEvent = ""; // Generar ID evento
 				EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
 				if (eventDAO.Insert(newEvent) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
@@ -92,6 +107,11 @@ public class CreateEventController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		
+		
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

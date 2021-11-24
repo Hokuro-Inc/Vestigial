@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
+import es.uco.ism.display.UserBean;
 
 
 /**

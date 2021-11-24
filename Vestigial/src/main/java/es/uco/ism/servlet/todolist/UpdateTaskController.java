@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import es.uco.ism.business.task.Status;
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
+import es.uco.ism.display.UserBean;
 import es.uco.ism.servlet.calendar.TaskBean;
 
 /**
@@ -65,7 +66,8 @@ public class UpdateTaskController extends HttpServlet {
 				// Venimos de la vista por lo cual debemos de actualizar el task del usuario y regresarlo al controlador de calendario.
 				String descriptionTask= request.getParameter("descriptionTask");
 				Status estadoTask = Status.valueOf(request.getParameter("statusTask")) ;
-				TaskDTO updateTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask);
+				String idLista = request.getParameter("idLista");
+				TaskDTO updateTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask, idLista);
 				if (taskDAO.Update(updateTask) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de actualizar la task";
 					nextPage = "ACTUALIZAR_TASK";

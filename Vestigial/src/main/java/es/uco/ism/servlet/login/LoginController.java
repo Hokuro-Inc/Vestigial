@@ -1,9 +1,7 @@
-package es.uco.ism.servlet.general;
+package es.uco.ism.servlet.login;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.UserDAO;
+import es.uco.ism.display.UserBean;
 import es.uco.ism.utils.PasswordHashing;
 /**
  * Servlet implementation class LoginController
@@ -54,7 +53,7 @@ public class LoginController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		UserDAO userDAO = new UserDAO (url_bd, username_bd, password_bd, prop);
 		String nextPage ="LOGIN"; 
-		
+		String mensajeNextPage = "";
 		
 		if (!login) {
 			
@@ -75,21 +74,16 @@ public class LoginController extends HttpServlet {
 					usuario.setEmail(UserEmail);
 					session.setAttribute("userBean", usuario);
 					nextPage = "/Home"; //mira redireccion
-					disparador = request.getRequestDispatcher(nextPage);
 				}
 				else {
 					nextPage = "LOGIN";
 					System.out.println("Contrase�a incorrecta");
-					disparador = request.getRequestDispatcher(nextPage);
-					String mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
-					request.setAttribute("mensaje", mensajeNextPage);
+					mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
 				}
 			}
 			else {
 				nextPage = "LOGIN";
-				disparador = request.getRequestDispatcher(nextPage);
-				String mensajeNextPage = "Rellene los campos con su email y contrase�a para acceder";
-				request.setAttribute("mensaje", mensajeNextPage);
+				mensajeNextPage = "Rellene los campos con su email y contrase�a para acceder";
 			}
 		}
 		else {
@@ -101,13 +95,16 @@ public class LoginController extends HttpServlet {
 					
 			
 			nextPage = "/index.jsp";//mirar redireccion
-			disparador = request.getRequestDispatcher(nextPage);
+
 			
 		}
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	
-	disparador.forward(request, response);
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

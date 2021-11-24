@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
+import es.uco.ism.display.CalendarBean;
+import es.uco.ism.display.UserBean;
 
 /**
  * Servlet implementation class ShowCalendar
@@ -65,9 +67,9 @@ public class ShowCalendarController extends HttpServlet {
 			//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
 			ArrayList <EventDTO> listadoEventos = eventDAO.QueryByEmail(usuario.getEmail());
 			
-			CalendarioBeans calendarioUsuario = new CalendarioBeans ();
+			CalendarBean calendarioUsuario = new CalendarBean ();
 			
-			calendarioUsuario.setEventos (listadoEventos);
+			calendarioUsuario.setEvents(listadoEventos);
 			
 			session.setAttribute("Calendario", calendarioUsuario);
 			
@@ -78,6 +80,9 @@ public class ShowCalendarController extends HttpServlet {
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**
