@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
+import es.uco.ism.display.ToDoListBean;
 import es.uco.ism.display.UserBean;
 
 
@@ -68,7 +69,7 @@ public class ShowToDoListController extends HttpServlet {
 				
 				ToDoListBean listaTareasUsuario = new ToDoListBean ();
 				
-				listaTareasUsuario.setToDoList (listaTareas);
+				listaTareasUsuario.setListTask (listaTareas);
 				
 				session.setAttribute("TodoList", listaTareasUsuario);
 				session.removeAttribute("ListadoListas");
@@ -92,6 +93,9 @@ public class ShowToDoListController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

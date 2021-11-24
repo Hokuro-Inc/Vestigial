@@ -16,7 +16,7 @@ import es.uco.ism.business.task.Status;
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
 import es.uco.ism.display.UserBean;
-import es.uco.ism.servlet.calendar.TaskBean;
+import es.uco.ism.display.TaskBean;
 
 /**
  * Servlet implementation class UpdateTaskController
@@ -98,6 +98,9 @@ public class UpdateTaskController extends HttpServlet {
 			nextPage = "LOGIN";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
+		disparador = request.getRequestDispatcher(nextPage);
+		request.setAttribute("mensaje", mensajeNextPage);
+		disparador.forward(request, response);
 	}
 
 	/**

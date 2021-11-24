@@ -2,6 +2,7 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
+import es.uco.ism.display.EventBean;
 import es.uco.ism.display.UserBean;
 
 /**
@@ -71,8 +73,20 @@ public class UpdateEventController extends HttpServlet {
 				
 				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				
-				Date startEvent = inputFormat.parse(request.getParameter("startEvent"));
-				Date endEvent = outputFormat.parse(request.getParameter("endEvent"));
+				Date startEvent = null;
+				try {
+					startEvent = inputFormat.parse(request.getParameter("startEvent"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Date endEvent = null;
+				try {
+					endEvent = outputFormat.parse(request.getParameter("endEvent"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				EventDTO updateEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
 				if (eventDAO.Update(updateEvent) <=0 )  {
