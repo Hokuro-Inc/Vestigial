@@ -80,6 +80,36 @@ public class TaskDAO extends DBConnectImpl{
         return task;
     }
 
+
+	public ArrayList<String> QueryListsByOwner(String email) {
+    	ArrayList<String> listTask = new ArrayList<String>();
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_List_Owner");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            stmt.setString(1, email);
+            ResultSet set = stmt.executeQuery();
+            if (set.next()) {
+            	listTask.add(set.getString(1));
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return listTask;
+	}
+
+	public ArrayList<TaskDTO> QueryByOwnerAndLabel(String email, String idLista) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
     /**
      * Inserta un usuario en la base de datos
      * 
@@ -172,4 +202,5 @@ public class TaskDAO extends DBConnectImpl{
 
         return status;
     }
+
 }

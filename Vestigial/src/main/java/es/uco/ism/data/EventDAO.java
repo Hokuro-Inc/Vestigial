@@ -173,4 +173,9 @@ public class EventDAO extends DBConnectImpl{
 
         return status;
     }
+
+	public ArrayList<EventDTO> QueryByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
