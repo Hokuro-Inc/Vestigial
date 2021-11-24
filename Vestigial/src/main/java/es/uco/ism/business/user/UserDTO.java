@@ -138,7 +138,7 @@ public class UserDTO implements Serializable {
 		this.groups = groups;
 	}
 	
-public String[] getLists() {
+	public String[] getLists() {
 		
 		return lists;
 	}

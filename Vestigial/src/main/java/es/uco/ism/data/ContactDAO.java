@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.business.contact.ContactDTO;
-import es.uco.ism.business.user.UserDTO;
 
 public class ContactDAO extends DBConnectImpl{
 	/**
