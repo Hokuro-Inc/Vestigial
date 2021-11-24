@@ -10,12 +10,12 @@ public class ToDoListBean implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private ArrayList <TaskDTO> listatareas = null;
-
-    public ArrayList <TaskDTO> getToDoList(){
+	private ArrayList <String> labelListTask = null;
+    public ArrayList <TaskDTO> getListTask(){
         return listatareas;
     }
     
-    public void setToDoList (ArrayList <TaskDTO> listatareas){
+    public void setListTask (ArrayList <TaskDTO> listatareas){
         this.listatareas = listatareas;
     }
 
@@ -27,4 +27,11 @@ public class ToDoListBean implements Serializable{
         this.listatareas.set(index, task);
     }
     
+	public void setToDoList(ArrayList <String> listTask) {
+		this.labelListTask = listTask;
+	}
+
+	public ArrayList <String> getToDoList() {
+		return labelListTask;
+	}
 }
