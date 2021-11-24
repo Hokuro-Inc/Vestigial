@@ -21,7 +21,7 @@
 		if (logged) {
 			//Se encuentra logueado
 			// Mostrarmos el formulario para crear el evento
-			if (EventToUpdateBean != null) {
+			if (EventToUpdateBean.getEvent() != null) {
 				//Deseo modificar el evento		
 				EventDTO EventToUpdate = EventToUpdateBean.getEvent();
 	%>
@@ -32,9 +32,8 @@
 					<input id= "nameEvent" type="text" name="nameEvent" placeholder="nameEvent" value ="<%=EventToUpdate.getName()%>" >
 					<input id= "descriptionEvent" type="text" name="descriptionEvent" placeholder="DescriptionEvent" value ="<%=EventToUpdate.getDescription()%>" required>
 
-					<input id= "startEvent" type="datetime" name="startEvent" placeholder="Strat Date" value ="<%=EventToUpdate.getStartDate()%>" required>
-					<input id= "endEvent" type="datetime" name="endEvent" placeholder="endEvent" value ="<%=EventToUpdate.getEndDate()%>" >
-
+					<input id= "startEvent" type="datetime" name="startEvent" placeholder="Start Date" value ="<%=EventToUpdate.getStart()%>" required>
+					<input id= "endEvent" type="datetime" name="endEvent" placeholder="End Event" value ="<%=EventToUpdate.getEnd()%>" required>
 					<input class="submit" type="submit" id="submitButton" value="Editar">
 				</form>
 	<% 		}else{

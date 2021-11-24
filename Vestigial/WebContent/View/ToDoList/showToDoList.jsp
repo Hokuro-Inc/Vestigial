@@ -19,12 +19,12 @@
         
         if (logged) {
             
-            ArrayList <ToDoListDTO > listadoListas = ToDoListBean.getToDoList();
+            ArrayList <String > listadoListas = ToDoListBean.getToDoList();
             for (int i = 0; i <  listadoListas.size(); i++) {
             
     %>
             <div >
-                <h1><%= listadoListas.get(i).getName() %></h1>
+                <h1><%= listadoListas.get(i) %></h1>
             </div>
         
     <%      

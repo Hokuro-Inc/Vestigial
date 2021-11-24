@@ -32,7 +32,7 @@ public class TestTaskDAO {
 				
 		UserDTO propietarioTest = new UserDTO("chris@gmail.com",passwordHash,salt,"660651903","123");
 		String ID = "12345"; // Como generamos las ID
-		TaskDTO taskTest = new TaskDTO (ID,propietarioTest.getEmail(),"Test 1" , "Descripcion Prueba ",Status.InProcess);
+		TaskDTO taskTest = new TaskDTO (ID,propietarioTest.getEmail(),"Test 1" , "Descripcion Prueba ",Status.InProcess, "Lista 1");
 		
 		assert userDAO.Insert(propietarioTest) > 0 : "No se ha introducido el usuario de pruebas";
 		

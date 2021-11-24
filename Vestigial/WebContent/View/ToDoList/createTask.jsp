@@ -21,7 +21,7 @@
         if (logged) {
             //Se encuentra logueado
             // Mostrarmos el formulario para crear la tarea
-            if (TaskToUpdateBean != null) {
+            if (TaskToUpdateBean.getTask() != null) {
                 //Deseo modificar la tarea     
                 TaskDTO TaskToUpdate = TaskToUpdateBean.getTask();
     %>
