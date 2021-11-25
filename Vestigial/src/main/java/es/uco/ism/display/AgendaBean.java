@@ -15,7 +15,7 @@ public class AgendaBean implements Serializable{
         return contacts;
     }
     
-    public void setEvents (ArrayList <ContactDTO> contacts){
+    public void setContacts (ArrayList <ContactDTO> contacts){
         this.contacts = contacts;
     }
 
