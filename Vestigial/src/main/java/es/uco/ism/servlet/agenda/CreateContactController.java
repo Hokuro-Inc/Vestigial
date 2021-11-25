@@ -62,7 +62,7 @@ public class CreateContactController extends HttpServlet {
 			
 			String phone = request.getParameter("phone");
 			if (phone != null  && !phone.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
+				// Venimos de la vista por lo cual debemos de agregar el contacto al usuario y regresarlo al controlador de calendario.
 				
 				String prefix = request.getParameter("prefix");
 				String name = request.getParameter("name");
@@ -76,7 +76,7 @@ public class CreateContactController extends HttpServlet {
 				
 				ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 				if (contactDAO.Insert(newContact) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
+					mensajeNextPage = "Ha surgido un problema a la hora de crear el contacto";
 					nextPage = "VISTA_CREAR_CONTACTO";
 				}
 			}
