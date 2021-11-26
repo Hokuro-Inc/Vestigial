@@ -1,65 +1,86 @@
-
-<ion-header>
-  <ion-toolbar>
-    <img src="/assets/icon/logo_vestigial.png">
-
-    </ion-toolbar>
-</ion-header>
-
 <ion-content>
 
-  <ion-slides pager="true" class="slide-full">
+  <ion-slides pager="true" >
 
-    <ion-slide *ngFor="let slide of slides">
+    <ion-slide *ngFor="let slide of slides" text-center>
 
-      <ion-card mode="ios">
+      <div class="slide-img-padding">
 
-        <img [src]= "slide.img" class="slide-image">
+        <img [src]= "slide.img" class="slide-img">
 
-          <ion-card-header>
+      </div>
 
-            <ion-card-title> {{ slide.title }} </ion-card-title>
+      <div>
+        <h3 [innerHTML] = "slide.title"></h3>
+      </div>
 
-          </ion-card-header> 
 
-            <ion-card-content>
-            {{ slide.desc }}
-            </ion-card-content>
-
-      </ion-card>
+      
 
 
     </ion-slide>
 
-    <ion-slide *ngFor="let slide of slides">
 
-      <ion-card mode="ios">
 
-        <img [src]= "slide.img" class="slide-image">
+    <ion-slide *ngFor="let slide of slides" text-center>
 
-          <ion-card-header>
+      <div class="slide-img-padding">
 
-            <ion-card-title> {{ slide.title }} </ion-card-title>
+        <img [src]= "slide.img" class="slide-img">
 
-          </ion-card-header> 
+      </div>
 
-            <ion-card-content>
-            {{ slide.desc }}
-            </ion-card-content>
+      <div>
+        <h3 [innerHTML] = "slide.title"></h3>
+      </div>
 
-      </ion-card>
+
+
+        <ion-grid fixed>
+      
+          <ion-row>
+      
+            <ion-col size="10" offset="1">
+      
+              <ion-button color = "primary"
+                          expand = "full"
+                          shape = "round"
+                          class = "btn-primary"
+                          mode = "ios">
+                LOG IN          
+              </ion-button>
+      
+            </ion-col>
+      
+          </ion-row>
+      
+          <ion-row>
+            <ion-col size="6" offset="3">
+      
+              <ion-button expand = "full"
+                          fill = "clear">
+                        
+                        <ion-label color = "dark"> REGISTER</ion-label>
+                        </ion-button>
+      
+      
+      
+            </ion-col>
+      
+      
+          </ion-row>
+      
+      
+        </ion-grid>
+      
 
 
     </ion-slide>
-
-    <ion-slide>
-      <ion-button expand = "full" color = "primary" fill="onClick()"> Let's Start!</ion-button>
-
-    </ion-slide>
-
-
 
   </ion-slides>
 
 
+
+
 </ion-content>
+

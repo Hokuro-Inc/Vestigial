@@ -1,75 +1,48 @@
 ion-slides{
-    height: 100%;
-}
 
-.slide-1{
-
-    height: 100%;
-    background-color: red;
-
+    color-scheme: red;
 }
 
 
-.slide-2{
-    height: 100%;
-    background-color: aquamarine;
-
-}
-
-.slide-3{
-    height: 100%;
-    background-color: plum;
-}
-
-
-
-.slide-full {
-    height: 100% !important;
-}
-
-
-ion-card {
-
-    overflow: unset !important;
-
-}
-
-
-ion-card{
-    height: 200px;
-    width: 300px;
-
-}
-
-.slide-image{
-    width: 100px;
-    text-align: center;
+ion-slide{
 
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-
-    position: relative;
-    top: -50px;
-
-
 }
 
 
-ion-card-header {
-    position: relative;
-    top: -50px;
+ion-grid{
+    margin-bottom: 20px;
 }
 
-ion-card-content {
-    position: relative;
-    top: -50px;
+
+
+
+.slide-img-padding{
+    padding: 40px;
 }
 
-.avatar{
-    width: 50px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    
+
+.btn-primary{
+    height: 60px;
+}
+
+
+
+h3{
+    font-size: 30;
+    font-weight: lighter;
+    margin-bottom: 60px;
+}
+
+
+
+
+img{
+    max-height: 400px;
+}
+
+@media screen and (max-height: 775px){
+    img {
+        width: 70%;
+    }
 }
