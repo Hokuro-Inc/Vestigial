@@ -1,5 +1,8 @@
 package es.uco.ism.utils;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -9,43 +12,74 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
  
 public class Mail {
-	private final Properties properties = new Properties();
 	
-	private String password;
- 
-	private Session session;
- 
-	private void init() {
- 
-		properties.put("mail.smtp.host", "mail.gmail.com");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.port",25);
-		properties.put("mail.smtp.mail.sender","hokuroincorporated@gmail.com");
-		properties.put("mail.smtp.user", "hokuroincorporated@gmail.com");
-		properties.put("mail.smtp.auth", "adaylachupa");
- 
-		session = Session.getDefaultInstance(properties);
+	public Mail(String to, String subject, String body) {
+		
+		this.to = to;
+		this.subject = subject;
+		this.body = body;
 	}
+	
+	private String FROM = "hokuroincorporated@gmail.com";;
+	private String FROMNAME = "Hokuro";
+	private String to;
+	private String CONFIGSET = "ConfigSet";
+	private String HOST = "smtp.gmail.com";
+	private int PORT = 587;
+	private String subject;
+	private String body;
  
-	public void sendEmail(){
+	public void sendEmail() throws UnsupportedEncodingException, MessagingException, IOException{
  
-		init();
-		try{
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress((String)properties.get("mail.smtp.mail.sender")));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("pedropgarciap@gmail.com"));
-			message.setSubject("Prueba");
-			message.setText("Texto");
-			Transport t = session.getTransport("smtp");
-			t.connect((String)properties.get("mail.smtp.user"), "adaylachupa");
-			t.sendMessage(message, message.getAllRecipients());
-			t.close();
-		}catch (MessagingException me){
-                        //Aqui se deberia o mostrar un mensaje de error o en lugar
-                        //de no hacer nada con la excepcion, lanzarla para que el modulo
-                        //superior la capture y avise al usuario con un popup, por ejemplo.
-			return;
-		}
+		Properties propertiesBD = new Properties();
+		FileReader fileReaderBD = new FileReader("WebContent/server.properties");
+		propertiesBD.load(fileReaderBD);
+		
+		// Create a Properties object to contain connection configuration information.
+    	Properties props = System.getProperties();
+    	props.put("mail.transport.protocol", "smtp");
+    	props.put("mail.smtp.port", PORT);
+    	props.put("mail.smtp.starttls.enable", "true");
+    	props.put("mail.smtp.auth", "true");
+
+        // Create a Session object to represent a mail session with the specified properties. 
+    	Session session = Session.getDefaultInstance(props);
+
+        // Create a message with the specified information. 
+        MimeMessage msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(FROM,FROMNAME));
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        msg.setSubject(subject);
+        msg.setContent(body,"text/html");
+        
+        // Add a configuration set header. Comment or delete the 
+        // next line if you are not using a configuration set
+        msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+            
+        // Create a transport.
+        Transport transport = session.getTransport();
+                    
+        // Send the message.
+        try
+        {
+            System.out.println("Sending...");
+            
+            // Connect to Amazon SES using the SMTP username and password you specified above.
+            transport.connect(HOST, propertiesBD.getProperty("MAIL"), propertiesBD.getProperty("PWD"));
+        	
+            // Send the email.
+            transport.sendMessage(msg, msg.getAllRecipients());
+            System.out.println("Email sent!");
+        }
+        catch (Exception ex) {
+            System.out.println("The email was not sent.");
+            System.out.println("Error message: " + ex.getMessage());
+        }
+        finally
+        {
+            // Close and terminate the connection.
+            transport.close();
+        }
 		
 	}
  
