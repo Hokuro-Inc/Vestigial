@@ -22,9 +22,18 @@ const routes: Routes = [
   {
     path: 'login-page',
     loadChildren: () => import('./pages/login-page/login-page.module').then( m => m.LoginPagePageModule)
-  },  {
+  },
+  {
     path: 'slides-page',
     loadChildren: () => import('./pages/slides-page/slides-page.module').then( m => m.SlidesPagePageModule)
+  },
+  {
+    path: 'notepad-page',
+    loadChildren: () => import('./notepad-page/notepad-page.module').then( m => m.NotepadPagePageModule)
+  },
+  {
+    path: 'agenda-page',
+    loadChildren: () => import('./agenda-page/agenda-page.module').then( m => m.AgendaPagePageModule)
   }
 
 ];
