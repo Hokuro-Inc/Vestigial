@@ -1,6 +1,6 @@
-
 <head>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Slides</title>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
@@ -13,43 +13,40 @@
   </style>
 </head>
 
+<ion-content>
 
+  <ion-slides pager="true" >
 
-  <ion-app>
-    <ion-content fullscreen class="ion-padding" scroll-y="false">
-  <ion-slides pagers = "true">
-    <ion-slide>
-      <img src = "/assets/icon/logo_vestigial.png"/>
+    <ion-slide *ngFor="let slide of slides" text-center>
+
+      <img src="/assets/icon/logo_vestigial.png"/>
+<hr>
       <h3>Welcome!</h3>
       <p> The <b>Vestigial app</b> is the perfect app to have your life organized in the best possible way, why not start using it?</p>
+
     </ion-slide>
 
     <ion-slide>
-      <img src = "/assets/icon/logo_vestigial.png"/>
+      <img src = "/assets/icon/contact-manage.png"/>
+      <hr>
       <h3>What brings us?</h3>
       <p> With <b>Vestigial App</b> you will be able to have all the information of your clients in one place, generate modifiable xml files or another extension, import and export to other devices, etc. </p>
     </ion-slide>
 
+
     <ion-slide>
-      <img src = "/assets/icon/logo_vestigial.png">
+      <img src = "/assets/icon/start-people.png">
+      <hr>
       <h3>Ready?</h3>
       <p> Let's start tidying up your life!</p>
       <ion-button fill="clear">Start here <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
     </ion-slide>
 
-
-
-
-
+    
 
   </ion-slides>
+
+
+
+
 </ion-content>
-
-
-  </ion-app>
-
-  <style>
-
-
-
-  </style>
