@@ -1,86 +1,55 @@
-<ion-content>
 
-  <ion-slides pager="true" >
+<head>
 
-    <ion-slide *ngFor="let slide of slides" text-center>
-
-      <div class="slide-img-padding">
-
-        <img [src]= "slide.img" class="slide-img">
-
-      </div>
-
-      <div>
-        <h3 [innerHTML] = "slide.title"></h3>
-      </div>
-
-
-      
+  <title>Slides</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+  <style>
+    :root {
+      --ion-safe-area-top: 20px;
+      --ion-safe-area-bottom: 22px;
+    }
+  </style>
+</head>
 
 
+
+  <ion-app>
+    <ion-content fullscreen class="ion-padding" scroll-y="false">
+  <ion-slides pagers = "true">
+    <ion-slide>
+      <img src = "/assets/icon/logo_vestigial.png"/>
+      <h3>Welcome!</h3>
+      <p> The <b>Vestigial app</b> is the perfect app to have your life organized in the best possible way, why not start using it?</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src = "/assets/icon/logo_vestigial.png"/>
+      <h3>What brings us?</h3>
+      <p> With <b>Vestigial App</b> you will be able to have all the information of your clients in one place, generate modifiable xml files or another extension, import and export to other devices, etc. </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src = "/assets/icon/logo_vestigial.png">
+      <h3>Ready?</h3>
+      <p> Let's start tidying up your life!</p>
+      <ion-button fill="clear">Start here <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
     </ion-slide>
 
 
 
-    <ion-slide *ngFor="let slide of slides" text-center>
-
-      <div class="slide-img-padding">
-
-        <img [src]= "slide.img" class="slide-img">
-
-      </div>
-
-      <div>
-        <h3 [innerHTML] = "slide.title"></h3>
-      </div>
 
 
-
-        <ion-grid fixed>
-      
-          <ion-row>
-      
-            <ion-col size="10" offset="1">
-      
-              <ion-button color = "primary"
-                          expand = "full"
-                          shape = "round"
-                          class = "btn-primary"
-                          mode = "ios">
-                LOG IN          
-              </ion-button>
-      
-            </ion-col>
-      
-          </ion-row>
-      
-          <ion-row>
-            <ion-col size="6" offset="3">
-      
-              <ion-button expand = "full"
-                          fill = "clear">
-                        
-                        <ion-label color = "dark"> REGISTER</ion-label>
-                        </ion-button>
-      
-      
-      
-            </ion-col>
-      
-      
-          </ion-row>
-      
-      
-        </ion-grid>
-      
-
-
-    </ion-slide>
 
   </ion-slides>
-
-
-
-
 </ion-content>
 
+
+  </ion-app>
+
+  <style>
+
+
+
+  </style>

@@ -1,45 +1,33 @@
 ion-slides{
-
-    color-scheme: red;
+    height: 100%;
 }
 
 
 ion-slide{
-
-    display: block;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    
 }
 
-
-ion-grid{
-    margin-bottom: 20px;
+ion-slide p{
+    color: #888;
 }
-
-
-
-
-.slide-img-padding{
-    padding: 40px;
-}
-
-
-.btn-primary{
-    height: 60px;
-}
-
-
-
 h3{
-    font-size: 30;
-    font-weight: lighter;
-    margin-bottom: 60px;
+    font-size: 30px;
 }
+p {
+    padding: 0 40px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ion-color-step-600, #60646b);
+  }
 
+  p b {
+    color: var(--ion-text-color, #000000);
+  }
 
-
-
-img{
-    max-height: 400px;
-}
 
 @media screen and (max-height: 775px){
     img {
