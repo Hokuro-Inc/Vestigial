@@ -32,7 +32,7 @@ export class AppComponent {
   public appPages = [
     { title: 'Calendario', url: '/calendar', icon: 'calendar' },
     //{ title: 'To Do List', url: '/folder/ToDoList', icon: 'list' },
-    //{ title: 'Agenda', url: '/folder/Agenda', icon: 'book' },
+    { title: 'Agenda', url: '/agenda-page', icon: 'book' },
     //{ title: 'Notas', url: '/folder/Notas', icon: 'archive' },
 
   ];

@@ -29,11 +29,11 @@ const routes: Routes = [
   },
   {
     path: 'notepad-page',
-    loadChildren: () => import('./notepad-page/notepad-page.module').then( m => m.NotepadPagePageModule)
+    loadChildren: () => import('./pages/notepad-page/notepad-page.module').then( m => m.NotepadPagePageModule)
   },
   {
     path: 'agenda-page',
-    loadChildren: () => import('./agenda-page/agenda-page.module').then( m => m.AgendaPagePageModule)
+    loadChildren: () => import('./pages/agenda-page/agenda-page.module').then( m => m.AgendaPagePageModule)
   }
 
 ];
