@@ -14,7 +14,7 @@
 <body>
 <% 
         boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
-        String nextPage = "CONTROLADOR-CREATE_CONTACT" ;
+        String nextPage = "AddContact" ;
         String menssageNextPage = (String) request.getAttribute("mensaje");
         if (menssageNextPage == null ) menssageNextPage = "";
         
@@ -28,7 +28,7 @@
     %>
             <h1>Editar Contacto Vestigial</h1>
             <h2><%= menssageNextPage %></h2>
-                <form method="post" action="CONTROLADOR-UPDATE_CONTACT" id="UpdateContactForm">
+                <form method="post" action="UpdateContact" id="UpdateContactForm">
                     <input id= "phone" type="hidden" name="phone" value ="<%=ContactToUpdate.getPhone()%>" >
                     <input id= "prefix" type="text" name="prefix" placeholder="<%=ContactToUpdate.getPrefix()%>" required>
                     <input id= "name" type="text" name="name" placeholder="<%=ContactToUpdate.getName()%>" required>
@@ -46,7 +46,7 @@
     %>              
                 <h1>Crear Contacto Vestigial</h1>
                 <h2><%= menssageNextPage %></h2>
-                    <form method="post" action="CONTROLADOR-CREATE_CONTACT" id="CreateContactForm">
+                    <form method="post" action="AddContact" id="CreateContactForm">
                         <input id= "phone" type="text" name="phone" placeholder="" required>
                         <input id= "prefix" type="text" name="prefix" placeholder="" required>
                         <input id= "name" type="text" name="name" placeholder="" required>

@@ -15,7 +15,7 @@
 	<body>
 	<% 
 		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
-		String nextPage = "CONTROLADOR-LOGIN" ;
+		String nextPage = "Login" ;
 		String menssageNextPage = (String) request.getAttribute("mensaje");
 		if (menssageNextPage == null ) menssageNextPage = "";
 	
@@ -23,7 +23,7 @@
 	%>
 
 			<h1>Login Vestigial</h1>
-			<form method="post" action="CONTROLADOR-LOGIN" id="LoginForm">
+			<form method="post" action="CONTROLADOR-LOGIN" id="Login">
 				<input id= "email" type="email" name="Email" placeholder="correo@gmail.com" required>
 				<input id= "password" type="password" name="Password" placeholder="Contreseña" required>
 
@@ -35,7 +35,7 @@
 	<% 	} 
 		else {
 			//Se encuentra logueado
-			nextPage = "PAGINA PRINCIPAL";
+			nextPage = "Home";
 			menssageNextPage = "Ya se encuentra logueado";
 			%>
 			<jsp:forward page="<%=nextPage%>">

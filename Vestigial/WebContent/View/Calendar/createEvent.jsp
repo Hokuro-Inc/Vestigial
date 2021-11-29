@@ -14,7 +14,7 @@
 <body>
 	<% 
 		boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
-		String nextPage = "CONTROLADOR-CREATEEVENT" ;
+		String nextPage = "CreateEvent" ;
 		String menssageNextPage = (String) request.getAttribute("mensaje");
 		if (menssageNextPage == null ) menssageNextPage = "";
 		
@@ -27,7 +27,7 @@
 	%>
 			<h1>Editar Evento Vestigial</h1>
 			<h2><%= menssageNextPage %></h2>
-				<form method="post" action="CONTROLADOR-UPDATE_EVENT" id="UpdateEventForm">
+				<form method="post" action="UpdateEvent" id="UpdateEventForm">
 					<input id= "idEvent" type="hidden" name="idEvent" value ="<%=EventToUpdate.getId()%>" >
 					<input id= "nameEvent" type="text" name="nameEvent" placeholder="nameEvent" value ="<%=EventToUpdate.getName()%>" >
 					<input id= "descriptionEvent" type="text" name="descriptionEvent" placeholder="DescriptionEvent" value ="<%=EventToUpdate.getDescription()%>" required>
@@ -41,7 +41,7 @@
 	%>				
 				<h1>Crear Evento Vestigial</h1>
 				<h2><%= menssageNextPage %></h2>
-					<form method="post" action="CONTROLADOR-CREATEEVENT" id="CreateEventForm">
+					<form method="post" action="CreateEvent" id="CreateEventForm">
 						<input id= "nameEvent" type="text" name="nameEvent" placeholder="nameEvent" >
 						<input id= "descriptionEvent" type="text" name="descriptionEvent" placeholder="DescriptionEvent" required>
 	

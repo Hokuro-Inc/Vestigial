@@ -14,7 +14,7 @@
 <body>
 <% 
         boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
-        String nextPage = "CONTROLADOR-CREATEETASK" ;
+        String nextPage = "CreateTask" ;
         String menssageNextPage = (String) request.getAttribute("mensaje");
         if (menssageNextPage == null ) menssageNextPage = "";
         
@@ -27,7 +27,7 @@
     %>
             <h1>Editar Evento Vestigial</h1>
             <h2><%= menssageNextPage %></h2>
-                <form method="post" action="CONTROLADOR-UPDATE_TASK" id="UpdateTaskForm">
+                <form method="post" action="UpdateTask id="UpdateTaskForm">
                     <input id= "idTask" type="hidden" name="idTask" value ="<%=TaskToUpdate.getId()%>" >
                     <input id= "nameEvent" type="text" name="nameEvent" placeholder="nameEvent" value ="<%=TaskToUpdate.getName()%>" required>
                     <input id= "descriptionEvent" type="text" name="descriptionEvent" placeholder="DescriptionEvent" value ="<%=TaskToUpdate.getDescription()%>" required>
@@ -38,7 +38,7 @@
     %>              
                 <h1>Crear Evento Vestigial</h1>
                 <h2><%= menssageNextPage %></h2>
-                    <form method="post" action="CONTROLADOR-CREATEETASK" id="CreateTaskForm">
+                    <form method="post" action="CreateTask" id="CreateTaskForm">
                         <input id= "nameEvent" type="text" name="nameEvent" placeholder="nameEvent" required>
                         <input id= "descriptionEvent" type="text" name="descriptionEvent" placeholder="DescriptionEvent" required>
                         <input class="submit" type="submit" id="submitButton" value="Crear Tarea">

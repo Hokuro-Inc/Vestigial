@@ -14,7 +14,7 @@
 <body>
 	<% 
         boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
-        String nextPage = "CONTROLADOR-LOGIN" ;
+        String nextPage = "Login" ;
         String menssageNextPage = (String) request.getAttribute("mensaje");
         if (menssageNextPage == null ) menssageNextPage = "";
         
@@ -23,7 +23,7 @@
         	%>
         	<div>
         		<h1>Bloc de notas</h1>
-        		<form method="post" action="CONTROLADOR-ACTUALIZAR-BLOC" id="ModifyBlocForm">
+        		<form method="post" action="ModifyBloc" id="ModifyBlocForm">
         			<input id= "text" type="text" name="text" value ="<%=bloc.getText()%>" >
 					<input class="submit" type="submit" id="submitButton" value="Guardar bloc">
 				</form>
