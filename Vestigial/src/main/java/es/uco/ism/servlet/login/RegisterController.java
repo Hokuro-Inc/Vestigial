@@ -21,7 +21,6 @@ import es.uco.ism.utils.PasswordHashing;
 /**
  * Servlet implementation class RegisterController
  */
-@WebServlet("/RegisterController")
 public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

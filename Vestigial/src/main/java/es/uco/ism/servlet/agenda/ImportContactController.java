@@ -20,13 +20,13 @@ import es.uco.ism.display.UserBean;
  * Servlet implementation class ImportContact
  */
 @WebServlet("/ImportContact")
-public class ImportContact extends HttpServlet {
+public class ImportContactController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ImportContact() {
+    public ImportContactController() {
         super();
         // TODO Auto-generated constructor stub
     }

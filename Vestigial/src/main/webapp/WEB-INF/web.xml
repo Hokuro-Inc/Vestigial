@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+
+ <!-- Vinculaciones de los Servlet -->
+   <!-- Mapeo del Login-->
+ <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>es.uco.ism.servlet.LoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+    <url-pattern>/Logout</url-pattern>
+  </servlet-mapping>
+ 
+<servlet>
+    <servlet-name>Register</servlet-name>
+    <servlet-class>es.uco.ism.servlet.LoginController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>Register</servlet-name>
+    <url-pattern>/Register</url-pattern>
+    <url-pattern>/Home</url-pattern>
+</servlet-mapping>
+ 
+  <!-- Mapeo de la Agenda-->
+<servlet>
+    <servlet-name>ShowAgenda</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ShowAgendaController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ShowAgenda</servlet-name>
+    <url-pattern>/Agenda</url-pattern>
+    <url-pattern>/ShowAgenda</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>AddContact</servlet-name>
+    <servlet-class>es.uco.ism.servlet.CreateContactController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>AddContact</servlet-name>
+    <url-pattern>/AddContact</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>UpdateContact</servlet-name>
+    <servlet-class>es.uco.ism.servlet.UpdateContactController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>UpdateContact</servlet-name>
+    <url-pattern>/UpdateContact</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>RemoveContact</servlet-name>
+    <servlet-class>es.uco.ism.servlet.RemoveContactController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RemoveContact</servlet-name>
+    <url-pattern>/RemoveContact</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>ExportContact</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ExportContactController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ExportContact</servlet-name>
+    <url-pattern>/ExportContact</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>ImportContact</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ImportContactController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ImportContact</servlet-name>
+    <url-pattern>/ImportContact</url-pattern>
+</servlet-mapping>
+
+ <!-- Mapeo del bloc de Notas-->
+<servlet>
+    <servlet-name>ModifyBloc</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ModifyBlocController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ModifyBloc</servlet-name>
+    <url-pattern>/ModifyBloc</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>ShowBloc</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ShowBlocController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ShowBloc</servlet-name>
+    <url-pattern>/ShowBloc</url-pattern>
+</servlet-mapping>
+
+ <!-- Mapeo del calendario-->
+<servlet>
+    <servlet-name>ShowCalendar</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ShowCalendarController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ShowCalendar</servlet-name>
+    <url-pattern>/ShowCalendar</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>CreateEvent</servlet-name>
+    <servlet-class>es.uco.ism.servlet.CreateEventController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CreateEvent</servlet-name>
+    <url-pattern>/CreateEvent</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>UpdateEvent</servlet-name>
+    <servlet-class>es.uco.ism.servlet.UpdateEventController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>UpdateEvent</servlet-name>
+    <url-pattern>/UpdateEvent</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>RemoveEvent</servlet-name>
+    <servlet-class>es.uco.ism.servlet.RemoveEventController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RemoveEvent</servlet-name>
+    <url-pattern>/RemoveEvent</url-pattern>
+</servlet-mapping>
+
+ <!-- Mapeo del To Do List-->
+ <servlet>
+    <servlet-name>ShowToDoList</servlet-name>
+    <servlet-class>es.uco.ism.servlet.ShowToDoListController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ShowToDoList</servlet-name>
+    <url-pattern>/ShowToDoList</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>CreateToDoList</servlet-name>
+    <servlet-class>es.uco.ism.servlet.CreateToDoListController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CreateToDoList</servlet-name>
+    <url-pattern>/CreateToDoList</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>CreateTask</servlet-name>
+    <servlet-class>es.uco.ism.servlet.CreateTaskController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CreateTask</servlet-name>
+    <url-pattern>/CreateTask</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>UpdateTask</servlet-name>
+    <servlet-class>es.uco.ism.servlet.UpdateTaskController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>UpdateTask</servlet-name>
+    <url-pattern>/UpdateTask</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>RemoveList</servlet-name>
+    <servlet-class>es.uco.ism.servlet.RemoveListController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RemoveList</servlet-name>
+    <url-pattern>/RemoveList</url-pattern>
+</servlet-mapping>
+ 
+<servlet>
+    <servlet-name>RemoveTask</servlet-name>
+    <servlet-class>es.uco.ism.servlet.RemoveTaskController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RemoveTask</servlet-name>
+    <url-pattern>/RemoveTask</url-pattern>
+</servlet-mapping>
+
+  <context-param>
+    <param-name>URL</param-name>
+    <param-value>jdbc:mysql://hokuro.xyz:3306/ism</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>USER</param-name>
+    <param-value>hokuro</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>PASSWORD</param-name>
+    <param-value>hokuro12</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>MAIL</param-name>
+    <param-value>hokuroincorporated@gmail.com</param-value>
+  </context-param>
+  
+   <context-param>
+    <param-name>NAME</param-name>
+    <param-value>hokuro</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>PWD</param-name>
+    <param-value>adaylachupa</param-value>
+  </context-param>
+   
+  
+  <context-param>
+    <param-name>sql</param-name>
+    <param-value>/WEB-INF/sql.properties</param-value>
+  </context-param>
+
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <error-page>
+    <location>/include/error.jsp</location>
+  </error-page>
+</web-app>
