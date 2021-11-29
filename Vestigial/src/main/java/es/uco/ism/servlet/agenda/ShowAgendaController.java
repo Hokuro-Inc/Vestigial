@@ -67,7 +67,7 @@ public class ShowAgendaController extends HttpServlet {
 			
 			AgendaBean agendaUsuario = new AgendaBean ();
 			
-			agendaUsuario.setEvents(listadoContactos);
+			agendaUsuario.setContacts(listadoContactos);
 			
 			session.setAttribute("Agenda", agendaUsuario);
 			

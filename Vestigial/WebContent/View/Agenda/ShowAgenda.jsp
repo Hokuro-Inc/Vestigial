@@ -31,15 +31,15 @@
                     <h1>Contacto <%= i+1%></h1>
                     <h2><%= menssageNextPage %></h2>
                         <form method="post" action="CONTROLADOR-UPDATE_CONTACT" id="UpdateContactForm">
-                            <input id= "phone" type="hidden" name="phone" value ="<%=agenda[i].getPhone()%>" >
-                            <input id= "prefix" type="text" name="prefix" placeholder="<%=agenda[i].getPrefix()%>" required>
-                            <input id= "name" type="text" name="name" placeholder="<%=agenda[i].getName()%>" required>
-                            <input id= "surname" type="text" name="surname" placeholder="<%=agenda[i].getSurname()%>" required>
-                            <input id= "alias" type="text" name="alias" placeholder="<%=agenda[i].getAlias()%>" required>
-                            <input id= "email" type="email" name="email" placeholder="<%=agenda[i].getEmail()%>" required>
-                            <input id= "description" type="text" name="description" placeholder="<%=agenda[i].getDescription()%>" required>
-                            <input id= "address" type="text" name="address" placeholder="<%=agenda[i].getAddress()%>" required>
-                         <!--   <input id= "groups" type="text" name="groups" placeholder="<%=agenda[i].getName()%>" required> -->
+                            <input id= "phone" type="hidden" name="phone" value ="<%=agenda.get(i).getPhone()%>" >
+                            <input id= "prefix" type="text" name="prefix" placeholder="<%=agenda.get(i).getPrefix()%>" required>
+                            <input id= "name" type="text" name="name" placeholder="<%=agenda.get(i).getName()%>" required>
+                            <input id= "surname" type="text" name="surname" placeholder="<%=agenda.get(i).getSurname()%>" required>
+                            <input id= "alias" type="text" name="alias" placeholder="<%=agenda.get(i).getAlias()%>" required>
+                            <input id= "email" type="email" name="email" placeholder="<%=agenda.get(i).getEmail()%>" required>
+                            <input id= "description" type="text" name="description" placeholder="<%=agenda.get(i).getDescription()%>" required>
+                            <input id= "address" type="text" name="address" placeholder="<%=agenda.get(i).getAddress()%>" required>
+                         <!--   <input id= "groups" type="text" name="groups" placeholder="<%=agenda.get(i).getName()%>" required> -->
                         </form>
                     </div>
             <%  }
