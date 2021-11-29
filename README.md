@@ -59,6 +59,6 @@ Esta aplicación se ha desarrollado utilizando diferentes tecnologías tanto par
 * **Pedro Pablo García Pozo** - [Pedro Pablo García Pozo](https://github.com/i82gapop)
 * **Javier García Ibáñez** - [Javier García Ibáñez ](https://github.com/)
 * **Ángel Fuentes Almoguera** - [Ángel Fuentes Almoguera ](https://github.com/almojara) 
-* **Juan Antonio Fernández Días** - [Juan Antonio Fernández Días ](https://github.com/i82fedij)
+* **Juan Antonio Fernández Díaz** - [Juan Antonio Fernández Díaz ](https://github.com/i82fedij)
 * **Rubén Borrego Canovaca** - [Rubén Borrego Canovaca](https://github.com/LepreprechauN)
 
