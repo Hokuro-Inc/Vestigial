@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +20,6 @@ import es.uco.ism.display.UserBean;
 /**
  * Servlet implementation class ShowCalendar
  */
-@WebServlet("/ShowCalendar")
 public class ShowCalendarController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
