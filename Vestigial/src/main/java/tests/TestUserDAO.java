@@ -13,11 +13,11 @@ public class TestUserDAO {
 	public static void main(String[] args) throws IOException {
 		
 		Properties propertiesDB = new Properties();
-		FileReader fileReaderDB = new FileReader("WebContent/server.properties");
+		FileReader fileReaderDB = new FileReader("src/main/webapp/WEB-INF/server.properties");
 		propertiesDB.load(fileReaderDB);
 		
 		Properties propertiesSQL = new Properties();
-		FileReader fileReaderSQL = new FileReader("WebContent/sql.properties");
+		FileReader fileReaderSQL = new FileReader("src/main/webapp/WEB-INF/sql.properties");
 		propertiesSQL.load(fileReaderSQL);
 		
 		System.out.println("Test UserDAO");

@@ -5,7 +5,7 @@
    <!-- Mapeo del Login-->
  <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>es.uco.ism.servlet.LoginController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.login.LoginController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
