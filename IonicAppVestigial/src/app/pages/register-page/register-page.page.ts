@@ -1,18 +1,38 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { FormGroup, FormBuilder, FormControl, Validators } from'@angular/forms'
+
 
 @Component({
   selector: 'register-page',
   templateUrl: './register-page.page.html',
   styleUrls: ['./register-page.page.scss'],
 })
-export class RegisterPagePage {
+export class RegisterPagePage implements OnInit {
 
-  @Input() firstName: string;
-  @Input() lastName: string;
-  @Input() middleInitial: string;
+  email: string;
+  password: string;
+  phone: string;
+  validations_form: FormGroup;
 
-  constructor(public modalController: ModalController) {
+  constructor(public modalController: ModalController, public formBuilder: FormBuilder ) {
+
+  }
+
+  ngOnInit(){
+
+    this.validations_form = this.formBuilder.group({
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required,
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])),
+      phone:  new FormControl('', Validators.required)
+    })
 
   }
 
@@ -22,6 +42,11 @@ export class RegisterPagePage {
     this.modalController.dismiss({
       'dismissed': true
     });
+  }
+
+  onSubmit(values){
+    console.log(values);
+    //this.router.navigate(["/user"]);
   }
 
 }
