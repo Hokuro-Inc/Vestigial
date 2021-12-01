@@ -2,7 +2,7 @@
 
 <%@ page import ="es.uco.ism.business.user.UserDTO, es.uco.ism.business.contact.ContactDTO" %>
 
-<jsp:useBean  id="UsuarioInfoBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
+<jsp:useBean  id="userBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
 <jsp:useBean  id="ContactToUpdateBean" scope="session" class="es.uco.ism.display.ContactBean"></jsp:useBean> 
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,7 @@
 </head>
 <body>
     <% 
-        boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
+        boolean logged = userBean != null && !userBean.getEmail().equals("");
         String nextPage = "CONTROLADOR-CREATE_CONTACT" ;
         String menssageNextPage = (String) request.getAttribute("mensaje");
         if (menssageNextPage == null ) menssageNextPage = "";

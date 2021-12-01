@@ -52,7 +52,7 @@ public class CreateContactController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="SHOWAGENDA"; 
+		String nextPage ="View/Agenda/CreateContact.jsp"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -69,24 +69,28 @@ public class CreateContactController extends HttpServlet {
 				String email = request.getParameter("email");
 				String description = request.getParameter("description");
 				String address = request.getParameter("address");
-				String owner = request.getParameter("owner");
+				String owner = usuario.getEmail();
 				//Los grupos se deberían de poder coger de alguna forma pero esto dependerá de la vista
 				
 				ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 				if (contactDAO.Insert(newContact) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear el contacto";
-					nextPage = "VISTA_CREAR_CONTACTO";
+					nextPage = "View/Agenda/CreateContact.jsp";
+				}
+				else {
+					mensajeNextPage = "Se ha creado el contacto correctamente";	
+					nextPage = "Agenda";
 				}
 			}
 			else {
 				// Tenemos que dirigirnos a la vista
 				// No se si necesitamos enviarle algo a la vista de crear contacto.
-				nextPage = "VISTA_CREAR_CONTACTO";
+				nextPage = "View/Agenda/CreateContact.jsp";
 			}				
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		

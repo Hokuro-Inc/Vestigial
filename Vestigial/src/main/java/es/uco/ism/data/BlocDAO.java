@@ -25,8 +25,8 @@ public class BlocDAO extends DBConnectImpl {
 	/**
 	 * Busca el bloc de notas del usuario en la base de datos
 	 * 
-	 * @param owner Dueño cuyo bloc de notas se va a buscar
-	 * @return Bloc de notas del dueño dado
+	 * @param owner Dueï¿½o cuyo bloc de notas se va a buscar
+	 * @return Bloc de notas del dueï¿½o dado
 	 */
 	public BlocDTO QueryByOwner(String owner) {
 		BlocDTO bloc = null;
@@ -38,7 +38,7 @@ public class BlocDAO extends DBConnectImpl {
             stmt.setString(1, owner);
             ResultSet set = stmt.executeQuery();
 
-            if (set.next()) {            	
+            while (set.next()) {            	
             	bloc = new BlocDTO(set.getString(1), set.getString(2));
             }
 
@@ -68,7 +68,7 @@ public class BlocDAO extends DBConnectImpl {
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, bloc.getOwner());
             stmt.setString(2, bloc.getText());        
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();
@@ -112,7 +112,7 @@ public class BlocDAO extends DBConnectImpl {
     /**
      * Borra un bloc de notas de la base de datos
      * 
-     * @param owner Dueño cuyo bloc de notas se va a borrar
+     * @param owner Dueï¿½o cuyo bloc de notas se va a borrar
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
     public int Delete(String owner) {

@@ -38,7 +38,7 @@ public class TaskDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Select_All_Task");
             PreparedStatement stmt = con.prepareStatement(statement);
             ResultSet set = stmt.executeQuery();
-            if (set.next()) {
+            while (set.next()) {
             	
             	task = new TaskDTO(set.getString(1), set.getString(5),set.getString(2), set.getString(3), Status.valueOf(set.getString(4)), set.getString(6));
             	tasks.add(task);
@@ -90,7 +90,7 @@ public class TaskDAO extends DBConnectImpl{
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, email);
             ResultSet set = stmt.executeQuery();
-            if (set.next()) {
+            while (set.next()) {
             	listTask.add(set.getString(1));
             }
 
@@ -129,7 +129,7 @@ public class TaskDAO extends DBConnectImpl{
             stmt.setString(4, task.getStatus().toString());
             stmt.setString(5, task.getOwner());  
             stmt.setString(6, task.getList());
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();
@@ -161,7 +161,7 @@ public class TaskDAO extends DBConnectImpl{
             stmt.setString(3, task.getStatus().toString());
             stmt.setString(4, task.getOwner());
             stmt.setString(5, task.getList());
-            
+            status = stmt.executeUpdate();
             if (stmt != null) {
             	stmt.close();
             }

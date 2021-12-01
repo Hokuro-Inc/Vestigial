@@ -15,18 +15,18 @@
  
 <servlet>
     <servlet-name>Register</servlet-name>
-    <servlet-class>es.uco.ism.servlet.LoginController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.login.RegisterController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>Register</servlet-name>
     <url-pattern>/Register</url-pattern>
-    <url-pattern>/Home</url-pattern>
+    <url-pattern>/CrearCuenta</url-pattern>
 </servlet-mapping>
  
   <!-- Mapeo de la Agenda-->
 <servlet>
     <servlet-name>ShowAgenda</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ShowAgendaController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.agenda.ShowAgendaController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ShowAgenda</servlet-name>
@@ -36,7 +36,7 @@
 
 <servlet>
     <servlet-name>AddContact</servlet-name>
-    <servlet-class>es.uco.ism.servlet.CreateContactController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.agenda.CreateContactController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>AddContact</servlet-name>
@@ -45,7 +45,7 @@
 
 <servlet>
     <servlet-name>UpdateContact</servlet-name>
-    <servlet-class>es.uco.ism.servlet.UpdateContactController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.agenda.UpdateContactController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>UpdateContact</servlet-name>
@@ -54,7 +54,7 @@
 
 <servlet>
     <servlet-name>RemoveContact</servlet-name>
-    <servlet-class>es.uco.ism.servlet.RemoveContactController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.agenda.RemoveContactController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>RemoveContact</servlet-name>
@@ -63,7 +63,7 @@
 
 <servlet>
     <servlet-name>ExportContact</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ExportContactController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.agenda.ExportContactController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ExportContact</servlet-name>
@@ -72,7 +72,7 @@
 
 <servlet>
     <servlet-name>ImportContact</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ImportContactController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.agenda.ImportContactController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ImportContact</servlet-name>
@@ -82,7 +82,7 @@
  <!-- Mapeo del bloc de Notas-->
 <servlet>
     <servlet-name>ModifyBloc</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ModifyBlocController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.bloc.ModifyBlocController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ModifyBloc</servlet-name>
@@ -91,7 +91,7 @@
 
 <servlet>
     <servlet-name>ShowBloc</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ShowBlocController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.bloc.ShowBlocController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ShowBloc</servlet-name>
@@ -101,7 +101,7 @@
  <!-- Mapeo del calendario-->
 <servlet>
     <servlet-name>ShowCalendar</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ShowCalendarController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.calendar.ShowCalendarController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ShowCalendar</servlet-name>
@@ -110,7 +110,7 @@
 
 <servlet>
     <servlet-name>CreateEvent</servlet-name>
-    <servlet-class>es.uco.ism.servlet.CreateEventController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.calendar.CreateEventController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>CreateEvent</servlet-name>
@@ -119,7 +119,7 @@
 
 <servlet>
     <servlet-name>UpdateEvent</servlet-name>
-    <servlet-class>es.uco.ism.servlet.UpdateEventController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.calendar.UpdateEventController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>UpdateEvent</servlet-name>
@@ -128,7 +128,7 @@
 
 <servlet>
     <servlet-name>RemoveEvent</servlet-name>
-    <servlet-class>es.uco.ism.servlet.RemoveEventController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.calendar.RemoveEventController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>RemoveEvent</servlet-name>
@@ -138,7 +138,7 @@
  <!-- Mapeo del To Do List-->
  <servlet>
     <servlet-name>ShowToDoList</servlet-name>
-    <servlet-class>es.uco.ism.servlet.ShowToDoListController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.todolist.ShowToDoListController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>ShowToDoList</servlet-name>
@@ -147,7 +147,7 @@
 
 <servlet>
     <servlet-name>CreateToDoList</servlet-name>
-    <servlet-class>es.uco.ism.servlet.CreateToDoListController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.todolist.CreateToDoListController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>CreateToDoList</servlet-name>
@@ -156,7 +156,7 @@
 
 <servlet>
     <servlet-name>CreateTask</servlet-name>
-    <servlet-class>es.uco.ism.servlet.CreateTaskController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.todolist.CreateTaskController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>CreateTask</servlet-name>
@@ -165,7 +165,7 @@
 
 <servlet>
     <servlet-name>UpdateTask</servlet-name>
-    <servlet-class>es.uco.ism.servlet.UpdateTaskController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.todolist.UpdateTaskController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>UpdateTask</servlet-name>
@@ -174,7 +174,7 @@
 
 <servlet>
     <servlet-name>RemoveList</servlet-name>
-    <servlet-class>es.uco.ism.servlet.RemoveListController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.todolist.RemoveListController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>RemoveList</servlet-name>
@@ -183,7 +183,7 @@
  
 <servlet>
     <servlet-name>RemoveTask</servlet-name>
-    <servlet-class>es.uco.ism.servlet.RemoveTaskController</servlet-class>
+    <servlet-class>es.uco.ism.servlet.todolist.RemoveTaskController</servlet-class>
 </servlet>
 <servlet-mapping>
     <servlet-name>RemoveTask</servlet-name>
@@ -230,7 +230,4 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
-  <error-page>
-    <location>/include/error.jsp</location>
-  </error-page>
 </web-app>

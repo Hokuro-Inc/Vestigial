@@ -52,9 +52,14 @@ public class ShowAgendaController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
+		System.out.println(url_bd);
+		System.out.println(username_bd);
+		System.out.println(password_bd);
+		System.out.println(prop);
+		
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_AGENDA"; 
+		String nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -68,11 +73,14 @@ public class ShowAgendaController extends HttpServlet {
 			agendaUsuario.setContacts(listadoContactos);
 			
 			session.setAttribute("Agenda", agendaUsuario);
+			System.out.println("Hola Tengo que ir a la vista");
+			System.out.println("num contactos" + listadoContactos.size());
 			
+			nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		

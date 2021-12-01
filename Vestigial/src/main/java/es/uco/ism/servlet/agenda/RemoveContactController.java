@@ -51,7 +51,7 @@ public class RemoveContactController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
+		String nextPage ="Agenda"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -71,7 +71,7 @@ public class RemoveContactController extends HttpServlet {
 		}
 		else {
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		

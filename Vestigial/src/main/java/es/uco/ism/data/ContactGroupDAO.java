@@ -25,7 +25,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             PreparedStatement stmt = con.prepareStatement(statement);
             ResultSet set = stmt.executeQuery();
             
-            if (set.next()) {
+            while (set.next()) {
             	
             	contact_group.add(set.getString(1));
             	contact_group.add(set.getString(2));
@@ -55,7 +55,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
             ResultSet set = stmt.executeQuery();
             
-            if (set.next()) {
+            while (set.next()) {
             	
             	groups.add(set.getString(2));
             }
@@ -80,7 +80,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
             stmt.setString(2, contact.getGroups()[0]);
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();

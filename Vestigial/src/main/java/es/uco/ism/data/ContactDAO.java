@@ -39,7 +39,7 @@ public class ContactDAO extends DBConnectImpl{
             PreparedStatement stmt = con.prepareStatement(statement);
             ResultSet set = stmt.executeQuery();
 
-            if (set.next()) {
+            while (set.next()) {
             	
             	String[] tokens = set.getString(1).split("-");
             	
@@ -93,15 +93,16 @@ public class ContactDAO extends DBConnectImpl{
         try {
             Connection con = getConnection();
             String statement = sqlProp.getProperty("Select_All_Contact_Owner");
+            System.out.println(statement);
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, email);
             ResultSet set = stmt.executeQuery();
 
-            if (set.next()) {
+            while (set.next()) {
             	
             	String[] tokens = set.getString(1).split("-");
             	
-            	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7), set.getString(8));
+            	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7), email);
             	contacts.add(contacto);
             }
 
@@ -127,16 +128,17 @@ public class ContactDAO extends DBConnectImpl{
         try {
             String statement = sqlProp.getProperty("Insert_Contact");
         	Connection con = getConnection();
+        	System.out.println(contacto.toString());
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contacto.getPhone()+"-"+contacto.getPrefix());
             stmt.setString(2, contacto.getName());
             stmt.setString(3, contacto.getSurname());
             stmt.setString(4, contacto.getAlias());
             stmt.setString(5, contacto.getEmail());  
-            stmt.setString(6, contacto.getDescription());  
-            stmt.setString(7, contacto.getAddress());  
-            stmt.setString(8, contacto.getOwner());           
-            stmt.executeUpdate();
+            stmt.setString(7, contacto.getDescription());  
+            stmt.setString(8, contacto.getAddress());  
+            stmt.setString(6, contacto.getOwner());           
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();

@@ -26,7 +26,7 @@ public class UserListDAO extends DBConnectImpl{
             PreparedStatement stmt = con.prepareStatement(statement);
             ResultSet set = stmt.executeQuery();
             
-            if (set.next()) {
+            while (set.next()) {
             	
             	user_list.add(set.getString(1));
             	user_list.add(set.getString(2));
@@ -56,7 +56,7 @@ public class UserListDAO extends DBConnectImpl{
 	            stmt.setString(1, user.getEmail());
 	            ResultSet set = stmt.executeQuery();
 	            
-	            if (set.next()) {
+	            while (set.next()) {
 	            	
 	            	lists.add(set.getString(2));
 	            }
@@ -87,7 +87,7 @@ public class UserListDAO extends DBConnectImpl{
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getLists()[0]);
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();

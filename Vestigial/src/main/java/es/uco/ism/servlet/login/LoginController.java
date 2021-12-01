@@ -47,10 +47,10 @@ public class LoginController extends HttpServlet {
 		UserBean usuario = (UserBean) session.getAttribute("userBean");
 		
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
-		
+				
 		RequestDispatcher disparador = null;
 		UserDAO userDAO = new UserDAO (url_bd, username_bd, password_bd, prop);
-		String nextPage ="LOGIN"; 
+		String nextPage ="View/Main/loginView.jsp"; 
 		String mensajeNextPage = "";
 		
 		if (!login) {
@@ -60,27 +60,37 @@ public class LoginController extends HttpServlet {
 
 			if (UserEmail != null) {
 				
-				
+				System.out.println("CONTROLADOR LOGIN");
 				UserDTO userDTO = userDAO.QueryByEmail(UserEmail);
-				String saltPassword = userDTO.getSalt();
 				
-				String passwordHash = PasswordHashing.createHash(UserPassword, saltPassword);
-				
-		
-				if (passwordHash.equals(userDTO.getPwd())) {
-					usuario = new UserBean ();
-					usuario.setEmail(UserEmail);
-					session.setAttribute("userBean", usuario);
-					nextPage = "/Home"; //mira redireccion
+				if (userDTO == null) {
+					//El usuario no existe 
+					System.out.println("No existe el usuario");
+					nextPage = "View/Main/loginView.jsp";
+					mensajeNextPage = "Error de Usuario, Intentelo de Nuevo";
 				}
 				else {
-					nextPage = "LOGIN";
-					System.out.println("Contrase�a incorrecta");
-					mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
+					String saltPassword = userDTO.getSalt();
+					
+					String passwordHash = PasswordHashing.createHash(UserPassword, saltPassword);
+					
+			
+					if (passwordHash.equals(userDTO.getPwd())) {
+						usuario = new UserBean ();
+						usuario.setEmail(UserEmail);
+						session.setAttribute("userBean", usuario);
+						System.out.println("Se ha logueado correctamente");
+						nextPage = "/"; //mira redireccion
+					}
+					else {
+						nextPage = "View/Main/loginView.jsp";
+						System.out.println("Contrase�a incorrecta");
+						mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
+					}
 				}
 			}
 			else {
-				nextPage = "LOGIN";
+				nextPage = "View/Main/loginView.jsp";
 				mensajeNextPage = "Rellene los campos con su email y contrase�a para acceder";
 			}
 		}

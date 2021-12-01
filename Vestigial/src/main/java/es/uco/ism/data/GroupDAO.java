@@ -24,7 +24,7 @@ public class GroupDAO extends DBConnectImpl {
  
             ResultSet set = stmt.executeQuery();
             
-            if (set.next()) {
+            while (set.next()) {
             	
             	groups.add(set.getString(1));
             }
@@ -49,7 +49,7 @@ public class GroupDAO extends DBConnectImpl {
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, name);
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();

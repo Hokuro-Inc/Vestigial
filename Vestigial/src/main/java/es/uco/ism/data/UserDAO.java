@@ -40,7 +40,7 @@ public class UserDAO extends DBConnectImpl {
             PreparedStatement stmt = con.prepareStatement(statement);
             ResultSet set = stmt.executeQuery();
 
-            if (set.next()) {
+            while (set.next()) {
             	
             	String phone = set.getString(4);
             	String[] tokens = phone.split("-");
@@ -106,7 +106,7 @@ public class UserDAO extends DBConnectImpl {
             stmt.setString(2, user.getPwd());
             stmt.setString(3, user.getSalt());
             stmt.setString(4, user.getPhone()+"-"+user.getPrefix());           
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();

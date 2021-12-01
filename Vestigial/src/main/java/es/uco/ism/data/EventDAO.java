@@ -38,7 +38,7 @@ public class EventDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Select_All_Event");
             PreparedStatement stmt = con.prepareStatement(statement);
             ResultSet set = stmt.executeQuery();
-            if (set.next()) {
+            while (set.next()) {
             	
             	evento = new EventDTO(set.getString(1), set.getString(6), set.getDate(4), set.getDate(5), set.getString(2), set.getString(3));
             	events.add(evento);
@@ -99,7 +99,7 @@ public class EventDAO extends DBConnectImpl{
             stmt.setDate(4, (java.sql.Date) evento.getStart());
             stmt.setDate(5, (java.sql.Date) evento.getEnd());
             stmt.setString(6, evento.getOwner());        
-            stmt.executeUpdate();
+            status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();

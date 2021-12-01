@@ -53,7 +53,7 @@ public class UpdateContactController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
+		String nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		String mensajeNextPage = "";
 		if (login) {
 			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
@@ -73,11 +73,11 @@ public class UpdateContactController extends HttpServlet {
 				ContactDTO updateContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 				if (contactDAO.Update(updateContact) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
-					nextPage = "ACTUALIZAR_EVENTO";
+					nextPage = "View/Agenda/CreateContact.jsp";
 				}
 				else {
 					session.removeAttribute("EventToUpdate");
-					nextPage = "VISTA_MOSTRAR_CALENDARIO";
+					nextPage = "Agenda";
 					mensajeNextPage = "Se ha actualizado correctamente";
 				}
 			}
@@ -88,7 +88,7 @@ public class UpdateContactController extends HttpServlet {
 					ContactDTO contactToUpdate = contactDAO.QueryByPhone(phone);
 					ContactBean contactBean = new ContactBean();
 					contactBean.setContact(contactToUpdate);
-					nextPage = "VISTA_EDITAR_EVENTO";
+					nextPage = "View/Agenda/CreateContact.jsp";
 					session.setAttribute("ContactToUpdate", contactBean);
 				}
 				else {
@@ -99,7 +99,7 @@ public class UpdateContactController extends HttpServlet {
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		disparador = request.getRequestDispatcher(nextPage);

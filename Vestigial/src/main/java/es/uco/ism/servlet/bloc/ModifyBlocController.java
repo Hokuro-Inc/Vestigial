@@ -54,7 +54,7 @@ public class ModifyBlocController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		BlocDAO blocDAO = new BlocDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_BLOC";
+		String nextPage ="View/Bloc/ModifyBloc.jsp";
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -82,11 +82,11 @@ public class ModifyBlocController extends HttpServlet {
 			blocBean.setBloc(bloc);
 			
 			session.setAttribute("Bloc", blocBean);
-			nextPage = "MOSTRAR_BLOC";
+			nextPage = "View/Bloc/ModifyBloc.jsp";
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		disparador = request.getRequestDispatcher(nextPage);

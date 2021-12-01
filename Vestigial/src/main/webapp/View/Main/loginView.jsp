@@ -23,7 +23,7 @@
 	%>
 
 			<h1>Login Vestigial</h1>
-			<form method="post" action="CONTROLADOR-LOGIN" id="Login">
+			<form method="post" action="Login" id="Login">
 				<input id= "email" type="email" name="Email" placeholder="correo@gmail.com" required>
 				<input id= "password" type="password" name="Password" placeholder="Contreseña" required>
 
@@ -31,7 +31,7 @@
 
 
 			</form>
-
+			Si no tienes cuenta registrate <a href="Register" class="main-filled-button">Register</a>
 	<% 	} 
 		else {
 			//Se encuentra logueado

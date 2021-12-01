@@ -58,8 +58,9 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		RequestDispatcher disparador = null;
 		UserDAO userDAO = new UserDAO (url_bd, username_bd, password_bd, prop);
-		String nextPage ="REGISTER"; 
+		String nextPage ="View/Main/registerView.jsp"; 
 		String mensajeNextPage ="";
+		System.out.println("CONTROLADOR REGISTER");
 		if (!login) {
 			String userEmail = request.getParameter("email");
 			
@@ -74,7 +75,7 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 				String passwordHash = PasswordHashing.createHash(userPassword, salt);
 				
 				UserDTO userDTO = new UserDTO (userEmail, passwordHash, salt, userPhone, userPrefix);
-				
+				System.out.println("Tengo que insertar");
 				userDAO.Insert(userDTO);
 				
 				nextPage = "Home"; //mirar redireccion
@@ -84,7 +85,7 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 			else {
 				// Se debe de ir a la vista
 			
-					nextPage = "REGISTER"; 
+					nextPage = "View/Main/registerView.jsp"; 
 					
 					mensajeNextPage = "Rellene todos los campos obligatorios para registrarse";
 					request.setAttribute("mensaje", mensajeNextPage);
@@ -95,8 +96,8 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 		}
 		else {
 			//ya esta logeado, se va al home
-			nextPage = "REGISTER";
-			disparador = request.getRequestDispatcher("/Home"); // mirar
+			nextPage = "Home";
+			disparador = request.getRequestDispatcher("Home"); // mirar
 			mensajeNextPage = "Ya estas logeado";
 
 		}

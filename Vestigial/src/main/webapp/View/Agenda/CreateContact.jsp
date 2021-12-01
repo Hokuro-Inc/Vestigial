@@ -2,7 +2,7 @@
 
 <%@ page import ="es.uco.ism.business.user.UserDTO, es.uco.ism.business.contact.ContactDTO" %>
 
-<jsp:useBean  id="UsuarioInfoBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
+<jsp:useBean  id="userBean" scope="session" class="es.uco.ism.display.UserBean"></jsp:useBean> 
 <jsp:useBean  id="ContactToUpdateBean" scope="session" class="es.uco.ism.display.ContactBean"></jsp:useBean> 
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 </head>
 <body>
 <% 
-        boolean logged = UsuarioInfoBean != null && !UsuarioInfoBean.getEmail().equals("");
+        boolean logged = userBean != null && !userBean.getEmail().equals("");
         String nextPage = "AddContact" ;
         String menssageNextPage = (String) request.getAttribute("mensaje");
         if (menssageNextPage == null ) menssageNextPage = "";
@@ -47,14 +47,14 @@
                 <h1>Crear Contacto Vestigial</h1>
                 <h2><%= menssageNextPage %></h2>
                     <form method="post" action="AddContact" id="CreateContactForm">
-                        <input id= "phone" type="text" name="phone" placeholder="" required>
-                        <input id= "prefix" type="text" name="prefix" placeholder="" required>
-                        <input id= "name" type="text" name="name" placeholder="" required>
-                        <input id= "surname" type="text" name="surname" placeholder="" required>
-                        <input id= "alias" type="text" name="alias" placeholder="" required>
-                        <input id= "email" type="email" name="email" placeholder="" required>
-                        <input id= "description" type="text" name="description" placeholder="" required>
-                        <input id= "address" type="text" name="address" placeholder="" required>
+                        <input id= "phone" type="text" name="phone" placeholder="Telefono" required>
+                        <input id= "prefix" type="text" name="prefix" placeholder="Prefix" required>
+                        <input id= "name" type="text" name="name" placeholder="Nombre" required>
+                        <input id= "surname" type="text" name="surname" placeholder="Surname" required>
+                        <input id= "alias" type="text" name="alias" placeholder="Alias" required>
+                        <input id= "email" type="email" name="email" placeholder="Email" required>
+                        <input id= "description" type="text" name="description" placeholder="Descripcion" required>
+                        <input id= "address" type="text" name="address" placeholder="Direccion" required>
 
                         <input class="submit" type="submit" id="submitButton" value="Editar">
                     </form>
