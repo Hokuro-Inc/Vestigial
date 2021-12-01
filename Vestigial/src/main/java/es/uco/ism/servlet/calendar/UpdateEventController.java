@@ -56,7 +56,7 @@ public class UpdateEventController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
+		String nextPage ="View/Calendar/createEvent.jsp"; 
 		String mensajeNextPage = "";
 		if (login) {
 			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
@@ -89,11 +89,11 @@ public class UpdateEventController extends HttpServlet {
 				EventDTO updateEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
 				if (eventDAO.Update(updateEvent) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
-					nextPage = "ACTUALIZAR_EVENTO";
+					nextPage = "View/Calendar/createEvent.jsp";
 				}
 				else {
 					session.removeAttribute("EventToUpdate");
-					nextPage = "VISTA_MOSTRAR_CALENDARIO";
+					nextPage = "Calendar";
 					mensajeNextPage = "Se ha actualizado correctamente";
 				}
 			}
@@ -104,7 +104,7 @@ public class UpdateEventController extends HttpServlet {
 					EventDTO eventToUpdate = eventDAO.QueryById(idEvent);
 					EventBean eventBean = new EventBean();
 					eventBean.setEvent(eventToUpdate);
-					nextPage = "VISTA_EDITAR_EVENTO";
+					nextPage = "View/Calendar/createEvent.jsp";
 					session.setAttribute("EventToUpdate", eventBean);
 				}
 				else {
@@ -115,7 +115,7 @@ public class UpdateEventController extends HttpServlet {
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		disparador = request.getRequestDispatcher(nextPage);

@@ -52,7 +52,7 @@ public class CreateTaskController extends HttpServlet {
 		
 		RequestDispatcher disparador = null;
 		TaskDAO taskDAO = new TaskDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_TAREA"; 
+		String nextPage ="View/ToDoList/createTask.jsp"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -66,23 +66,23 @@ public class CreateTaskController extends HttpServlet {
 				
 				if (taskDAO.Insert(newTask) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear la tarea";
-					nextPage = "VISTA_CREAR_TASK";
+					nextPage = "View/ToDoList/createTask.jsp";
 				}
 				else {
-					nextPage = "MOSTRAR_LISTA_TAREAS";
+					nextPage = "View/ToDoList/showToDoList.jsp";
 				}
 			}
 			else {
 				// Tenemos que dirigirnos a la vista
 				// No se si necesitamos enviarle algo a la vista de crear tarea.
-				nextPage = "VISTA_CREAR_TASK";
+				nextPage = "View/ToDoList/createTask.jsp";
 				String idLista= request.getParameter("idList");
 				session.setAttribute("idList", idLista);
 			}
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 

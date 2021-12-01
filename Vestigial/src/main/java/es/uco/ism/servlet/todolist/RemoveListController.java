@@ -50,7 +50,7 @@ public class RemoveListController extends HttpServlet {
 		
 		RequestDispatcher disparador = null;
 		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_TO_DO_LIST"; 
+		String nextPage ="ShowToDoList"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -64,12 +64,12 @@ public class RemoveListController extends HttpServlet {
 					mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idLista;
 				}
 				
-				nextPage = "VISTA_MOSTRAR_TO_DO_LIST";
+				nextPage = "ShowToDoList";
 			}
 			else {
 				// Tenemos que dirigirnos a la vista
 				// No se si necesitamos enviarle algo a la vista de crear la lista.
-				nextPage = "VISTA_CREAR_LISTA";
+				nextPage = "View/ToDoList/createTask.jsp";
 			}
 		}
 		else{

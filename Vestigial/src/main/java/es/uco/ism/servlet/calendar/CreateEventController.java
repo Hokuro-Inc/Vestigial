@@ -55,7 +55,7 @@ public class CreateEventController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
+		String nextPage ="View/Calendar/createEvent.jsp"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -89,20 +89,22 @@ public class CreateEventController extends HttpServlet {
 				EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
 				if (eventDAO.Insert(newEvent) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
-					nextPage = "CREAR_EVENTO";
+					nextPage = "View/Calendar/createEvent.jsp";
+				}else {
+					nextPage = "Calendar";
 				}
 
 			}
 			else {
 				// Tenemos que dirigirnos a la vista
 				// No se si necesitamos enviarle algo a la vista de crear evento.
-				nextPage = "VISTA_CREAR_EVENTO";
+				nextPage = "View/Calendar/createEvent.jsp";
 			}
 						
 		}
 		else{
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		

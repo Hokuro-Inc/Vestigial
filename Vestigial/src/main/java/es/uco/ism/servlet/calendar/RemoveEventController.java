@@ -51,7 +51,7 @@ public class RemoveEventController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_CALENDARIO"; 
+		String nextPage ="View/Calendar/showCalendar.jsp"; 
 		String mensajeNextPage = "";
 		
 		if (login) {
@@ -71,7 +71,7 @@ public class RemoveEventController extends HttpServlet {
 		}
 		else {
 			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
+			nextPage = "Login";
 			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 		}
 		
