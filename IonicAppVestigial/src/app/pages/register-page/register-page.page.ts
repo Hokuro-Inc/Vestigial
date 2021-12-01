@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, FormControl, Validators } from'@angular/forms'
+import { RegisterService } from '../../services/register-service/register.service'
 
 
 @Component({
@@ -15,7 +16,7 @@ export class RegisterPagePage implements OnInit {
   phone: string;
   validations_form: FormGroup;
 
-  constructor(public modalController: ModalController, public formBuilder: FormBuilder ) {
+  constructor(public modalController: ModalController, public formBuilder: FormBuilder, private registerService: RegisterService) {
 
   }
 
@@ -24,7 +25,7 @@ export class RegisterPagePage implements OnInit {
     this.validations_form = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$')
       ])),
       password: new FormControl('', Validators.compose([
         Validators.minLength(5),
@@ -45,7 +46,9 @@ export class RegisterPagePage implements OnInit {
   }
 
   onSubmit(values){
+    console.log("Page");
     console.log(values);
+    this.registerService.getData(values);
     //this.router.navigate(["/user"]);
   }
 
