@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { RegisterService } from 'src/app/services/register-service/register.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'register-page',
@@ -10,12 +11,9 @@ import { RegisterService } from 'src/app/services/register-service/register.serv
 })
 export class RegisterPagePage implements OnInit {
 
-  email: string;
-  password: string;
-  phone: string;
   validations_form: FormGroup;
 
-  constructor(public modalController: ModalController, public formBuilder: FormBuilder, private registerService: RegisterService) { }
+  constructor(public modalController: ModalController, public formBuilder: FormBuilder, private registerService: RegisterService, private router: Router) { }
 
   ngOnInit(){
     this.validations_form = this.formBuilder.group({
@@ -49,6 +47,7 @@ export class RegisterPagePage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
+        this.router.navigate(['/calendar']);
         alert("Funciona!!!!");
       }
     );

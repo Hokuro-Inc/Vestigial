@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { RegisterPagePage } from '../register-page/register-page.page';
+import { LoginPagePage } from '../login-page/login-page.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-slides-page',
@@ -17,8 +20,23 @@ export class SlidesPagePage implements OnInit {
 
   ];
 
-  constructor( private navCtrl: NavController ) { }
+  constructor( private navCtrl: NavController, public modalController: ModalController ) { }
 
+  async openRegister() {
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: RegisterPagePage,
+    });
+    return await modal.present();
+  }
+
+  async openLogin() {
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: LoginPagePage,
+    });
+    return await modal.present();
+  }
 
   ngOnInit() {
   }

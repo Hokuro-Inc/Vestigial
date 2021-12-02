@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login-service/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -10,11 +11,9 @@ import { LoginService } from 'src/app/services/login-service/login.service';
 })
 export class LoginPagePage implements OnInit {
 
-	email: string;
-  	password: string;
   	validations_form: FormGroup;
 
-  	constructor(public modalController: ModalController, private formBuilder: FormBuilder, private loginService: LoginService) { }
+  	constructor(public modalController: ModalController, private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) { }
 
 	ngOnInit(){
 		this.validations_form = this.formBuilder.group({
@@ -45,6 +44,7 @@ export class LoginPagePage implements OnInit {
 			(error) => console.log("Error", error),
 			() => {
 				this.dismiss();
+				this.router.navigate(['/calendar']);
 				alert("Funciona!!!");
 			}	
 		);
