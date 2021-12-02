@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RegisterPagePage } from './pages/register-page/register-page.page';
 import { LoginPagePage } from './pages/login-page/login-page.page';
+import { RegisterService } from './services/register-service/register.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  providers: [RegisterService]
 })
 
 export class AppComponent {

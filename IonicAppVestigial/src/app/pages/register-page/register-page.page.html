@@ -11,17 +11,22 @@
   <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
     <ion-item lines="full">
       <ion-label position="floating">User</ion-label>
-      <ion-input type="text" formControlName="email" required></ion-input>
+      <ion-input type="text" name="email" formControlName="email" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Password</ion-label>
-      <ion-input type="text" formControlName="password" required></ion-input>
+      <ion-input type="text" name="password" formControlName="password" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Prefix</ion-label>
+      <ion-input type="text" name="prefix" formControlName="prefix" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Phone</ion-label>
-      <ion-input type="text" formControlName="phone" required></ion-input>
+      <ion-input type="text" name="phone" formControlName="phone" required></ion-input>
     </ion-item>
 
     <ion-row>

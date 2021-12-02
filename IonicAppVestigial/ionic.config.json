@@ -3,5 +3,11 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "proxies": [
+    {
+       "path": "/Prueba",
+       "proxyUrl": "http://localhost:8080/Prueba/"
+    }
+ ]
 }
