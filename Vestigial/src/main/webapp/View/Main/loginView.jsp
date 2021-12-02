@@ -24,8 +24,8 @@
 
 			<h1>Login Vestigial</h1>
 			<form method="post" action="Login" id="Login">
-				<input id= "email" type="email" name="Email" placeholder="correo@gmail.com" required>
-				<input id= "password" type="password" name="Password" placeholder="Contreseña" required>
+				<input id= "email" type="email" name="email" placeholder="correo@gmail.com" required>
+				<input id= "password" type="password" name="password" placeholder="Contreseña" required>
 
 				<input class="submit" type="submit" id="submitButton" value="Iniciar Sesión">
 
