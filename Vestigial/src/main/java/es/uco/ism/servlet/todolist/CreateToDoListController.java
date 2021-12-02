@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.data.ListDAO;
 import es.uco.ism.display.UserBean;
 
@@ -55,7 +57,14 @@ public class CreateToDoListController extends HttpServlet {
 		
 		if (login) {
 			String idLista = request.getParameter("idLista");
-			
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					idLista = (String) objJson.get("idLista");
+				}
+			}
 			if (idLista != null && !idLista.equals("")) {
 				
 				if (toDoListDAO.Insert(idLista) <= 0) {

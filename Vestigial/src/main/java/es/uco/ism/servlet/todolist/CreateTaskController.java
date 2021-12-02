@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.task.Status;
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
@@ -57,11 +59,30 @@ public class CreateTaskController extends HttpServlet {
 		
 		if (login) {
 			String nameTask = request.getParameter("nameTask");
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					nameTask = (String) objJson.get("nameTask");
+				}
+			}
 			if (nameTask != null  && !nameTask.equals("")) {
 				// Venimos de la vista por lo cual debemos de agregar el tarea al usuario y regresarlo al controlador de la lista de tareas.
-				String descriptionTask= request.getParameter("descriptionTask");
-				String idLista= request.getParameter("idList");
-				String idTask = ""; // Generar ID evento
+				String descriptionTask;
+				String idLista;
+				String idTask;
+				if (objJson != null ) {
+					descriptionTask = (String) objJson.get("descriptionTask");
+					idLista = (String) objJson.get("idLista");
+					
+				}
+				else {
+					descriptionTask= request.getParameter("descriptionTask");
+					idLista= request.getParameter("idList");
+				}
+				
+				idTask = ""; // Generar ID evento
 				TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess,idLista);
 				
 				if (taskDAO.Insert(newTask) <=0 )  {

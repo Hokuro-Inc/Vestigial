@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.task.Status;
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
@@ -60,11 +62,35 @@ public class UpdateTaskController extends HttpServlet {
 			
 			String idTask = request.getParameter("idTask");
 			String nameTask = request.getParameter("nameTask");
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					idTask = (String) objJson.get("idLista");
+					nameTask = (String) objJson.get("nameTask");
+				}
+			}
 			if (nameTask != null  && !nameTask.equals("")) {
 				// Venimos de la vista por lo cual debemos de actualizar el task del usuario y regresarlo al controlador de calendario.
-				String descriptionTask= request.getParameter("descriptionTask");
-				Status estadoTask = Status.valueOf(request.getParameter("statusTask")) ;
-				String idLista = request.getParameter("idLista");
+				String descriptionTask;
+				String idLista;
+				String statusTask;
+				
+				
+				if (objJson != null ) {
+					descriptionTask = (String) objJson.get("descriptionTask");
+					idLista = (String) objJson.get("idLista");
+					statusTask = (String) objJson.get("statusTask");
+					
+				}
+				else {
+					descriptionTask= request.getParameter("descriptionTask");
+					idLista= request.getParameter("idList");
+					statusTask = request.getParameter("statusTask");
+				}
+				
+				Status estadoTask = Status.valueOf(statusTask) ;
 				TaskDTO updateTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask, idLista);
 				if (taskDAO.Update(updateTask) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de actualizar la task";

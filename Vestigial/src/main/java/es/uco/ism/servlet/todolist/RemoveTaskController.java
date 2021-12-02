@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.data.TaskDAO;
 import es.uco.ism.display.UserBean;
 
@@ -53,6 +55,14 @@ public class RemoveTaskController extends HttpServlet {
 		String mensajeNextPage = "";
 		if (login) {
 			String idTask = request.getParameter("idTask");
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					idTask = (String) objJson.get("idTask");
+				}
+			}
 			if (idTask != null && !idTask.equals("")) {
 				// Deseamos eliminar la tarea de la lista actual.
 				if (taskDAO.Delete(idTask) > 0 ) {
