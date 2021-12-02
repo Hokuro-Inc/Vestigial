@@ -1,22 +1,20 @@
-<app-header title="Listas - Sliding"></app-header>
 
 <ion-content>
 
 <ion-list>
 
-  <ion-item>
+  <ion-item *ngFor ="let note of notes | async">
 
     <ion-label>
 
-      <h3>Nombre</h3>
-      <p>
-        Hola Mundo
-      </p>
+      <h3>{{ note.name }}</h3>
+        <p> {{ note.email }}</p> 
 
     </ion-label>
 
+
     <ion-label slot="end" text-right>
-      94124 
+      {{ note.phone }}
     </ion-label>
 
   </ion-item>

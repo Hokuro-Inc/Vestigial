@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-notepad',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotepadPage implements OnInit {
 
-  constructor() { }
+
+  notes: Observable<any>;
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+
+    this.notes = this.dataService.getNotes();
   }
 
 }
