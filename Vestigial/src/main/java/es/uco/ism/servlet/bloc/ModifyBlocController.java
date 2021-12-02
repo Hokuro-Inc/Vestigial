@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.bloc.BlocDTO;
 import es.uco.ism.data.BlocDAO;
 import es.uco.ism.display.BlocBean;
@@ -63,6 +65,15 @@ public class ModifyBlocController extends HttpServlet {
 			BlocDTO bloc = blocDAO.QueryByOwner(usuario.getEmail());
 			
 			String text = request.getParameter("text");
+			
+			String dataJson = request.getReader().readLine();
+			
+			if (dataJson != null) {
+				JSONObject objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					text = (String) objJson.get("text");
+				}
+			}
 			
 			if (text != null && !text.equals("")) {
 				if (bloc == null) {
