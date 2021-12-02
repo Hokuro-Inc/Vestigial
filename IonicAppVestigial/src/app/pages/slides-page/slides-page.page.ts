@@ -41,13 +41,4 @@ export class SlidesPagePage implements OnInit {
   ngOnInit() {
   }
 
-  onClick(){
-
-    this.navCtrl.navigateRoot('/calendar');
-
-
-
-
-  }
-
 }

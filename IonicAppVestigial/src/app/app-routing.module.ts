@@ -46,7 +46,11 @@ const routes: Routes = [
   {
     path: 'recents',
     loadChildren: () => import('./pages/recents/recents.module').then( m => m.RecentsPageModule)
+  },  {
+    path: 'contact-view',
+    loadChildren: () => import('./pages/contact-view/contact-view.module').then( m => m.ContactViewPageModule)
   }
+
 
 
 

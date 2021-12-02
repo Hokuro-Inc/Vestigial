@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
+import { ModalController } from '@ionic/angular';
+import { ContactViewPage } from '../contact-view/contact-view.page'
 
 @Component({
   selector: 'app-contacts',
@@ -10,7 +12,7 @@ export class ContactsPage implements OnInit {
 
   contacts: Contact[];
 
-  constructor(private contactsService: ContactsService) { }
+  constructor(private contactsService: ContactsService, private modalController: ModalController) { }
 
   ngOnInit() {
     let data = {
@@ -48,9 +50,21 @@ export class ContactsPage implements OnInit {
     );
   }
 
+  async showContact(contact: Contact) {
+    //console.log(contact);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ContactViewPage,
+      componentProps: {
+      	contact: contact,
+      }
+    });
+    return await modal.present();
+  }
+
 }
 
-class Contact {
+export class Contact {
   address: string;
   alias: string;
   description: string;
