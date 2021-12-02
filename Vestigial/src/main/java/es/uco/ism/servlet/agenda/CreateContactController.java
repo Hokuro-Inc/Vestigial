@@ -99,7 +99,7 @@ public class CreateContactController extends HttpServlet {
 					email = request.getParameter("email");
 					description = request.getParameter("description");
 					address = request.getParameter("address");
-					owner = request.getParameter("owner");
+					owner = usuario.getEmail();
 				}
 				//Los grupos se deberían de poder coger de alguna forma pero esto dependerá de la vista
 				

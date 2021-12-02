@@ -33,7 +33,7 @@
                     <h1>Contacto <%= i+1%></h1>
                     <h2><%= menssageNextPage %></h2>
                         <form method="post" action="UpdateContact" id="UpdateContactForm">
-                            <input id= "phone" type="hidden" name="phone" value ="<%=agenda.get(i).getPhone()%>" >
+                            <input id= "phone" type="text" name="phone" value ="<%=agenda.get(i).getPhone()%>" >
                             <input id= "prefix" type="text" name="prefix" placeholder="<%=agenda.get(i).getPrefix()%>" required>
                             <input id= "name" type="text" name="name" placeholder="<%=agenda.get(i).getName()%>" required>
                             <input id= "surname" type="text" name="surname" placeholder="<%=agenda.get(i).getSurname()%>" required>

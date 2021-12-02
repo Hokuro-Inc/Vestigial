@@ -64,7 +64,6 @@ public class ShowAgendaController extends HttpServlet {
 			ArrayList <ContactDTO> listadoContactos = contactDAO.QueryByOwner(usuario.getEmail());
 			
 			AgendaBean agendaUsuario = new AgendaBean ();
-			
 			agendaUsuario.setContacts(listadoContactos);
 			
 			session.setAttribute("Agenda", agendaUsuario);

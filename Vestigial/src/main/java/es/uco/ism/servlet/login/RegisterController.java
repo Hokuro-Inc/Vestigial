@@ -116,7 +116,6 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 					mensajeNextPage = "Rellene todos los campos obligatorios para registrarse";
 					request.setAttribute("mensaje", mensajeNextPage);
 				
-				
 			}
 			
 		}
