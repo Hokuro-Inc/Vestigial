@@ -40,17 +40,19 @@ export class RegisterPagePage implements OnInit {
     });
   }
 
-  onSubmit(values: string){
-    console.log("Page", values);
-    this.registerService.getData(values).subscribe(
-      (response) => console.log("Respuesta", response),
-      (error) => console.log("Error", error),
-      () => {
-        this.dismiss();
-        this.router.navigate(['/calendar']);
-        alert("Funciona!!!!");
-      }
-    );
-  }
+	onSubmit(values){
+		//console.log("Page", values);
+
+		this.registerService.getData(values).subscribe(
+			(response) => console.log("Respuesta", response),
+			(error) => console.log("Error", error),
+			() => {
+				this.dismiss();
+				sessionStorage.setItem("user", values.email);
+				this.router.navigate(['/calendar']);
+				//alert("Funciona!!!!");
+			}
+		);
+	}
 
 }
