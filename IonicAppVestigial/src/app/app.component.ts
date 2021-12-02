@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { RegisterPagePage } from './pages/register-page/register-page.page';
-import { LoginPagePage } from './pages/login-page/login-page.page';
 import { RegisterService } from './services/register-service/register.service';
 import { LoginService } from './services/login-service/login.service';
 
@@ -14,29 +11,14 @@ import { LoginService } from './services/login-service/login.service';
 
 export class AppComponent {
   
-  constructor(public modalController: ModalController){}
+  constructor(){}
   
-  async openRegister() {
-    const modal = await this.modalController.create({
-      // Data passed in by componentProps
-      component: RegisterPagePage,
-    });
-    return await modal.present();
-  }
-
-  async openLogin() {
-    const modal = await this.modalController.create({
-      // Data passed in by componentProps
-      component: LoginPagePage,
-    });
-    return await modal.present();
-  }
 
   public appPages = [
     { title: 'Calendario', url: '/calendar', icon: 'calendar' },
     //{ title: 'To Do List', url: '/folder/ToDoList', icon: 'list' },
     { title: 'Agenda', url: '/agenda-page/contacts', icon: 'book' },
-    //{ title: 'Notas', url: '/folder/Notas', icon: 'archive' },
+    { title: 'Notas', url: '/notepad', icon: 'archive' },
 
   ];
 

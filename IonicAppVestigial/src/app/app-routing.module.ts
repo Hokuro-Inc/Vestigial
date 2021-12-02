@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'calendar',
+    redirectTo: 'slides-page',
     pathMatch: 'full'
   },
   /*{
@@ -46,7 +46,18 @@ const routes: Routes = [
   {
     path: 'recents',
     loadChildren: () => import('./pages/recents/recents.module').then( m => m.RecentsPageModule)
+  },
+  {
+    path: 'notepad',
+    loadChildren: () => import('./pages/notepad/notepad.module').then( m => m.NotepadPageModule)
+  },
+  {
+    path: 'contact-view',
+    loadChildren: () => import('./pages/contact-view/contact-view.module').then( m => m.ContactViewPageModule)
   }
+
+
+
 
 
 
