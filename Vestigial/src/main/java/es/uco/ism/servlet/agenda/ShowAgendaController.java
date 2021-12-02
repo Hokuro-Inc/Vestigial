@@ -2,6 +2,7 @@ package es.uco.ism.servlet.agenda;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
@@ -47,40 +50,65 @@ public class ShowAgendaController extends HttpServlet {
 		java.util.Properties prop = new java.util.Properties();
 		prop.load(myIO);
 		
-		UserBean usuario = (UserBean) session.getAttribute("userBean");
-		
-		Boolean login = usuario != null && !usuario.getEmail().equals("");
-		
-		RequestDispatcher disparador = null;
-		
-		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			//Provenimos de la vista Movil
+			String usuarioActual = null;
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			objJson = new JSONObject(dataJson);
+			if (!objJson.isEmpty()) {
+				usuarioActual = (String) objJson.get("user");
+				PrintWriter out = response.getWriter();
+				ArrayList <ContactDTO> listadoContactos = contactDAO.QueryByOwner(usuarioActual);
+				if (!listadoContactos.isEmpty()) {
+					jsonDataEnviar = new JSONObject();
+					jsonDataEnviar.append("Agenda", listadoContactos);
+					out.print(jsonDataEnviar);
+				}
+				out.close();
+			}	
 			
-			//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
-			ArrayList <ContactDTO> listadoContactos = contactDAO.QueryByOwner(usuario.getEmail());
-			
-			AgendaBean agendaUsuario = new AgendaBean ();
-			agendaUsuario.setContacts(listadoContactos);
-			
-			session.setAttribute("Agenda", agendaUsuario);
-			System.out.println("Hola Tengo que ir a la vista");
-			System.out.println("num contactos" + listadoContactos.size());
-			
-			nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+		else {
+			UserBean usuario = (UserBean) session.getAttribute("userBean");
+			
+			Boolean login = usuario != null && !usuario.getEmail().equals("");
+			
+			RequestDispatcher disparador = null;
+			
+			
+			String nextPage ="View/Agenda/ShowAgenda.jsp"; 
+			
+			//Provenimos de la vista WEB	
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
+				ArrayList <ContactDTO> listadoContactos = contactDAO.QueryByOwner(usuario.getEmail());
+				
+				AgendaBean agendaUsuario = new AgendaBean ();
+				agendaUsuario.setContacts(listadoContactos);				
+				session.setAttribute("Agenda", agendaUsuario);
+				System.out.println("Hola Tengo que ir a la vista");
+				System.out.println("num contactos" + listadoContactos.size());
+				
+				nextPage ="View/Agenda/ShowAgenda.jsp"; 
+			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
 		
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**
