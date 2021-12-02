@@ -2,6 +2,7 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -55,39 +56,61 @@ public class RemoveEventController extends HttpServlet {
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Calendar/showCalendar.jsp"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			String idEvent = request.getParameter("idEvent");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					idEvent = (String) objJson.get("idEvent");
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		String idEvent;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				idEvent = (String) objJson.get("idEvent");
+				if (idEvent != null  && !idEvent.equals("")) {
+					// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
+					
+					if ( eventDAO.Delete(idEvent) <= 0 )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar el evento "  + idEvent; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha borrado correctamente el evento " + idEvent;
+					}
+					
 				}
 			}
-			if (idEvent != null  && !idEvent.equals("")) {
-				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
-				
-				if (eventDAO.Delete(idEvent) < 0 ) {
-					mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el evento";
-				}
-				else {
-					mensajeNextPage = "Se ha eliminado correctamente";
-				}
-				
-			}
-			
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
 		}
 		else {
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			if (login) {
+				idEvent = request.getParameter("idEvent");
+				
+				if (idEvent != null  && !idEvent.equals("")) {
+					// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
+					
+					if (eventDAO.Delete(idEvent) < 0 ) {
+						mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el evento";
+					}
+					else {
+						mensajeNextPage = "Se ha eliminado correctamente";
+					}
+					
+				}
+				
+			}
+			else {
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

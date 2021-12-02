@@ -2,6 +2,7 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,81 +60,122 @@ public class CreateEventController extends HttpServlet {
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Calendar/createEvent.jsp"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String nameEvent = request.getParameter("nameEvent");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					nameEvent = (String) objJson.get("nameEvent");
-				}
-			}
-			if (nameEvent != null  && !nameEvent.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String descriptionEvent;
-				String startEventDate;
-				String endEventDate;
-				if (objJson != null ) {
+		String nameEvent;
+		String descriptionEvent;
+		String startEventDate;
+		String endEventDate;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				nameEvent = (String) objJson.get("nameEvent");
+				if (nameEvent != null && !nameEvent.equals("")) {
 					descriptionEvent = (String) objJson.get("descriptionEvent");
 					startEventDate = (String) objJson.get("startEvent");
-					endEventDate = (String) objJson.get("endEvent");
+					endEventDate = (String) objJson.get("endEvent");	
+					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+					
+					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					
+					Date startEvent = null;
+					try {
+						startEvent = inputFormat.parse(startEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Date endEvent = null ;
+					try {
+						endEvent = outputFormat.parse(endEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					String idEvent = ""; // Generar ID evento
+					EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+					if (eventDAO.Insert(newEvent) <=0 )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el evento "  + nameEvent; 
+					}else {
+						mensajeResultado = "[OK]Se ha creado correctamente el evento " + nameEvent;
+					}
 				}
-				else {
+				
+			}
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
+			
+		}
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				nameEvent = request.getParameter("nameEvent");
+				
+				
+				if (nameEvent != null  && !nameEvent.equals("")) {
+					// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
+					
+					
 					descriptionEvent = request.getParameter("descriptionEvent");
 					startEventDate = request.getParameter("startEvent");
 					endEventDate = request.getParameter("endEvent");
-				}
-				
-				SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				
-				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				
-				Date startEvent = null;
-				try {
-					startEvent = inputFormat.parse(startEventDate);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Date endEvent = null ;
-				try {
-					endEvent = outputFormat.parse(endEventDate);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				String idEvent = ""; // Generar ID evento
-				EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
-				if (eventDAO.Insert(newEvent) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
-					nextPage = "View/Calendar/createEvent.jsp";
-				}else {
-					nextPage = "Calendar";
-				}
 
+					
+					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+					
+					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					
+					Date startEvent = null;
+					try {
+						startEvent = inputFormat.parse(startEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Date endEvent = null ;
+					try {
+						endEvent = outputFormat.parse(endEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					String idEvent = ""; // Generar ID evento
+					EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+					if (eventDAO.Insert(newEvent) <=0 )  {
+						mensajeNextPage = "Ha surgido un problema a la hora de crear el evento";
+						nextPage = "View/Calendar/createEvent.jsp";
+					}else {
+						nextPage = "Calendar";
+					}
+
+				}
+				else {
+					// Tenemos que dirigirnos a la vista
+					// No se si necesitamos enviarle algo a la vista de crear evento.
+					nextPage = "View/Calendar/createEvent.jsp";
+				}
+							
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear evento.
-				nextPage = "View/Calendar/createEvent.jsp";
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 			}
-						
+			
+			
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		
-		
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**
