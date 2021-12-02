@@ -38,7 +38,17 @@ const routes: Routes = [
   {
     path: 'contacts',
     loadChildren: () => import('./pages/contacts/contacts.module').then( m => m.ContactsPageModule)
+  },
+  {
+    path: 'favorites',
+    loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
+    path: 'recents',
+    loadChildren: () => import('./pages/recents/recents.module').then( m => m.RecentsPageModule)
   }
+
+
 
 
 ];
