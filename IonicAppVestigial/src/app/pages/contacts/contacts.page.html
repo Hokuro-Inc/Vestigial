@@ -8,8 +8,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content fullscreen>
-      <ion-list>
-        
+      <ion-list *ngFor="let contact of contacts; let i = index">
+        <ion-item button (click)="showContact(contacts[i])">{{contacts[i].name}} -> {{contacts[i].alias}}</ion-item>
       </ion-list>
     </ion-content>
   </ion-app>

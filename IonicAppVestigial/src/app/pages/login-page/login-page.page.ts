@@ -37,7 +37,7 @@ export class LoginPagePage implements OnInit {
     	});
   	}
 
-	onSubmit(values) {
+	onSubmit(values: any) {
 		//console.log("Page", values);
 		var res = false;
 

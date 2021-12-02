@@ -40,7 +40,7 @@ export class RegisterPagePage implements OnInit {
     });
   }
 
-	onSubmit(values){
+	onSubmit(values: any){
 		//console.log("Page", values);
 
 		this.registerService.getData(values).subscribe(
