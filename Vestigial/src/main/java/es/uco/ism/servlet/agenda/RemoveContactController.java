@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
 import es.uco.ism.display.UserBean;
 
@@ -70,10 +69,10 @@ public class RemoveContactController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				phone = (String) objJson.get("phone");
 				if ( contactDAO.Delete(phone) <= 0 )  {
-					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de exportar el contacto "  + phone; 
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar el contacto "  + phone; 
 				}
 				else {
-					mensajeResultado = "[OK]Se ha preparado la informacion para exportar el contacto " + phone;
+					mensajeResultado = "[OK]Se ha borrado correctamente el contacto " + phone;
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

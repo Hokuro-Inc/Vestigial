@@ -88,10 +88,10 @@ public class ImportContactController extends HttpServlet {
 				
 				ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 				if (contactDAO.Insert(newContact) <=0 )  {
-					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el contacto "  + name; 
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de importar el contacto "  + name; 
 				}
 				else {
-					mensajeResultado = "[OK]Se ha creado correctamente el contacto " + name;
+					mensajeResultado = "[OK]Se ha importado correctamente el contacto " + name;
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

@@ -90,7 +90,14 @@ public class UpdateTaskController extends HttpServlet {
 				} else {
 					//Enviamos la informacion a la vista de angular
 					TaskDTO taskUpdate = taskDAO.QueryById(idTask); 
-					jsonDataEnviar.put("task",taskUpdate);
+					if ( taskUpdate == null )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora preparar la informacion para editar la tarea "  + idTask; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha preparado la informacion para editar la tarea " + idTask;
+						jsonDataEnviar.put("task",taskUpdate);
+					}
+					
 				}
 				jsonDataEnviar.put("Mensaje", mensajeResultado);
 				out.print(jsonDataEnviar);

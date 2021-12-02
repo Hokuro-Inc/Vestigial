@@ -101,11 +101,11 @@ public class UpdateContactController extends HttpServlet {
 				else {
 					ContactDTO contacto = contactDAO.QueryByPhone(phone);
 					if ( contacto == null )  {
-						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de exportar el contacto "  + phone; 
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de preparar la informacion para editar el contacto "  + phone; 
 					}
 					else {
 						mensajeResultado = "[OK]Se ha preparado la informacion para editar la contacto " + phone;
-						jsonDataEnviar.put("contactExport", contacto);
+						jsonDataEnviar.put("contactUpdate", contacto);
 					}
 				}
 			}

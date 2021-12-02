@@ -70,10 +70,10 @@ public class RemoveListController extends HttpServlet {
 				idLista = (String) objJson.get("idLista");
 				if (idLista != null && !idLista.equals("")) {			
 					if (toDoListDAO.Delete(idLista) <= 0) {
-						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar la tarea"  + idLista;
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar la lista"  + idLista;
 					}
 					else {
-						mensajeResultado = "[OK]Se ha borrado correctamente la tarea" + idLista;
+						mensajeResultado = "[OK]Se ha borrado correctamente la lista" + idLista;
 					}
 				}
 				jsonDataEnviar.put("Mensaje", mensajeResultado);

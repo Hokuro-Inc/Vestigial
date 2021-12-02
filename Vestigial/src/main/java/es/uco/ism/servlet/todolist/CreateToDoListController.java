@@ -68,10 +68,10 @@ public class CreateToDoListController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				idLista = (String) objJson.get("idLista");
 				if (toDoListDAO.Insert(idLista) <= 0) {
-					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la tarea"  + idLista;
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la lista"  + idLista;
 				}
 				else {
-					mensajeResultado = "[OK]Se ha creado correctamente la tarea" + idLista;
+					mensajeResultado = "[OK]Se ha creado correctamente la lista" + idLista;
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

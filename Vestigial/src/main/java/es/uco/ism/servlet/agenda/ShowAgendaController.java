@@ -60,6 +60,7 @@ public class ShowAgendaController extends HttpServlet {
 			response.setContentType("application/json");
 			JSONObject jsonDataEnviar = null;
 			objJson = new JSONObject(dataJson);
+			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
 				usuarioActual = (String) objJson.get("user");
 				PrintWriter out = response.getWriter();
@@ -67,8 +68,10 @@ public class ShowAgendaController extends HttpServlet {
 				if (!listadoContactos.isEmpty()) {
 					jsonDataEnviar = new JSONObject();
 					jsonDataEnviar.put("Agenda", listadoContactos);
-					out.print(jsonDataEnviar);
+					mensajeResultado = "[OK]Se han cargado todos los contactos del usuario";
 				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
 				out.close();
 			}	
 			
