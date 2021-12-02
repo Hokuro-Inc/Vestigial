@@ -2,6 +2,8 @@ package es.uco.ism.servlet.bloc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import es.uco.ism.business.bloc.BlocDTO;
 import es.uco.ism.data.BlocDAO;
@@ -56,27 +60,56 @@ public class ShowBlocController extends HttpServlet {
 		BlocDAO blocDAO = new BlocDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Bloc/showBloc.jsp";
 		String mensajeNextPage = "";
+		String dataJson = request.getReader().readLine();
 		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			BlocDTO bloc = blocDAO.QueryByOwner(usuario.getEmail());
-			
-			BlocBean blocBean = new BlocBean();
-			
-			blocBean.setBloc(bloc);
-			
-			session.setAttribute("Bloc", blocBean);
-			nextPage = "View/Bloc/showBloc.jsp";
+		if (dataJson != null) {
+			String usuarioActual = null;
+			response.setContentType("application/json");
+			JSONObject objJson = new JSONObject(dataJson);
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				usuarioActual = (String) objJson.get("user");
+				if (usuarioActual != null && !usuarioActual.equals("") ) {
+					ArrayList<BlocDTO> blocs = blocDAO.QueryByOwner(usuario.getEmail());
+					if (blocs.isEmpty()) {
+						mensajeResultado = "[ERROR]No se posee ningún bloc de notas";
+					}
+					else {
+						jsonDataEnviar.append("Blocs", blocs);						
+						mensajeResultado = "[OK]Se estan enviando los blocs del usuario " + usuarioActual;
+					}
+					jsonDataEnviar.append("Mensaje", mensajeResultado);
+				}
+				out.print(jsonDataEnviar);
+				out.close();
+			}
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				ArrayList<BlocDTO> bloc = blocDAO.QueryByOwner(usuario.getEmail());
+				
+				BlocBean blocBean = new BlocBean();
+				
+				blocBean.setBlocs(bloc);
+				
+				session.setAttribute("Bloc", blocBean);
+				nextPage = "View/Bloc/showBloc.jsp";
+			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
+
 		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

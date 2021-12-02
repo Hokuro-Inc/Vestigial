@@ -2,6 +2,7 @@ package es.uco.ism.servlet.bloc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -58,51 +59,96 @@ public class ModifyBlocController extends HttpServlet {
 		BlocDAO blocDAO = new BlocDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Bloc/ModifyBloc.jsp";
 		String mensajeNextPage = "";
+
+		String dataJson = request.getReader().readLine();
 		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			BlocDTO bloc = blocDAO.QueryByOwner(usuario.getEmail());
-			
-			String text = request.getParameter("text");
-			
-			String dataJson = request.getReader().readLine();
-			
-			if (dataJson != null) {
-				JSONObject objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
+		String name = null;
+		BlocDTO bloc = null;
+		String text = null;
+		if (dataJson != null) {
+			//Provenimos de la vista Movil
+			String usuarioActual = null;
+			response.setContentType("application/json");
+			JSONObject objJson = new JSONObject(dataJson);
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				usuarioActual = (String) objJson.get("user");
+				if (usuarioActual != null && !usuarioActual.equals("") ) {
+					name = (String) objJson.get("name");
 					text = (String) objJson.get("text");
+					bloc = new BlocDTO(usuarioActual,name,text);
+					BlocDTO blocAntiguo = blocDAO.QueryByName(bloc);
+					if (text != null && !text.equals("") ) {
+						if (blocAntiguo != null) {
+							// Ya existe por lo que actualizamos
+							if (blocDAO.Update(bloc) > 0 ) {
+								mensajeResultado = "[OK]Se ha actualizado correctamente el bloc" + name;
+							}else {
+								mensajeResultado = "[ERROR]Ha ocurrido un error al actualizar el bloc " + name;
+							}
+						}else {
+							
+							if (blocDAO.Insert(bloc) > 0 ) {
+								mensajeResultado = "[OK]Se ha creado correctamente el bloc" + name;
+							}else {
+								mensajeResultado = "[ERROR]Ha ocurrido un error al crear el bloc " + name;
+							}
+						}
+						jsonDataEnviar.append("Mensaje", mensajeResultado);
+					}
+					else {
+						//Enviamos la informacion necesaria a la vista de modificar
+						jsonDataEnviar.append("updateContact", blocAntiguo);
+						mensajeResultado = "[OK]Se envia la informacion del bloc" + name;
+					}	
 				}
+				out.print(jsonDataEnviar);
+				out.close();
 			}
-			
-			if (text != null && !text.equals("")) {
-				if (bloc == null) {
-					// No lo tenia creado todavia, lo insertamos
-					bloc = new BlocDTO(usuario.getEmail(), text);
-					blocDAO.Insert(bloc);
+		}
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				
+				name = request.getParameter("name");
+				text = request.getParameter("text");
+				bloc = new BlocDTO(usuario.getEmail(),name,text);
+				
+				if (text != null && !text.equals("")) {
+					BlocDTO blocAntiguo = blocDAO.QueryByName(bloc);
+					if (blocAntiguo == null) {
+						// No lo tenia creado todavia, lo insertamos
+						bloc = new BlocDTO(usuario.getEmail(),name, text);
+						blocDAO.Insert(bloc);
+					}
+					else {
+						// Ya existe por lo que actualizamos
+						bloc.setText(text);
+						blocDAO.Update(bloc);
+					}
 				}
-				else {
-					// Ya existe por lo que actualizamos
-					bloc.setText(text);
-					blocDAO.Update(bloc);
-				}
+				
+				BlocBean blocBean = new BlocBean();
+				
+				blocBean.setBloc(bloc);
+				
+				session.setAttribute("Bloc", blocBean);
+				nextPage = "View/Bloc/ModifyBloc.jsp";
 			}
-			
-			BlocBean blocBean = new BlocBean();
-			
-			blocBean.setBloc(bloc);
-			
-			session.setAttribute("Bloc", blocBean);
-			nextPage = "View/Bloc/ModifyBloc.jsp";
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
+		
 	}
 
 	/**

@@ -87,7 +87,7 @@ public class BlocDAO extends DBConnectImpl {
         return notes;
 	}
 	
-public BlocDTO QueryByName(BlocDTO bloc) {
+	public BlocDTO QueryByName(BlocDTO bloc) {
 		
 		BlocDTO note = null;
 		
