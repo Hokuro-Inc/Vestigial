@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.data.EventDAO;
 import es.uco.ism.display.UserBean;
 
@@ -56,6 +58,14 @@ public class RemoveEventController extends HttpServlet {
 		
 		if (login) {
 			String idEvent = request.getParameter("idEvent");
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					idEvent = (String) objJson.get("idEvent");
+				}
+			}
 			if (idEvent != null  && !idEvent.equals("")) {
 				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
 				

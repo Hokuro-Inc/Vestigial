@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
 import es.uco.ism.display.EventBean;
@@ -63,9 +65,29 @@ public class UpdateEventController extends HttpServlet {
 			
 			String idEvent = request.getParameter("idEvent");
 			String nameEvent = request.getParameter("nameEvent");
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					nameEvent = (String) objJson.get("nameEvent");
+				}
+			}
 			if (nameEvent != null  && !nameEvent.equals("")) {
 				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String descriptionEvent = request.getParameter("descriptionEvent");
+				String descriptionEvent;
+				String startEventDate;
+				String endEventDate;
+				if (objJson != null ) {
+					descriptionEvent = (String) objJson.get("descriptionEvent");
+					startEventDate = (String) objJson.get("startEvent");
+					endEventDate = (String) objJson.get("endEvent");
+				}
+				else {
+					descriptionEvent = request.getParameter("descriptionEvent");
+					startEventDate = request.getParameter("startEvent");
+					endEventDate = request.getParameter("endEvent");
+				}
 				
 				SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 				
@@ -73,14 +95,14 @@ public class UpdateEventController extends HttpServlet {
 				
 				Date startEvent = null;
 				try {
-					startEvent = inputFormat.parse(request.getParameter("startEvent"));
+					startEvent = inputFormat.parse(startEventDate);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Date endEvent = null;
+				Date endEvent = null ;
 				try {
-					endEvent = outputFormat.parse(request.getParameter("endEvent"));
+					endEvent = outputFormat.parse(endEventDate);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
