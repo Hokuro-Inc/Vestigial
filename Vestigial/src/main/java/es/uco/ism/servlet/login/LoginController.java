@@ -2,6 +2,7 @@ package es.uco.ism.servlet.login;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -54,75 +55,99 @@ public class LoginController extends HttpServlet {
 		UserDAO userDAO = new UserDAO (url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Main/loginView.jsp"; 
 		String mensajeNextPage = "";
-		
-		if (!login) {
-						
-			String UserEmail = request.getParameter("email");
-			String UserPassword = request.getParameter("password");
-
-			String dataJson = request.getReader().readLine();
-			
-			if (dataJson != null) {
-				JSONObject objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					UserEmail = (String) objJson.get("email");
-					UserPassword = (String) objJson.get("password");
-				}
-			}
-			
-			
-			
-			if (UserEmail != null) {
-				
-				System.out.println("CONTROLADOR LOGIN");
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		String UserEmail;
+		String UserPassword;			
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				UserEmail = (String) objJson.get("email");
+				UserPassword = (String) objJson.get("password");
 				UserDTO userDTO = userDAO.QueryByEmail(UserEmail);
-				
 				if (userDTO == null) {
-					//El usuario no existe 
-					System.out.println("No existe el usuario");
-					nextPage = "View/Main/loginView.jsp";
-					mensajeNextPage = "Error de Usuario, Intentelo de Nuevo";
-				}
-				else {
+					mensajeResultado = "[ERROR] El usuario no existe";
+				}else {
 					String saltPassword = userDTO.getSalt();
 					
 					String passwordHash = PasswordHashing.createHash(UserPassword, saltPassword);
 					
 			
 					if (passwordHash.equals(userDTO.getPwd())) {
-						usuario = new UserBean ();
-						usuario.setEmail(UserEmail);
-						session.setAttribute("userBean", usuario);
-						System.out.println("Se ha logueado correctamente");
-						nextPage = "/"; //mira redireccion
+						mensajeResultado = "[OK] Usuario y Password Correcta";
 					}
 					else {
-						nextPage = "View/Main/loginView.jsp";
-						System.out.println("Contrase�a incorrecta");
-						mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
+						mensajeResultado = "[ERROR] Password Incorrecta";
 					}
+				}
+				jsonDataEnviar.append("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
+			}
+		}else {
+			if (!login) {
+				
+				UserEmail = request.getParameter("email");
+				UserPassword = request.getParameter("password");				
+				
+				if (UserEmail != null) {
+					
+					System.out.println("CONTROLADOR LOGIN");
+					UserDTO userDTO = userDAO.QueryByEmail(UserEmail);
+					
+					if (userDTO == null) {
+						//El usuario no existe 
+						System.out.println("No existe el usuario");
+						nextPage = "View/Main/loginView.jsp";
+						mensajeNextPage = "Error de Usuario, Intentelo de Nuevo";
+					}
+					else {
+						String saltPassword = userDTO.getSalt();
+						
+						String passwordHash = PasswordHashing.createHash(UserPassword, saltPassword);
+						
+				
+						if (passwordHash.equals(userDTO.getPwd())) {
+							usuario = new UserBean ();
+							usuario.setEmail(UserEmail);
+							session.setAttribute("userBean", usuario);
+							System.out.println("Se ha logueado correctamente");
+							nextPage = "/"; //mira redireccion
+						}
+						else {
+							nextPage = "View/Main/loginView.jsp";
+							System.out.println("Contrase�a incorrecta");
+							mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
+						}
+					}
+				}
+				else {
+					nextPage = "View/Main/loginView.jsp";
+					mensajeNextPage = "Rellene los campos con su email y contrase�a para acceder";
 				}
 			}
 			else {
-				nextPage = "View/Main/loginView.jsp";
-				mensajeNextPage = "Rellene los campos con su email y contrase�a para acceder";
-			}
-		}
-		else {
-			//Se encuentra logueado deber� de acceder al Home.
-			//nextPage = "index.jsp";
-			//disparador = request.getRequestDispatcher(nextPage);
-			
-			request.getSession().removeAttribute("usuario");
-					
-			
-			nextPage = "/index.jsp";//mirar redireccion
+				//Se encuentra logueado deber� de acceder al Home.
+				//nextPage = "index.jsp";
+				//disparador = request.getRequestDispatcher(nextPage);
+				
+				request.getSession().removeAttribute("usuario");
+						
+				
+				nextPage = "/index.jsp";//mirar redireccion
 
-			
+				
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
+		
 	}
 
 	
