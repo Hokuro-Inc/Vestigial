@@ -6,7 +6,15 @@ import { AgendaPagePage } from './agenda-page.page';
 const routes: Routes = [
   {
     path: '',
-    component: AgendaPagePage
+    component: AgendaPagePage,
+    children: [
+      {
+        path: 'account',
+        loadChildren: () => import('../contacts/contacts.module').then( m => m.ContactsPageModule)
+
+
+      }
+    ]
   }
 ];
 

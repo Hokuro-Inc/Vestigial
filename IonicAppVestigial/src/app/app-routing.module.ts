@@ -34,7 +34,12 @@ const routes: Routes = [
   {
     path: 'agenda-page',
     loadChildren: () => import('./pages/agenda-page/agenda-page.module').then( m => m.AgendaPagePageModule)
+  },
+  {
+    path: 'contacts',
+    loadChildren: () => import('./pages/contacts/contacts.module').then( m => m.ContactsPageModule)
   }
+
 
 ];
 
