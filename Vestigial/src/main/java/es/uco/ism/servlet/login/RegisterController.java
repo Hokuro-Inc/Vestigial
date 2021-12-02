@@ -37,7 +37,7 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		HttpSession session = request.getSession();
 		String url_bd = request.getServletContext().getInitParameter("URL");
@@ -104,7 +104,7 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 				System.out.println("Tengo que insertar");
 				userDAO.Insert(userDTO);
 				
-				nextPage = "Home"; //mirar redireccion
+				nextPage = "index.jsp"; //mirar redireccion
 				disparador = request.getRequestDispatcher(nextPage);
 				
 			}

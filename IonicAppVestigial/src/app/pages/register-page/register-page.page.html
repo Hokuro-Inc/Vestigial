@@ -8,30 +8,30 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" id="register">
-  <form>
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
     <ion-item lines="full">
-      <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-label position="floating">User</ion-label>
+      <ion-input type="text" name="email" formControlName="email" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" required></ion-input>
+      <ion-input type="text" name="password" formControlName="password" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Prefix</ion-label>
+      <ion-input type="text" name="prefix" formControlName="prefix" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Phone</ion-label>
+      <ion-input type="text" name="phone" formControlName="phone" required></ion-input>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" action="hola" color="danger" expand="block">Sign Up</ion-button>
+        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Sign Up</ion-button>
       </ion-col>
     </ion-row>
   </form>

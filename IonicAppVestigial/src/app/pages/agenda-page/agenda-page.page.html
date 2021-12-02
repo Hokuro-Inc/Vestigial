@@ -1,63 +1,25 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Searchbar</title>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
-  <style>
-    :root {
-      --ion-safe-area-top: 20px;
-      --ion-safe-area-bottom: 22px;
-    }
-  </style>
-</head>
-<body>
-  <ion-app>
-    <ion-header translucent>
-      <ion-toolbar>
-        <ion-title>Searchbar</ion-title>
-      </ion-toolbar>
-      <ion-toolbar>
-        <ion-searchbar></ion-searchbar>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content fullscreen>
-      <ion-list>
-        <ion-item>David</ion-item>
-        <ion-item>Esteban</ion-item>
-        <ion-item>Buenos Aires</ion-item>
-        <ion-item>Cairo</ion-item>
-        <ion-item>Dhaka</ion-item>
-        <ion-item>Edinburgh</ion-item>
-        <ion-item>Geneva</ion-item>
-        <ion-item>Genoa</ion-item>
-        <ion-item>Glasgow</ion-item>
-        <ion-item>Hanoi</ion-item>
-        <ion-item>Hong Kong</ion-item>
-        <ion-item>Islamabad</ion-item>
-        <ion-item>Istanbul</ion-item>
-        <ion-item>Jakarta</ion-item>
-        <ion-item>Kiel</ion-item>
-        <ion-item>Kyoto</ion-item>
+<ion-tabs>
+<ion-tab-bar color = "primary" slot = "bottom">
+  <ion-tab-button tab="recents">
+    <ion-icon name="time-outline"></ion-icon>
+      <ion-label>Recents</ion-label>
+  </ion-tab-button>
 
-      </ion-list>
-    </ion-content>
-  </ion-app>
+  <ion-tab-button tab="contacts">
+    <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Contacts</ion-label>
+  </ion-tab-button>
 
-  <script>
-    const searchbar = document.querySelector('ion-searchbar');
-    const items = Array.from(document.querySelector('ion-list').children);
+  <ion-tab-button tab="favorites">
+    <ion-icon name="star-outline"></ion-icon>
+      <ion-label>Favorites</ion-label>
+  </ion-tab-button>
 
-    searchbar.addEventListener('ionInput', handleInput);
 
-    function handleInput(event) {
-      const query = event.target.value.toLowerCase();
-      requestAnimationFrame(() => {
-        items.forEach(item => {
-          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
-          item.style.display = shouldShow ? 'block' : 'none';
-        });
-      });
-    }
-  </script>
+
+
+</ion-tab-bar>
+ 
+
+
+</ion-tabs>

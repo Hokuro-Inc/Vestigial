@@ -34,7 +34,22 @@ const routes: Routes = [
   {
     path: 'agenda-page',
     loadChildren: () => import('./pages/agenda-page/agenda-page.module').then( m => m.AgendaPagePageModule)
+  },
+  {
+    path: 'contacts',
+    loadChildren: () => import('./pages/contacts/contacts.module').then( m => m.ContactsPageModule)
+  },
+  {
+    path: 'favorites',
+    loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
+    path: 'recents',
+    loadChildren: () => import('./pages/recents/recents.module').then( m => m.RecentsPageModule)
   }
+
+
+
 
 ];
 
