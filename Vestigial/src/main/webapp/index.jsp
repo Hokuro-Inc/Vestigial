@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/animate.css"/>
 	<link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="css/main.css" />
+	<link rel="shortcut icon" type="image/jpg" href="images/favicon.png"/>
 		
 
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
@@ -99,7 +100,7 @@
                       <p>Texto Sobre Nosotros y la aplicacion</p>
                        <br></br>
                       	        <a href="#about" class="main-stroked-button">Leer más</a>
-                  				<a href="Login" class="main-filled-button">Acceder</a>
+                  				<a href="Login" class="main-stroked-button">Acceder</a>
                     </div>
 
                   </div> <!-- /.col-md-12 -->
@@ -168,7 +169,7 @@
 
     <!-- ABOUT -->
 
-    <section id="about" class="light">
+    <section id="about" class="dark">
       <header class="title">
         <h2>Mayor <span>Seguridad,</span> Mayor <span>Control.</span></h2>
         <p>Más de 700.000 clientes disfrutan trabajan diariamente con nuestra <strong>aplicación segura</strong> para la gestión de sus eventos y agendas de contacto.</p>
@@ -219,7 +220,7 @@
 
     <!-- TEAM -->
 
-    <section id="team" class="light">
+    <section id="team" class="dark">
       <header class="title">
         <h2>Equipo <span>Desarrollo</span></h2>
         <p>Somos un equipo de trabajo que lleva varios años trabajando juntos, y se han juntado para realizar varios proyectos, entre ellos, Vestigial. Aquí podréis encontrar un poco de información de cada uno de los integrantes.</p>
@@ -234,9 +235,9 @@
               </div>
 
               <h3>Christian</h3>
-              <h5>CEO</h5>
+              <h5>CEO & Backend Developer</h5>
 
-              <p>Encargado de coordinar y dirigir al equipo en todos los proyectos, se responsabiliza de que el proyecto web se resuelva satisfactoriamente</p>
+              <p>Encargado de coordinar y dirigir al equipo en todos los proyectos, se responsabiliza de que el proyecto web se resuelva satisfactoriamente.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -256,7 +257,7 @@
               </div>
 
               <h3>Javi</h3>
-              <h5>Diseñador Gráfico</h5>
+              <h5>Diseñador Gráfico & Frontend Developer</h5>
 
               <p>Encargado de realizar bocetos, prototipos y diseños del sistema</p>
 

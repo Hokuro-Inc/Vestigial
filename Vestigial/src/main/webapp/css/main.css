@@ -45,11 +45,13 @@ a.main-stroked-button {
   -moz-transition: all 0s ease 0s;
   -o-transition: all 0s ease 0s;
   transition: all 0s ease 0s;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 a.main-stroked-button:hover {
   background-color: #fff;
-  color: #5fb759;
+  color: #ffffff;
 }
 
 a.main-filled-button {
@@ -163,7 +165,7 @@ a {
 }
 
 .pageload-overlay svg path {
-  fill: #f7f7f7;
+  fill: #262626;
 }
 
 .pageload-overlay::before {
@@ -199,16 +201,17 @@ a {
 
 .navbar-fixed-top,
 .navbar-fixed-top.bottom {
-  background-color: rgb(255,255,255);
+  background-color: rgb(36, 36, 36);
   position: fixed;
   bottom: inherit;
   padding: 0;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
 }
 
 .navbar-fixed-top .navbar-brand,
 .navbar-fixed-top .navbar-nav > li > a {
-  color: #000;
+  color: #ffffff;
   font-weight: 700;
 }
 
@@ -222,7 +225,7 @@ a {
 
 .navbar-fixed-top.bottom .navbar-brand,
 .navbar-fixed-top.bottom .navbar-nav > li > a {
-  color: #000;
+  color: #ffffff;
 }
 
 .navbar-fixed-top .navbar-nav > li > a:hover {
@@ -234,12 +237,12 @@ a {
 }
 
 .navbar-fixed-top .navbar-toggle .icon-bar {
-  background-color: #aaa;
+  background-color: #505050;
 }
 
 .navbar-fixed-top .navbar-toggle:hover .icon-bar,
 .navbar-fixed-top .navbar-toggle:focus .icon-bar {
-    background-color: #fff;
+    background-color: #505050;
 }
 
 .navbar-fixed-top .navbar-toggle:hover,
@@ -249,7 +252,7 @@ a {
 
 @media (min-width:768px) {
   .navbar-fixed-top{
-    background-color: rgba(255,255,255,0.95);
+    background-color: rgba(37, 37, 37, 0.95);
     border: none;
     margin: 0;
     padding: 20px 0 !important;
@@ -257,6 +260,7 @@ a {
     -webkit-transition : .2s;
     -moz-transition : .2s;
     transition : .2s;
+    color: #fff;
   }
 
   .navbar-fixed-top.bottom{
@@ -707,7 +711,7 @@ span.quot-name:before {
 
 .about-content h4 {
   font-weight: bold;
-  color: #222;
+  color: #ffffff;
   text-transform: uppercase;
   font-size: 15px;
 }
@@ -780,7 +784,7 @@ span.quot-name:before {
   margin: 75px auto 0;
   max-width: 275px;
   padding: 40px 10px;
-  background: #F7F7F7;
+  background: #000000;
   box-shadow: 0px 8px 6px -8px rgba(0, 0, 0, 0.54);
 }
 
