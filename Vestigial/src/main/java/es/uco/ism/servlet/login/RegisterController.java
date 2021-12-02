@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.UserDAO;
 import es.uco.ism.display.UserBean;
@@ -63,12 +65,36 @@ response.getWriter().append("Served at: ").append(request.getContextPath());
 		System.out.println("CONTROLADOR REGISTER");
 		if (!login) {
 			String userEmail = request.getParameter("email");
+			String dataJson = request.getReader().readLine();
+			
+			JSONObject objJson = null;
+			
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				userEmail = (String) objJson.get("email");
+			}
 			
 			if (userEmail != null) {
-				String userPrefix = request.getParameter("prefix");
-				//String userGroups = request.getParameter("groups");
-				String userPhone  = request.getParameter("phone"); 
-				String userPassword = request.getParameter("password");			
+				String userPrefix ;
+				//String userGroups ;
+				String userPhone ;
+				String userPassword ;
+				
+				if (objJson != null) {
+					//Los datos vienen de la vista movil
+					userPrefix = (String) objJson.get("prefix");
+					//userGroups = objJson.get("groups");
+					userPhone = (String) objJson.get("phone");
+					userPassword = (String) objJson.get("password");
+				}
+				else {
+					//Los datos vienen de la vista web
+					userPrefix = request.getParameter("prefix");
+					//userGroups = request.getParameter("groups");
+					userPhone  = request.getParameter("phone"); 
+					userPassword = request.getParameter("password");			
+					
+				}
 				
 				String salt = PasswordHashing.createSalt();
 				

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.UserDAO;
 import es.uco.ism.display.UserBean;
@@ -54,10 +56,22 @@ public class LoginController extends HttpServlet {
 		String mensajeNextPage = "";
 		
 		if (!login) {
-			
+						
 			String UserEmail = request.getParameter("Email");
 			String UserPassword = request.getParameter("Password");
 
+			String dataJson = request.getReader().readLine();
+			
+			if (dataJson != null) {
+				JSONObject objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					UserEmail = (String) objJson.get("Email");
+					UserPassword = (String) objJson.get("Password");
+				}
+			}
+			
+			
+			
 			if (UserEmail != null) {
 				
 				System.out.println("CONTROLADOR LOGIN");
