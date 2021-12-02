@@ -348,7 +348,7 @@
               </div>
 
               <h3>Pedro Pablo</h3>
-              <h5>Server Database Developer</h5>
+              <h5>Server Manager & Database Developer</h5>
 
               <p>Encargado de la configuración y acceso a la base de datos y de los servidores necesarios.</p>
 
