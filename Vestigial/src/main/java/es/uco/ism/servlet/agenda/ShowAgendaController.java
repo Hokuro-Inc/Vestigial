@@ -52,11 +52,6 @@ public class ShowAgendaController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		System.out.println(url_bd);
-		System.out.println(username_bd);
-		System.out.println(password_bd);
-		System.out.println(prop);
-		
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Agenda/ShowAgenda.jsp"; 

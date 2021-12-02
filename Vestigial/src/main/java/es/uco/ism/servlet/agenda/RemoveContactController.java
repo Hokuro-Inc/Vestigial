@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.data.ContactDAO;
 import es.uco.ism.display.UserBean;
 
@@ -56,6 +58,15 @@ public class RemoveContactController extends HttpServlet {
 		
 		if (login) {
 			String phone = request.getParameter("phone");
+			//Comprobamos si venimos de la vista movil
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					phone = (String) objJson.get("phone");
+				}
+			}
 			if (phone != null  && !phone.equals("")) {
 				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
 				

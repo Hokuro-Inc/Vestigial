@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
 import es.uco.ism.display.ContactBean;
@@ -59,17 +61,46 @@ public class UpdateContactController extends HttpServlet {
 			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
 			
 			String phone = request.getParameter("phone");
+			String dataJson = request.getReader().readLine();
+			JSONObject objJson = null;
+			if (dataJson != null) {
+				objJson = new JSONObject(dataJson);
+				if (!objJson.isEmpty()) {
+					phone = (String) objJson.get("phone");
+				}
+			}
 			if (phone != null  && !phone.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String prefix = request.getParameter("prefix");
-				String name = request.getParameter("name");
-				String surname = request.getParameter("surname");
-				String alias = request.getParameter("alias");
-				String email = request.getParameter("email");
-				String description = request.getParameter("description");
-				String address = request.getParameter("address");
-				String owner = request.getParameter("owner");
 				
+				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
+				String prefix ;
+				String name ;
+				String surname ;
+				String alias ;
+				String email ;
+				String description ;
+				String address;
+				String owner;
+				
+				if (objJson !=null) {
+					prefix = (String) objJson.get("prefix");
+					name = (String) objJson.get("name");
+					surname = (String) objJson.get("surname");
+					alias = (String) objJson.get("alias");
+					email = (String) objJson.get("email");
+					description = (String) objJson.get("description");
+					address = (String) objJson.get("address");
+					owner = (String) objJson.get("owner");
+				}
+				else {
+					prefix = request.getParameter("prefix");
+					name = request.getParameter("name");
+					surname = request.getParameter("surname");
+					alias = request.getParameter("alias");
+					email = request.getParameter("email");
+					description = request.getParameter("description");
+					address = request.getParameter("address");
+					owner = request.getParameter("owner");
+				}
 				ContactDTO updateContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 				if (contactDAO.Update(updateContact) <=0 )  {
 					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
