@@ -2,6 +2,7 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -54,41 +55,59 @@ public class CreateToDoListController extends HttpServlet {
 		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_LISTA"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			String idLista = request.getParameter("idLista");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					idLista = (String) objJson.get("idLista");
-				}
-			}
-			if (idLista != null && !idLista.equals("")) {
-				
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		String idLista;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				idLista = (String) objJson.get("idLista");
 				if (toDoListDAO.Insert(idLista) <= 0) {
-					mensajeNextPage = "Ha surgido un problema a la hora de crear la lista de tareas";
-					nextPage = "VISTA_CREAR_LISTA";
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la tarea"  + idLista;
 				}
 				else {
-					nextPage = "VISTA_MOSTRAR_TO_DO_LIST";
+					mensajeResultado = "[OK]Se ha creado correctamente la tarea" + idLista;
 				}
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear la lista.
-				nextPage = "VISTA_CREAR_LISTA";
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
+		}
+		else {
+			if (login) {
+				idLista = request.getParameter("idLista");
+				
+				if (idLista != null && !idLista.equals("")) {
+					
+					if (toDoListDAO.Insert(idLista) <= 0) {
+						mensajeNextPage = "Ha surgido un problema a la hora de crear la lista de tareas";
+						nextPage = "VISTA_CREAR_LISTA";
+					}
+					else {
+						nextPage = "VISTA_MOSTRAR_TO_DO_LIST";
+					}
+				}
+				else {
+					// Tenemos que dirigirnos a la vista
+					// No se si necesitamos enviarle algo a la vista de crear la lista.
+					nextPage = "VISTA_CREAR_LISTA";
+				}
 			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
+		
 	}
 
 	/**
