@@ -60,15 +60,18 @@ public class ShowAgendaController extends HttpServlet {
 			response.setContentType("application/json");
 			JSONObject jsonDataEnviar = null;
 			objJson = new JSONObject(dataJson);
+			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
 				usuarioActual = (String) objJson.get("user");
 				PrintWriter out = response.getWriter();
 				ArrayList <ContactDTO> listadoContactos = contactDAO.QueryByOwner(usuarioActual);
 				if (!listadoContactos.isEmpty()) {
 					jsonDataEnviar = new JSONObject();
-					jsonDataEnviar.append("Agenda", listadoContactos);
-					out.print(jsonDataEnviar);
+					jsonDataEnviar.put("Agenda", listadoContactos);
+					mensajeResultado = "[OK]Se han cargado todos los contactos del usuario";
 				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
 				out.close();
 			}	
 			

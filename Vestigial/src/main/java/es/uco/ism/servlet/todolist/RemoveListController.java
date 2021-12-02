@@ -2,6 +2,7 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -54,41 +55,60 @@ public class RemoveListController extends HttpServlet {
 		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="ShowToDoList"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			String idLista = request.getParameter("idLista");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		String idLista;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			if (!objJson.isEmpty()) {
 				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					idLista = (String) objJson.get("idLista");
+				response.setContentType("application/json");
+				JSONObject jsonDataEnviar = null;
+				PrintWriter out = response.getWriter();
+				jsonDataEnviar = new JSONObject();
+				String mensajeResultado = null;
+				idLista = (String) objJson.get("idLista");
+				if (idLista != null && !idLista.equals("")) {			
+					if (toDoListDAO.Delete(idLista) <= 0) {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar la lista"  + idLista;
+					}
+					else {
+						mensajeResultado = "[OK]Se ha borrado correctamente la lista" + idLista;
+					}
 				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
 			}
-			if (idLista != null && !idLista.equals("")) {			
-				if (toDoListDAO.Delete(idLista) <= 0) {
-					mensajeNextPage = "Se ha borrado correctamente la tarea con ID -> " + idLista;
+		}
+		else {
+			if (login) {
+				idLista = request.getParameter("idLista");
+				if (idLista != null && !idLista.equals("")) {			
+					if (toDoListDAO.Delete(idLista) <= 0) {
+						mensajeNextPage = "Se ha borrado correctamente la tarea con ID -> " + idLista;
+					}
+					else {
+						mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idLista;
+					}
+					
+					nextPage = "ShowToDoList";
 				}
 				else {
-					mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idLista;
+					// Tenemos que dirigirnos a la vista
+					// No se si necesitamos enviarle algo a la vista de crear la lista.
+					nextPage = "View/ToDoList/createTask.jsp";
 				}
-				
-				nextPage = "ShowToDoList";
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear la lista.
-				nextPage = "View/ToDoList/createTask.jsp";
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

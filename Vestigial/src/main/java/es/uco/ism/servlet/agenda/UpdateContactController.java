@@ -2,6 +2,7 @@ package es.uco.ism.servlet.agenda;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -57,41 +58,72 @@ public class UpdateContactController extends HttpServlet {
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		String mensajeNextPage = "";
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String phone = request.getParameter("phone");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					phone = (String) objJson.get("phone");
-				}
-			}
-			if (phone != null  && !phone.equals("")) {
+		
+		String prefix ;
+		String name ;
+		String surname ;
+		String alias ;
+		String email ;
+		String description ;
+		String address;
+		String owner;
+		String phone;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				phone = (String) objJson.get("phone");
 				
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String prefix ;
-				String name ;
-				String surname ;
-				String alias ;
-				String email ;
-				String description ;
-				String address;
-				String owner;
+				prefix = (String) objJson.get("prefix");
+				name = (String) objJson.get("name");
+				surname = (String) objJson.get("surname");
+				alias = (String) objJson.get("alias");
+				email = (String) objJson.get("email");
+				description = (String) objJson.get("description");
+				address = (String) objJson.get("address");
+				owner = (String) objJson.get("owner");
 				
-				if (objJson !=null) {
-					prefix = (String) objJson.get("prefix");
-					name = (String) objJson.get("name");
-					surname = (String) objJson.get("surname");
-					alias = (String) objJson.get("alias");
-					email = (String) objJson.get("email");
-					description = (String) objJson.get("description");
-					address = (String) objJson.get("address");
-					owner = (String) objJson.get("owner");
+				if (name != null && !name.equals("")) {
+					ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
+					if (contactDAO.Update(newContact) <=0 )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar el contacto "  + name; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha actualizado correctamente el contacto " + name;
+					}
 				}
 				else {
+					ContactDTO contacto = contactDAO.QueryByPhone(phone);
+					if ( contacto == null )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de preparar la informacion para editar el contacto "  + phone; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha preparado la informacion para editar la contacto " + phone;
+						jsonDataEnviar.put("contactUpdate", contacto);
+					}
+				}
+			}
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
+		}
+		
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				phone = request.getParameter("phone");
+				
+				if (phone != null  && !phone.equals("")) {
+					
+					// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
+					
 					prefix = request.getParameter("prefix");
 					name = request.getParameter("name");
 					surname = request.getParameter("surname");
@@ -100,42 +132,43 @@ public class UpdateContactController extends HttpServlet {
 					description = request.getParameter("description");
 					address = request.getParameter("address");
 					owner = request.getParameter("owner");
-				}
-				ContactDTO updateContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
-				if (contactDAO.Update(updateContact) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
-					nextPage = "View/Agenda/CreateContact.jsp";
-				}
-				else {
-					session.removeAttribute("EventToUpdate");
-					nextPage = "Agenda";
-					mensajeNextPage = "Se ha actualizado correctamente";
-				}
-			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
-				if (phone != null  && !phone.equals("")) {
-					ContactDTO contactToUpdate = contactDAO.QueryByPhone(phone);
-					ContactBean contactBean = new ContactBean();
-					contactBean.setContact(contactToUpdate);
-					nextPage = "View/Agenda/CreateContact.jsp";
-					session.setAttribute("ContactToUpdate", contactBean);
+					ContactDTO updateContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
+					if (contactDAO.Update(updateContact) <=0 )  {
+						mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
+						nextPage = "View/Agenda/CreateContact.jsp";
+					}
+					else {
+						session.removeAttribute("EventToUpdate");
+						nextPage = "Agenda";
+						mensajeNextPage = "Se ha actualizado correctamente";
+					}
 				}
 				else {
-					mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del evento a modificar";
+					// Tenemos que dirigirnos a la vista
+					// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
+					if (phone != null  && !phone.equals("")) {
+						ContactDTO contactToUpdate = contactDAO.QueryByPhone(phone);
+						ContactBean contactBean = new ContactBean();
+						contactBean.setContact(contactToUpdate);
+						nextPage = "View/Agenda/CreateContact.jsp";
+						session.setAttribute("ContactToUpdate", contactBean);
+					}
+					else {
+						mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del evento a modificar";
+					}
 				}
+							
 			}
-						
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
+		
 	}
 
 	/**

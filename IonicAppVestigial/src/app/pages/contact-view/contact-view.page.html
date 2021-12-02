@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>{{contact.name}} {{contact.surname}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list >
+        <ion-item>Alias: {{contact.alias}}</ion-item>
+        <ion-item>Contacto: +{{contact.prefix}} {{contact.phone}}</ion-item>
+        <ion-item>Direccion: {{contact.address}}</ion-item>
+        <ion-item>Email: {{contact.email}}</ion-item>
+        <ion-item>Descripcion: {{contact.description}}</ion-item>
+    </ion-list>
+</ion-content>

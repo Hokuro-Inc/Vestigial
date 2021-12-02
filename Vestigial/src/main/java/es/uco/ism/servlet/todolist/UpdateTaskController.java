@@ -2,6 +2,7 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -57,74 +58,102 @@ public class UpdateTaskController extends HttpServlet {
 		TaskDAO taskDAO = new TaskDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_FORMULARIO_ACTUALIZAR_TAREA"; 
 		String mensajeNextPage = "";
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String idTask = request.getParameter("idTask");
-			String nameTask = request.getParameter("nameTask");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					idTask = (String) objJson.get("idLista");
-					nameTask = (String) objJson.get("nameTask");
-				}
-			}
-			if (nameTask != null  && !nameTask.equals("")) {
-				// Venimos de la vista por lo cual debemos de actualizar el task del usuario y regresarlo al controlador de calendario.
-				String descriptionTask;
-				String idLista;
-				String statusTask;
-				
-				
-				if (objJson != null ) {
-					descriptionTask = (String) objJson.get("descriptionTask");
-					idLista = (String) objJson.get("idLista");
-					statusTask = (String) objJson.get("statusTask");
+		
+		String nameTask;
+		String descriptionTask;
+		String idLista;
+		String idTask = null;
+		String statusTask;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				descriptionTask = (String) objJson.get("descriptionTask");
+				idLista = (String) objJson.get("idLista");
+				nameTask = (String) objJson.get("nameTask");
+				statusTask = (String) objJson.get("statusTask");
+				Status estadoTask = Status.valueOf(statusTask) ;
+				if (nameTask != null && !nameTask.equals("")) {
+					TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask,idLista);
+					if (taskDAO.Update(newTask) <=0 )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar la tarea"  + idTask; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha creado correctamente la tarea" + idTask;
+					}
+				} else {
+					//Enviamos la informacion a la vista de angular
+					TaskDTO taskUpdate = taskDAO.QueryById(idTask); 
+					if ( taskUpdate == null )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora preparar la informacion para editar la tarea "  + idTask; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha preparado la informacion para editar la tarea " + idTask;
+						jsonDataEnviar.put("task",taskUpdate);
+					}
 					
 				}
-				else {
-					descriptionTask= request.getParameter("descriptionTask");
-					idLista= request.getParameter("idList");
-					statusTask = request.getParameter("statusTask");
-				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
+			}
+		}
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
 				
-				Status estadoTask = Status.valueOf(statusTask) ;
-				TaskDTO updateTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask, idLista);
-				if (taskDAO.Update(updateTask) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de actualizar la task";
-					nextPage = "ACTUALIZAR_TASK";
+				idTask = request.getParameter("idTask");
+				nameTask = request.getParameter("nameTask");
+
+				if (nameTask != null  && !nameTask.equals("")) {
+					// Venimos de la vista por lo cual debemos de actualizar el task del usuario y regresarlo al controlador de calendario.
+
+						descriptionTask= request.getParameter("descriptionTask");
+						idLista= request.getParameter("idList");
+						statusTask = request.getParameter("statusTask");
+
+					Status estadoTask = Status.valueOf(statusTask) ;
+					TaskDTO updateTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask, idLista);
+					if (taskDAO.Update(updateTask) <=0 )  {
+						mensajeNextPage = "Ha surgido un problema a la hora de actualizar la task";
+						nextPage = "ACTUALIZAR_TASK";
+					}
+					else {
+						session.removeAttribute("EventToUpdate");
+						nextPage = "VISTA_MOSTRAR_CALENDARIO";
+						mensajeNextPage = "Se ha actualizado correctamente";
+					}
 				}
 				else {
-					session.removeAttribute("EventToUpdate");
-					nextPage = "VISTA_MOSTRAR_CALENDARIO";
-					mensajeNextPage = "Se ha actualizado correctamente";
+					// Tenemos que dirigirnos a la vista
+					// Debemos de buscar la task y enviar a la vista los datos de el anteriores.
+					if (idTask != null  && !idTask.equals("")) {
+						TaskDTO taskToUpdate = taskDAO.QueryById(idTask);
+						TaskBean taskBean = new TaskBean();
+						taskBean.setTask(taskToUpdate);
+						nextPage = "VISTA_EDITAR_TASK";
+						session.setAttribute("TaskToUpdate", taskBean);
+					}
+					else {
+						mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID de la TASK a modificar";
+					}
 				}
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// Debemos de buscar la task y enviar a la vista los datos de el anteriores.
-				if (idTask != null  && !idTask.equals("")) {
-					TaskDTO taskToUpdate = taskDAO.QueryById(idTask);
-					TaskBean taskBean = new TaskBean();
-					taskBean.setTask(taskToUpdate);
-					nextPage = "VISTA_EDITAR_TASK";
-					session.setAttribute("TaskToUpdate", taskBean);
-				}
-				else {
-					mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID de la TASK a modificar";
-				}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

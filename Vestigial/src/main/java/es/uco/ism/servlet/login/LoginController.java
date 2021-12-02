@@ -85,7 +85,7 @@ public class LoginController extends HttpServlet {
 						mensajeResultado = "[ERROR] Password Incorrecta";
 					}
 				}
-				jsonDataEnviar.append("Mensaje", mensajeResultado);
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
 				out.print(jsonDataEnviar);
 				out.close();
 			}

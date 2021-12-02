@@ -38,8 +38,6 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 		HttpSession session = request.getSession();
 		String url_bd = request.getServletContext().getInitParameter("URL");
 		String username_bd = request.getServletContext().getInitParameter("USER");
@@ -100,7 +98,7 @@ public class RegisterController extends HttpServlet {
 					}
 				}
 
-				jsonDataEnviar.append("Mensaje", mensajeResultado);
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
 				out.print(jsonDataEnviar);
 				out.close();
 			}

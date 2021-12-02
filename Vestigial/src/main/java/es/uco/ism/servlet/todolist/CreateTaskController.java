@@ -2,6 +2,7 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -56,60 +57,79 @@ public class CreateTaskController extends HttpServlet {
 		TaskDAO taskDAO = new TaskDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/ToDoList/createTask.jsp"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			String nameTask = request.getParameter("nameTask");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					nameTask = (String) objJson.get("nameTask");
+		String nameTask;
+		String descriptionTask;
+		String idLista;
+		String idTask = null;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				descriptionTask = (String) objJson.get("descriptionTask");
+				idLista = (String) objJson.get("idLista");
+				nameTask = (String) objJson.get("nameTask");
+				if (nameTask != null && !nameTask.equals("")) {
+					TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess,idLista);
+					if (taskDAO.Insert(newTask) <=0 )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la tarea"  + idTask; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha creado correctamente la tarea" + idTask;
+					}
+				} else {
+					//Enviamos la informacion a la vista de angular
+					jsonDataEnviar.put("idLista",idLista);
 				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
 			}
-			if (nameTask != null  && !nameTask.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el tarea al usuario y regresarlo al controlador de la lista de tareas.
-				String descriptionTask;
-				String idLista;
-				String idTask;
-				if (objJson != null ) {
-					descriptionTask = (String) objJson.get("descriptionTask");
-					idLista = (String) objJson.get("idLista");
+		}
+		else {
+			if (login) {
+				nameTask = request.getParameter("nameTask");
+				
+				if (nameTask != null  && !nameTask.equals("")) {
+					// Venimos de la vista por lo cual debemos de agregar el tarea al usuario y regresarlo al controlador de la lista de tareas.
 					
-				}
-				else {
 					descriptionTask= request.getParameter("descriptionTask");
 					idLista= request.getParameter("idList");
-				}
-				
-				idTask = ""; // Generar ID evento
-				TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess,idLista);
-				
-				if (taskDAO.Insert(newTask) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de crear la tarea";
-					nextPage = "View/ToDoList/createTask.jsp";
+					
+					idTask = ""; // Generar ID evento
+					TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess,idLista);
+					
+					if (taskDAO.Insert(newTask) <=0 )  {
+						mensajeNextPage = "Ha surgido un problema a la hora de crear la tarea";
+						nextPage = "View/ToDoList/createTask.jsp";
+					}
+					else {
+						nextPage = "View/ToDoList/showToDoList.jsp";
+					}
 				}
 				else {
-					nextPage = "View/ToDoList/showToDoList.jsp";
+					// Tenemos que dirigirnos a la vista
+					// No se si necesitamos enviarle algo a la vista de crear tarea.
+					nextPage = "View/ToDoList/createTask.jsp";
+					idLista= request.getParameter("idList");
+					session.setAttribute("idList", idLista);
 				}
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear tarea.
-				nextPage = "View/ToDoList/createTask.jsp";
-				String idLista= request.getParameter("idList");
-				session.setAttribute("idList", idLista);
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
 			}
-		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
 
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
+		}
 	}
 
 	/**

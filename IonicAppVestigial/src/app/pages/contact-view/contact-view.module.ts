@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RecentsPageRoutingModule } from './recents-routing.module';
+import { ContactViewPageRoutingModule } from './contact-view-routing.module';
 
-import { RecentsPage } from './recents.page';
+import { ContactViewPage } from './contact-view.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RecentsPageRoutingModule
+    ContactViewPageRoutingModule
   ],
-  declarations: [RecentsPage]
+  declarations: [ContactViewPage]
 })
-export class RecentsPageModule {}
-
+export class ContactViewPageModule {}

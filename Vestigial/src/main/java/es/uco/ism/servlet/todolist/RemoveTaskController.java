@@ -2,6 +2,7 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -53,38 +54,58 @@ public class RemoveTaskController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		String nextPage ="VISTA_MOSTRAR_LISTA"; 
 		String mensajeNextPage = "";
-		if (login) {
-			String idTask = request.getParameter("idTask");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		String idTask;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			if (!objJson.isEmpty()) {
 				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					idTask = (String) objJson.get("idTask");
+				response.setContentType("application/json");
+				JSONObject jsonDataEnviar = null;
+				PrintWriter out = response.getWriter();
+				jsonDataEnviar = new JSONObject();
+				String mensajeResultado = null;
+				idTask = (String) objJson.get("idTask");
+				if (idTask != null && !idTask.equals("")) {			
+					if (taskDAO.Delete(idTask) <= 0) {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar la tarea"  + idTask;
+					}
+					else {
+						mensajeResultado = "[OK]Se ha borrado correctamente la tarea" + idTask;
+					}
 				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
 			}
-			if (idTask != null && !idTask.equals("")) {
-				// Deseamos eliminar la tarea de la lista actual.
-				if (taskDAO.Delete(idTask) > 0 ) {
-					// Significa que se ha borrado correctamente
-					mensajeNextPage = "Se ha borrado correctamente la tarea con ID -> " + idTask;
+		}
+		else {
+			if (login) {
+				idTask = request.getParameter("idTask");
+				if (idTask != null && !idTask.equals("")) {
+					// Deseamos eliminar la tarea de la lista actual.
+					if (taskDAO.Delete(idTask) > 0 ) {
+						// Significa que se ha borrado correctamente
+						mensajeNextPage = "Se ha borrado correctamente la tarea con ID -> " + idTask;
+					}
+					else {
+						mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idTask;
+						
+					}
+					nextPage = "VISTA_MOSTRAR_LISTA";
 				}
-				else {
-					mensajeNextPage = "Ha surgido un problema al borrar la tarea " + idTask;
-					
-				}
-				nextPage = "VISTA_MOSTRAR_LISTA";
+				
 			}
-			
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

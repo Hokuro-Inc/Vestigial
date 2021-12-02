@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/animate.css"/>
 	<link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="css/main.css" />
+	<link rel="shortcut icon" type="image/jpg" href="images/favicon.png"/>
 		
 
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
@@ -99,7 +100,7 @@
                       <p>Texto Sobre Nosotros y la aplicacion</p>
                        <br></br>
                       	        <a href="#about" class="main-stroked-button">Leer más</a>
-                  				<a href="Login" class="main-filled-button">Acceder</a>
+                  				<a href="Login" class="main-stroked-button">Acceder</a>
                     </div>
 
                   </div> <!-- /.col-md-12 -->
@@ -168,7 +169,7 @@
 
     <!-- ABOUT -->
 
-    <section id="about" class="light">
+    <section id="about" class="dark">
       <header class="title">
         <h2>Mayor <span>Seguridad,</span> Mayor <span>Control.</span></h2>
         <p>Más de 700.000 clientes disfrutan trabajan diariamente con nuestra <strong>aplicación segura</strong> para la gestión de sus eventos y agendas de contacto.</p>
@@ -219,7 +220,7 @@
 
     <!-- TEAM -->
 
-    <section id="team" class="light">
+    <section id="team" class="dark">
       <header class="title">
         <h2>Equipo <span>Desarrollo</span></h2>
         <p>Somos un equipo de trabajo que lleva varios años trabajando juntos, y se han juntado para realizar varios proyectos, entre ellos, Vestigial. Aquí podréis encontrar un poco de información de cada uno de los integrantes.</p>
@@ -234,9 +235,10 @@
               </div>
 
               <h3>Christian</h3>
-              <h5>CEO</h5>
+              <h5>CEO & Backend Developer.</h5>
 
-              <p>Encargado de coordinar y dirigir al equipo en todos los proyectos, se responsabiliza de que el proyecto web se resuelva satisfactoriamente</p>
+              <p>Encargado de coordinar y dirigir al equipo en todos los proyectos, se responsabiliza de que el proyecto web se resuelva satisfactoriamente asi
+              como del desarrollo del Backend.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -256,9 +258,9 @@
               </div>
 
               <h3>Javi</h3>
-              <h5>Diseñador Gráfico</h5>
+              <h5>Diseñador Gráfico & Frontend Developer.</h5>
 
-              <p>Encargado de realizar bocetos, prototipos y diseños del sistema</p>
+              <p>Encargado de realizar bocetos, prototipos y diseños del sistema, asi como del desarrollo usando frameworks.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -278,9 +280,9 @@
               </div>
 
               <h3>Rubén</h3>
-              <h5>Web Developer</h5>
+              <h5>Web Developer & Feature Researcher.</h5>
 
-              <p>Encargado de crear la estructura de la web</p>
+              <p>Encargado de crear la estructura de la web y investigar sobre nuevas funcionalidades.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -304,9 +306,9 @@
               </div>
 
               <h3>Ángel</h3>
-              <h5>Developer</h5>
+              <h5>Fullstack Developer & Tester.</h5>
 
-              <p>Encargado de desarrollar las funcionalidades de la aplicación web</p>
+              <p>Encargado de servir de nexo entre el Backend y el Frontend y de la realización de tests.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -326,9 +328,9 @@
               </div>
 
               <h3>Juanan</h3>
-              <h5>Web Designer</h5>
+              <h5>Web Designer and Taiga Lorekeeper.</h5>
 
-              <p>Encargado de codificar el diseño y la imagen de la pagina web.</p>
+              <p>Encargado de codificar el diseño y la imagen de la pagina web asi como de la correcta documentación del proyecto en Taiga.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -348,9 +350,9 @@
               </div>
 
               <h3>Pedro Pablo</h3>
-              <h5>Server Manager & Database Developer</h5>
+              <h5>Server Manager & Database Developer.</h5>
 
-              <p>Encargado de la configuración y acceso a la base de datos y de los servidores necesarios.</p>
+              <p>Encargado de la configuración del servidor e infraestructuras y del diseño e implementación de la Base de Datos.</p>
 
               <div class="team-social">
                 <ul class="list-inline social-list">
@@ -386,7 +388,7 @@
 
           <div class="col-md-4 animated" data-animate="fadeInRight">
             <address>
-                <span><i class="fa fa-map-marker fa-lg"></i> Campus Rabanales, Córdoba</span>
+                <span><i class="fa fa-map-marker fa-lg"></i> Campus of Rabanales, Córdoba</span>
                 <span><i class="fa fa-phone fa-lg"></i> 957 26 26 28</span>
                 <span><i class="fa fa-envelope-o fa-lg"></i> <a href="mailto:contact@example.com">hokuroincorporated@gmail.com</a></span>
                 <span><i class="fa fa-globe fa-lg"></i> <a href="http://support.example.com">support.hokuro.com</a></span>
@@ -401,8 +403,8 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            <p>Made BY <i class="fa fa-heart"></i> <a href="http://templatestock.co">Hokuro Inc</a></p>
-            <p><small>Ingeniería Web</small></p>
+            <p>Made BY <i class="fa fa-heart"></i> <a href="https://github.com/Hokuro-Inc">Hokuro Inc</a></p>
+            <p><small>Ingeniería de Sistemas Móviles</small></p>
           </div>
         </div>
       </div>

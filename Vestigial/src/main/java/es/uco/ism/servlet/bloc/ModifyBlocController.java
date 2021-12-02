@@ -102,7 +102,7 @@ public class ModifyBlocController extends HttpServlet {
 					else {
 						//Enviamos la informacion necesaria a la vista de modificar
 						jsonDataEnviar.append("updateContact", blocAntiguo);
-						mensajeResultado = "[OK]Se envia la informacion del bloc" + name;
+						mensajeResultado = "[OK]Se envia la informacion del bloc para editar " + name;
 					}	
 				}
 				out.print(jsonDataEnviar);

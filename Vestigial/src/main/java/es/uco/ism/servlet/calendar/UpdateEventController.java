@@ -2,6 +2,7 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,89 +61,140 @@ public class UpdateEventController extends HttpServlet {
 		EventDAO eventDAO = new EventDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Calendar/createEvent.jsp"; 
 		String mensajeNextPage = "";
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String idEvent = request.getParameter("idEvent");
-			String nameEvent = request.getParameter("nameEvent");
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					nameEvent = (String) objJson.get("nameEvent");
-				}
-			}
-			if (nameEvent != null  && !nameEvent.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
-				String descriptionEvent;
-				String startEventDate;
-				String endEventDate;
-				if (objJson != null ) {
+		String idEvent;
+		String nameEvent;
+		String descriptionEvent;
+		String startEventDate;
+		String endEventDate;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				idEvent = (String) objJson.get("idEvent");
+				nameEvent = (String) objJson.get("nameEvent");
+				if (nameEvent != null && !nameEvent.equals("")) {
 					descriptionEvent = (String) objJson.get("descriptionEvent");
 					startEventDate = (String) objJson.get("startEvent");
-					endEventDate = (String) objJson.get("endEvent");
+					endEventDate = (String) objJson.get("endEvent");	
+					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+					
+					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					
+					Date startEvent = null;
+					try {
+						startEvent = inputFormat.parse(startEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Date endEvent = null ;
+					try {
+						endEvent = outputFormat.parse(endEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					idEvent = ""; // Generar ID evento
+					EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+					if (eventDAO.Update(newEvent) <=0 )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar el evento "  + nameEvent; 
+					}else {
+						mensajeResultado = "[OK]Se ha actualizado correctamente el evento " + nameEvent;
+					}
 				}
 				else {
+					EventDTO event = eventDAO.QueryById(idEvent);
+					if ( event == null )  {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora preparar la informacion para editar el evento "  + idEvent; 
+					}
+					else {
+						mensajeResultado = "[OK]Se ha preparado la informacion para editar el evento " + idEvent;
+						jsonDataEnviar.put("eventUpdate", event);
+					}
+				}			
+			}
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
+			
+		}
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				idEvent = request.getParameter("idEvent");
+				nameEvent = request.getParameter("nameEvent");
+				
+				if (nameEvent != null  && !nameEvent.equals("")) {
+					// Venimos de la vista por lo cual debemos de agregar el evento al usuario y regresarlo al controlador de calendario.
+
 					descriptionEvent = request.getParameter("descriptionEvent");
 					startEventDate = request.getParameter("startEvent");
 					endEventDate = request.getParameter("endEvent");
-				}
-				
-				SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				
-				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				
-				Date startEvent = null;
-				try {
-					startEvent = inputFormat.parse(startEventDate);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Date endEvent = null ;
-				try {
-					endEvent = outputFormat.parse(endEventDate);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				EventDTO updateEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
-				if (eventDAO.Update(updateEvent) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
-					nextPage = "View/Calendar/createEvent.jsp";
-				}
-				else {
-					session.removeAttribute("EventToUpdate");
-					nextPage = "Calendar";
-					mensajeNextPage = "Se ha actualizado correctamente";
-				}
-			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
-				if (idEvent != null  && !idEvent.equals("")) {
-					EventDTO eventToUpdate = eventDAO.QueryById(idEvent);
-					EventBean eventBean = new EventBean();
-					eventBean.setEvent(eventToUpdate);
-					nextPage = "View/Calendar/createEvent.jsp";
-					session.setAttribute("EventToUpdate", eventBean);
+					
+					
+					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+					
+					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					
+					Date startEvent = null;
+					try {
+						startEvent = inputFormat.parse(startEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Date endEvent = null ;
+					try {
+						endEvent = outputFormat.parse(endEventDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					EventDTO updateEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+					if (eventDAO.Update(updateEvent) <=0 )  {
+						mensajeNextPage = "Ha surgido un problema a la hora de actualizar el evento";
+						nextPage = "View/Calendar/createEvent.jsp";
+					}
+					else {
+						session.removeAttribute("EventToUpdate");
+						nextPage = "Calendar";
+						mensajeNextPage = "Se ha actualizado correctamente";
+					}
 				}
 				else {
-					mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del evento a modificar";
+					// Tenemos que dirigirnos a la vista
+					// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
+					if (idEvent != null  && !idEvent.equals("")) {
+						EventDTO eventToUpdate = eventDAO.QueryById(idEvent);
+						EventBean eventBean = new EventBean();
+						eventBean.setEvent(eventToUpdate);
+						nextPage = "View/Calendar/createEvent.jsp";
+						session.setAttribute("EventToUpdate", eventBean);
+					}
+					else {
+						mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del evento a modificar";
+					}
 				}
+							
 			}
-						
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

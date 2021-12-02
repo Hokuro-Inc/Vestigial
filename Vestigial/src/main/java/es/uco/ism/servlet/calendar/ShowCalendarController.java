@@ -2,6 +2,7 @@ package es.uco.ism.servlet.calendar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import es.uco.ism.business.event.EventDTO;
 import es.uco.ism.data.EventDAO;
@@ -59,28 +62,53 @@ public class ShowCalendarController extends HttpServlet {
 		String nextPage ="View/Calendar/showCalendar.jsp"; 
 		String mensajeNextPage = "";
 		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			//Provenimos de la vista Movil
+			String usuarioActual = null;
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			objJson = new JSONObject(dataJson);
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				usuarioActual = (String) objJson.get("user");
+				PrintWriter out = response.getWriter();
+				ArrayList <EventDTO> listadoEventos = eventDAO.QueryByEmail(usuarioActual);
+				if (!listadoEventos.isEmpty()) {
+					jsonDataEnviar = new JSONObject();
+					jsonDataEnviar.put("Calendar", listadoEventos);
+					mensajeResultado = "[OK]Se han cargado todos los eventos del usuario";
+				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
+			}			
+		}	
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
+				ArrayList <EventDTO> listadoEventos = eventDAO.QueryByEmail(usuario.getEmail());
+				
+				CalendarBean calendarioUsuario = new CalendarBean ();
+				
+				calendarioUsuario.setEvents(listadoEventos);
+				
+				session.setAttribute("Calendario", calendarioUsuario);
+				
+			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
 			
-			//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
-			ArrayList <EventDTO> listadoEventos = eventDAO.QueryByEmail(usuario.getEmail());
-			
-			CalendarBean calendarioUsuario = new CalendarBean ();
-			
-			calendarioUsuario.setEvents(listadoEventos);
-			
-			session.setAttribute("Calendario", calendarioUsuario);
-			
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

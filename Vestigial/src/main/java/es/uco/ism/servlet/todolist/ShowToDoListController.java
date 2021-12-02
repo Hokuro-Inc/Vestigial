@@ -2,6 +2,7 @@ package es.uco.ism.servlet.todolist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import es.uco.ism.business.task.TaskDTO;
 import es.uco.ism.data.TaskDAO;
@@ -53,47 +56,77 @@ public class ShowToDoListController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		
+		String idLista;
 		TaskDAO taskDAO = new TaskDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_TO_DO_LIST"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			String idLista = request.getParameter("idLista");
-			if (idLista != null && !idLista.equals("") ) {
-				//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
-				ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuario.getEmail(),idLista);
-				
-				ToDoListBean listaTareasUsuario = new ToDoListBean ();
-				
-				listaTareasUsuario.setListTask (listaTareas);
-				
-				session.setAttribute("TodoList", listaTareasUsuario);
-				session.removeAttribute("ListadoListas");
-				nextPage = "MOSTRAR_CONTENIDO_LISTA";
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				idLista = (String) objJson.get("idLista");
+				if (idLista != null && !idLista.equals("") ) {
+					//Debemos de dar las tareas de la lista deseada
+					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuario.getEmail(),idLista);
+					jsonDataEnviar.put("ToDoList",listaTareas);
+					mensajeResultado = "[OK]Se devuelven todas las tareas de la lista " + idLista;
+				}
+				else {
+					//Debemos de dar todos los nombres de las listas del usuario
+					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
+					jsonDataEnviar.put("ToDoLists",listaTareas);
+					mensajeResultado = "[OK]Se devuelven todas las listas de tareas" + listaTareas.size();
+				}
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
 			}
-			else {
-				//Sigfica que queremos mostrar el conjunto de listas de tareas que tiene el usuario.
-				
-				ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
-				
-				ToDoListBean listaTareasUsuario = new ToDoListBean();
-				
-				listaTareasUsuario.setToDoList(listaTareas);
-				
-				session.setAttribute("ListadoListas", listaTareasUsuario);
-				nextPage = "MOSTRAR_TODAS_LAS_LISTAS";
+			
+		}
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				idLista = request.getParameter("idLista");
+				if (idLista != null && !idLista.equals("") ) {
+					//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
+					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuario.getEmail(),idLista);
+					
+					ToDoListBean listaTareasUsuario = new ToDoListBean ();
+					
+					listaTareasUsuario.setListTask (listaTareas);
+					
+					session.setAttribute("TodoList", listaTareasUsuario);
+					session.removeAttribute("ListadoListas");
+					nextPage = "MOSTRAR_CONTENIDO_LISTA";
+				}
+				else {
+					//Sigfica que queremos mostrar el conjunto de listas de tareas que tiene el usuario.
+					
+					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
+					
+					ToDoListBean listaTareasUsuario = new ToDoListBean();
+					
+					listaTareasUsuario.setToDoList(listaTareas);
+					
+					session.setAttribute("ListadoListas", listaTareasUsuario);
+					nextPage = "MOSTRAR_TODAS_LAS_LISTAS";
+				}
 			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

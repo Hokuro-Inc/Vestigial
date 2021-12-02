@@ -4,12 +4,12 @@ import { HttpClient } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class ContactsService {
 
   constructor(private httpClient: HttpClient) { }
 
   public getData(data: string) {
-    //console.log("Service", data);
-    return this.httpClient.post('http://localhost:8080/Vestigial/Login', data, { responseType:'text' });
+    return this.httpClient.post('http://localhost:8080/Vestigial//ShowAgenda', data, { responseType:'text' });
   }
+
 }
