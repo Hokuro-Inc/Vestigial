@@ -1,18 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { RegisterService } from 'src/app/services/register-service/register.service';
 
 @Component({
   selector: 'register-page',
   templateUrl: './register-page.page.html',
   styleUrls: ['./register-page.page.scss'],
 })
-export class RegisterPagePage {
+export class RegisterPagePage implements OnInit {
 
-  @Input() firstName: string;
-  @Input() lastName: string;
-  @Input() middleInitial: string;
+  email: string;
+  password: string;
+  phone: string;
+  validations_form: FormGroup;
 
-  constructor(public modalController: ModalController) {
+  constructor(public modalController: ModalController, public formBuilder: FormBuilder, private registerService: RegisterService) { }
+
+  ngOnInit(){
+    this.validations_form = this.formBuilder.group({
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$')
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required,
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])),
+      prefix: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+    })
 
   }
 
@@ -24,6 +42,16 @@ export class RegisterPagePage {
     });
   }
 
+  onSubmit(values: string){
+    console.log("Page", values);
+    this.registerService.getData(values).subscribe(
+      (response) => console.log("Respuesta", response),
+      (error) => console.log("Error", error),
+      () => {
+        this.dismiss();
+        alert("Funciona!!!!");
+      }
+    );
+  }
+
 }
-
-

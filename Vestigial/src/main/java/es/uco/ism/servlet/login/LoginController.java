@@ -57,16 +57,16 @@ public class LoginController extends HttpServlet {
 		
 		if (!login) {
 						
-			String UserEmail = request.getParameter("Email");
-			String UserPassword = request.getParameter("Password");
+			String UserEmail = request.getParameter("email");
+			String UserPassword = request.getParameter("password");
 
 			String dataJson = request.getReader().readLine();
 			
 			if (dataJson != null) {
 				JSONObject objJson = new JSONObject(dataJson);
 				if (!objJson.isEmpty()) {
-					UserEmail = (String) objJson.get("Email");
-					UserPassword = (String) objJson.get("Password");
+					UserEmail = (String) objJson.get("email");
+					UserPassword = (String) objJson.get("password");
 				}
 			}
 			
