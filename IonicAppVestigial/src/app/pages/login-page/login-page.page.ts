@@ -37,15 +37,28 @@ export class LoginPagePage implements OnInit {
     	});
   	}
 
-	onSubmit(values: string) {
-		console.log("Page", values);
+	onSubmit(values) {
+		//console.log("Page", values);
+		var res = false;
+
 		this.loginService.getData(values).subscribe(
-			(response) => console.log("Respuesta", response),
+			(response) => {
+				//console.log("Respuesta", response);
+				var data = JSON.parse(response);
+
+				if (data.Mensaje.includes("OK")) res = true;
+			},
 			(error) => console.log("Error", error),
 			() => {
-				this.dismiss();
-				this.router.navigate(['/calendar']);
-				alert("Funciona!!!");
+				if (res == true) {
+					this.dismiss();
+					sessionStorage.setItem("user", values.email);
+					this.router.navigate(['/calendar']);
+					//alert("Funciona!!!");
+				}
+				else {
+					alert("Error en inicio de sesion");
+				}
 			}	
 		);
 	}
