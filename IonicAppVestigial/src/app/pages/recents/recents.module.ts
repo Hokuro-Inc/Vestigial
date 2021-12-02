@@ -18,3 +18,4 @@ import { RecentsPage } from './recents.page';
   declarations: [RecentsPage]
 })
 export class RecentsPageModule {}
+

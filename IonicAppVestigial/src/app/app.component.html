@@ -5,11 +5,6 @@
         <ion-list id="inbox-list">
           <ion-list-header>Vestigial</ion-list-header>
           <ion-note>hokuroincorporated@gmail.com</ion-note>
-
-          <div id="container">
-            <ion-button size="small" (click)="openRegister()">Register</ion-button>
-            <ion-button size="small" (click)="openLogin()">Login</ion-button>
-          </div>
           
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
