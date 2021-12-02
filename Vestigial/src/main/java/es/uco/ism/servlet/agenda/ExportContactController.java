@@ -2,6 +2,7 @@ package es.uco.ism.servlet.agenda;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
@@ -55,33 +58,60 @@ public class ExportContactController extends HttpServlet {
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_AGENDA"; 
 		String mensajeNextPage = "";
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String phone = request.getParameter("phone");
-
-				// Tenemos que dirigirnos a la vista
-				// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
-				if (phone != null  && !phone.equals("")) {
-					ContactDTO contactExport = contactDAO.QueryByPhone(phone);
-					ContactBean contactBean = new ContactBean();
-					contactBean.setContact(contactExport);
-					nextPage = "VISTA_EXPORTAR_CONTACTO";
-					session.setAttribute("ContactToExport", contactBean);
+		String phone;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				phone = (String) objJson.get("phone");
+				ContactDTO contacto = contactDAO.QueryByPhone(phone);
+				if ( contacto == null )  {
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de exportar el contacto "  + phone; 
 				}
 				else {
-					mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del CONTACTO a modificar";
+					mensajeResultado = "[OK]Se ha preparado la informacion para exportar el contacto " + phone;
+					jsonDataEnviar.put("contactExport", contacto);
 				}
-						
+			}
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				phone = request.getParameter("phone");
+
+					// Tenemos que dirigirnos a la vista
+					// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
+					if (phone != null  && !phone.equals("")) {
+						ContactDTO contactExport = contactDAO.QueryByPhone(phone);
+						ContactBean contactBean = new ContactBean();
+						contactBean.setContact(contactExport);
+						nextPage = "VISTA_EXPORTAR_CONTACTO";
+						session.setAttribute("ContactToExport", contactBean);
+					}
+					else {
+						mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del CONTACTO a modificar";
+					}
+							
+			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**

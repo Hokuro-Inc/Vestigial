@@ -66,7 +66,7 @@ public class ShowAgendaController extends HttpServlet {
 				ArrayList <ContactDTO> listadoContactos = contactDAO.QueryByOwner(usuarioActual);
 				if (!listadoContactos.isEmpty()) {
 					jsonDataEnviar = new JSONObject();
-					jsonDataEnviar.append("Agenda", listadoContactos);
+					jsonDataEnviar.put("Agenda", listadoContactos);
 					out.print(jsonDataEnviar);
 				}
 				out.close();

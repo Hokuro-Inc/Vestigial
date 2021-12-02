@@ -2,6 +2,7 @@ package es.uco.ism.servlet.agenda;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
@@ -54,47 +57,89 @@ public class ImportContactController extends HttpServlet {
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="SHOWAGENDA"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-			
-			String phone = request.getParameter("phone");
-			if (phone != null  && !phone.equals("")) {
-				// Venimos de la vista por lo cual debemos de agregar el contacto al usuario y regresarlo al controlador de calendario.
-				
-				String prefix = request.getParameter("prefix");
-				String name = request.getParameter("name");
-				String surname = request.getParameter("surname");
-				String alias = request.getParameter("alias");
-				String email = request.getParameter("email");
-				String description = request.getParameter("description");
-				String address = request.getParameter("address");
-				String owner = request.getParameter("owner");
-				//Los grupos se deberían de poder coger de alguna forma pero esto dependerá de la vista
+		String prefix ;
+		String name ;
+		String surname ;
+		String alias ;
+		String email ;
+		String description ;
+		String address;
+		String owner;
+		String phone;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				phone = (String) objJson.get("phone");
+				prefix = (String) objJson.get("prefix");
+				name = (String) objJson.get("name");
+				surname = (String) objJson.get("surname");
+				alias = (String) objJson.get("alias");
+				email = (String) objJson.get("email");
+				description = (String) objJson.get("description");
+				address = (String) objJson.get("address");
+				owner = (String) objJson.get("owner");
 				
 				ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 				if (contactDAO.Insert(newContact) <=0 )  {
-					mensajeNextPage = "Ha surgido un problema a la hora de importar el contacto";
-					nextPage = "IMPORTARNFC";
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el contacto "  + name; 
+				}
+				else {
+					mensajeResultado = "[OK]Se ha creado correctamente el contacto " + name;
 				}
 			}
-			else {
-				// Tenemos que dirigirnos a la vista
-				// No se si necesitamos enviarle algo a la vista de crear contacto.
-				nextPage = "IMPORTARNFC";
-			}				
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
 		}
-		else{
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "LOGIN";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+		else {
+			if (login) {
+				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				
+				phone = request.getParameter("phone");
+				if (phone != null  && !phone.equals("")) {
+					// Venimos de la vista por lo cual debemos de agregar el contacto al usuario y regresarlo al controlador de calendario.
+					
+					prefix = request.getParameter("prefix");
+					name = request.getParameter("name");
+					surname = request.getParameter("surname");
+					alias = request.getParameter("alias");
+					email = request.getParameter("email");
+					description = request.getParameter("description");
+					address = request.getParameter("address");
+					owner = request.getParameter("owner");
+					//Los grupos se deberían de poder coger de alguna forma pero esto dependerá de la vista
+					
+					ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
+					if (contactDAO.Insert(newContact) <=0 )  {
+						mensajeNextPage = "Ha surgido un problema a la hora de importar el contacto";
+						nextPage = "IMPORTARNFC";
+					}
+				}
+				else {
+					// Tenemos que dirigirnos a la vista
+					// No se si necesitamos enviarle algo a la vista de crear contacto.
+					nextPage = "IMPORTARNFC";
+				}				
+			}
+			else{
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "LOGIN";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
+			
+			
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
+			
 		}
-		
-		
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
-		
 	}
 
 	/**

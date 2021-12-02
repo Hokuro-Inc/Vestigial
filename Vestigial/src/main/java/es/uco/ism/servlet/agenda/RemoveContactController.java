@@ -2,6 +2,7 @@ package es.uco.ism.servlet.agenda;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
+import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
 import es.uco.ism.display.UserBean;
 
@@ -55,40 +57,57 @@ public class RemoveContactController extends HttpServlet {
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="Agenda"; 
 		String mensajeNextPage = "";
-		
-		if (login) {
-			String phone = request.getParameter("phone");
-			//Comprobamos si venimos de la vista movil
-			String dataJson = request.getReader().readLine();
-			JSONObject objJson = null;
-			if (dataJson != null) {
-				objJson = new JSONObject(dataJson);
-				if (!objJson.isEmpty()) {
-					phone = (String) objJson.get("phone");
-				}
-			}
-			if (phone != null  && !phone.equals("")) {
-				// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
-				
-				if (contactDAO.Delete(phone) < 0 ) {
-					mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el contacto";
+		String phone;
+		String dataJson = request.getReader().readLine();
+		JSONObject objJson = null;
+		if (dataJson != null) {
+			objJson = new JSONObject(dataJson);
+			response.setContentType("application/json");
+			JSONObject jsonDataEnviar = null;
+			PrintWriter out = response.getWriter();
+			jsonDataEnviar = new JSONObject();
+			String mensajeResultado = null;
+			if (!objJson.isEmpty()) {
+				phone = (String) objJson.get("phone");
+				if ( contactDAO.Delete(phone) <= 0 )  {
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de exportar el contacto "  + phone; 
 				}
 				else {
-					mensajeNextPage = "Se ha eliminado correctamente";
+					mensajeResultado = "[OK]Se ha preparado la informacion para exportar el contacto " + phone;
+				}
+			}
+			jsonDataEnviar.put("Mensaje", mensajeResultado);
+			out.print(jsonDataEnviar);
+			out.close();
+		}
+		else {
+			if (login) {
+				phone = request.getParameter("phone");
+				//Comprobamos si venimos de la vista movil
+				
+				if (phone != null  && !phone.equals("")) {
+					// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
+					
+					if (contactDAO.Delete(phone) < 0 ) {
+						mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el contacto";
+					}
+					else {
+						mensajeNextPage = "Se ha eliminado correctamente";
+					}
+					
 				}
 				
 			}
+			else {
+				// No se encuentra logueado, mandamos a la pagina de login.
+				nextPage = "Login";
+				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			}
 			
+			disparador = request.getRequestDispatcher(nextPage);
+			request.setAttribute("mensaje", mensajeNextPage);
+			disparador.forward(request, response);
 		}
-		else {
-			// No se encuentra logueado, mandamos a la pagina de login.
-			nextPage = "Login";
-			mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
-		}
-		
-		disparador = request.getRequestDispatcher(nextPage);
-		request.setAttribute("mensaje", mensajeNextPage);
-		disparador.forward(request, response);
 	}
 
 	/**
