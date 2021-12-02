@@ -3,6 +3,7 @@ package es.uco.ism.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.business.bloc.BlocDTO;
@@ -28,18 +29,51 @@ public class BlocDAO extends DBConnectImpl {
 	 * @param owner Due�o cuyo bloc de notas se va a buscar
 	 * @return Bloc de notas del due�o dado
 	 */
-	public BlocDTO QueryByOwner(String owner) {
-		BlocDTO bloc = null;
+
+    public ArrayList<BlocDTO> QueryByAll() {
+        BlocDTO note = null;
+        ArrayList<BlocDTO> notes = new ArrayList<BlocDTO>();
 
         try {
             Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_All_User");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            ResultSet set = stmt.executeQuery();
+
+            while (set.next()) {
+
+                note = new BlocDTO(set.getString(1), set.getString(2), set.getString(3));
+                notes.add(note);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return notes;
+    }
+
+	public ArrayList<BlocDTO> QueryByOwner(String owner) {
+		
+		BlocDTO note = null;
+		ArrayList<BlocDTO> notes = new ArrayList<BlocDTO>();
+
+        try {
+        	
+        	Connection con = getConnection();
             String statement = sqlProp.getProperty("Select_Bloc");
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, owner);
             ResultSet set = stmt.executeQuery();
 
             while (set.next()) {            	
-            	bloc = new BlocDTO(set.getString(1), set.getString(2));
+            	
+            	note = new BlocDTO(set.getString(1), owner, set.getString(3));
+                notes.add(note);
             }
 
             if (stmt != null) {
@@ -50,7 +84,7 @@ public class BlocDAO extends DBConnectImpl {
             e.printStackTrace();
         }
         
-        return bloc;
+        return notes;
 	}
 	
 	/**
@@ -66,8 +100,9 @@ public class BlocDAO extends DBConnectImpl {
             String statement = sqlProp.getProperty("Insert_Bloc");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, bloc.getOwner());
-            stmt.setString(2, bloc.getText());        
+            stmt.setString(1, bloc.getName());
+            stmt.setString(2, bloc.getOwner());
+            stmt.setString(3, bloc.getText());        
             status = stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -94,8 +129,9 @@ public class BlocDAO extends DBConnectImpl {
             String statement = sqlProp.getProperty("Update_Bloc");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(2, bloc.getOwner());
             stmt.setString(1, bloc.getText());
+            stmt.setString(2, bloc.getName());
+            stmt.setString(3, bloc.getOwner());
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -115,14 +151,15 @@ public class BlocDAO extends DBConnectImpl {
      * @param owner Due�o cuyo bloc de notas se va a borrar
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
-    public int Delete(String owner) {
+    public int Delete(BlocDTO bloc) {
         int status = 0;
 
         try {
             String statement = sqlProp.getProperty("Delete_Bloc");
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, owner);
+            stmt.setString(1, bloc.getName());
+            stmt.setString(1, bloc.getOwner());
             status = stmt.executeUpdate();
             
             if (stmt != null) {

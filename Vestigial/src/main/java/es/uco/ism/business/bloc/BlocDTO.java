@@ -7,6 +7,7 @@ public class BlocDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String owner;
 	private String text;
+	private String name;
 	
 	/**
 	 * Constructor completo para un bloc de notas
@@ -14,11 +15,22 @@ public class BlocDTO implements Serializable {
 	 * @param owner Dueño del bloc de notas
 	 * @param text Texto del bloc de notas
 	 */
-	public BlocDTO(String owner, String text) {
+	public BlocDTO(String name, String owner, String text) {
+		
+		this.name = name;
 		this.owner = owner;
 		this.text = text;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
+	
 	/**
 	 * Devuelve el dueño de un bloc de notas
 	 * 
@@ -62,7 +74,7 @@ public class BlocDTO implements Serializable {
 	 * @return Cadena con el contenido
 	 */
 	public String toString() {
-		return "BlocDTO [owner=" + owner + ", text=" + text + "]";
+		return "BlocDTO [name=" + name + ", owner=" + owner + ", text=" + text + "]";
 	}
 	
 }
