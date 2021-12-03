@@ -8,6 +8,6 @@ export class DataService {
 
   constructor( private http: HttpClient) { }
   getNotes(){
-    return this.http.get('https://jsonplaceholder.typicode.com/users');
+    return this.http.get("https://raw.githubusercontent.com/LepreprechauN/fakedatabase/main/notes.json");
   }
 }

@@ -1,23 +1,54 @@
+<ion-header translucent>
+  <ion-toolbar>
 
+       <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+       <ion-title>Notes</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
 
 <ion-list>
 
-  <ion-item *ngFor ="let note of notes | async">
+  <ion-item-sliding *ngFor ="let note of notes | async">
 
-    <ion-label>
+    <ion-item button (click) = "open(item)">
 
-      <h3>{{ note.name }}</h3>
-        <p> {{ note.email }}</p> 
+      <ion-label>
+  
+        <h3>{{ note.title }}</h3>
+          <p> {{ note.date }}</p> 
+  
+      </ion-label>
+  
+  
+      <ion-label slot="end" text-right>
+        <p>{{ note.body }}</p>
+      </ion-label>
+  
+    </ion-item>
 
-    </ion-label>
+
+      <ion-item-options side="start">
+        <ion-item-option color ="primary" (click)="favorite(item)">Favorite</ion-item-option>
+        <ion-item-option color="secundary" (click)="share(item)">Share</ion-item-option>
+      </ion-item-options>
+
+  
+      <ion-item-options side="end">
+        <ion-item-option color = "danger" (click)="unread(item)">
+          <ion-icon slot = "icon-only" name ="trash"></ion-icon>
+          Delete
+        </ion-item-option>
+          
+      </ion-item-options>
 
 
-    <ion-label slot="end" text-right>
-      {{ note.phone }}
-    </ion-label>
 
-  </ion-item>
+
+
+
+  </ion-item-sliding>
+
 
 </ion-list>
 
