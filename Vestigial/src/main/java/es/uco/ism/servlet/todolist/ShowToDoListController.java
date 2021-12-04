@@ -83,7 +83,7 @@ public class ShowToDoListController extends HttpServlet {
 					//Debemos de dar todos los nombres de las listas del usuario
 					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuarioActual);
 					jsonDataEnviar.put("ToDoLists",listaTareas);
-					mensajeResultado = "[OK]Se devuelven todas las listas de tareas" + listaTareas.size();
+					mensajeResultado = "[OK]Se devuelven todas las listas de tareas " + listaTareas.size();
 				}
 				jsonDataEnviar.put("Mensaje", mensajeResultado);
 				out.print(jsonDataEnviar);

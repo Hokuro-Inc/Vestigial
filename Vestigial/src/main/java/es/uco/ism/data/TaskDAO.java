@@ -86,7 +86,7 @@ public class TaskDAO extends DBConnectImpl{
 
         try {
             Connection con = getConnection();
-            String statement = sqlProp.getProperty("Select_All_List_Owner");
+            String statement = sqlProp.getProperty("Select_User_List");
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, email);
             ResultSet set = stmt.executeQuery();

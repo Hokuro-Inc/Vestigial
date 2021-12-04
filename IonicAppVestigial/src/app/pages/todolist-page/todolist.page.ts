@@ -12,43 +12,44 @@ import {List} from '../lists-page/lists.page'
 export class TodolistPage implements OnInit {
 
   todolist: Task[];
-
   lista : List;
+
   constructor(private TodolistService: TodolistService, private modalController: ModalController) { }
 
-   ngOnInit() {
-    let data = {
-      "user": sessionStorage.getItem("user"),
-      "idLista": this.lista.name
-    };
+    ngOnInit() {
+      let data = {
+        "user": sessionStorage.getItem("user"),
+        "idLista": this.lista.name
+      };
+      console.log(data);
 
-    this.TodolistService.getData(JSON.stringify(data)).subscribe(
-      (response) => {
-        //console.log("Respuesta", response);
-        if (response != '') {
-          var data = JSON.parse(response).ToDoList;
-          this.todolist = [];
-          
-          data.forEach((element: any) => {
-            this.todolist.push(new Task(
-              element.id,
-              element.owner,
-              element.name,
-              element.description,
-              element.status,
-              element.list,
-            ));
-          });
+      this.TodolistService.getData(JSON.stringify(data)).subscribe(
+        (response) => {
+          console.log("Respuesta", response);
+          if (response != '') {
+            var data = JSON.parse(response).ToDoList;
+            this.todolist = [];
+            
+            data.forEach((element: any) => {
+              this.todolist.push(new Task(
+                element.id,
+                element.owner,
+                element.name,
+                element.description,
+                element.status,
+                element.list,
+              ));
+            });
 
-          //console.log(this.todolist.forEach(e => console.log(e)));
+            console.log(this.todolist.forEach(e => console.log(e)));
+          }
+        },
+        (error) => console.log("Error", error),
+        () => {
+          console.log("Completed");
         }
-      },
-      (error) => console.log("Error", error),
-      () => {
-        console.log("Completed");
-      }
-    );
-  }
+      );
+    }
 
   async showTask(task: Task) {
     //console.log(task);

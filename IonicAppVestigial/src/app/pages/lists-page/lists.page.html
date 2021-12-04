@@ -8,8 +8,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content fullscreen>
-      <ion-list *ngFor="let task of todolist; let i = index">
-        <ion-item button (click)="showList(todolist[i])">{{todolist[i].id}} -> {{todolist[i].name}}</ion-item>
+      <ion-list *ngFor="let list of lists; let i = index">
+        <ion-item button (click)="showList(lists[i])">{{lists[i].name}}</ion-item>
       </ion-list>
     </ion-content>
   </ion-app>
