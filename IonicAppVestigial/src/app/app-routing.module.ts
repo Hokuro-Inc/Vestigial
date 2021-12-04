@@ -54,7 +54,11 @@ const routes: Routes = [
   {
     path: 'contact-view',
     loadChildren: () => import('./pages/contact-view/contact-view.module').then( m => m.ContactViewPageModule)
+  },  {
+    path: 'add-contact',
+    loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule)
   }
+
 
 
 

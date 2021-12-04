@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { AddContactPage } from '../add-contact/add-contact.page'
 
 @Component({
   selector: 'app-agenda-page',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AgendaPagePage implements OnInit {
 
-  constructor() { }
+  	constructor(private modalController: ModalController) { }
 
-  ngOnInit() {
-  }
+  	ngOnInit() {
+  	}
+
+  	async addContact() {
+      console.log("hola");
+	    const modal = await this.modalController.create({
+	      // Data passed in by componentProps
+	      component: AddContactPage,
+	    });
+	    return await modal.present();
+  	}
 
 }
