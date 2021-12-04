@@ -80,18 +80,23 @@ public class TaskDAO extends DBConnectImpl{
         return task;
     }
 
-
-	public ArrayList<String> QueryListsByOwner(String email) {
-    	ArrayList<String> listTask = new ArrayList<String>();
+	public ArrayList<TaskDTO> QueryByOwnerAndLabel(TaskDTO task) {
+		
+		ArrayList<TaskDTO> listTask = new ArrayList<TaskDTO>();
+		
 
         try {
             Connection con = getConnection();
-            String statement = sqlProp.getProperty("Select_All_List_Owner");
+            String statement = sqlProp.getProperty("Select_Task_User_List");
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, email);
+            stmt.setString(1, task.getOwner());
+            stmt.setString(1, task.getList());
             ResultSet set = stmt.executeQuery();
+            
             while (set.next()) {
-            	listTask.add(set.getString(1));
+            		
+            	TaskDTO aux = new TaskDTO(set.getString(1), task.getOwner(), set.getString(2), set.getString(3), Status.valueOf(set.getString(4)), task.getList());
+            	listTask.add(aux);
             }
 
             if (stmt != null) {
@@ -103,11 +108,6 @@ public class TaskDAO extends DBConnectImpl{
         }
         
         return listTask;
-	}
-
-	public ArrayList<TaskDTO> QueryByOwnerAndLabel(String email, String idLista) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
     /**
