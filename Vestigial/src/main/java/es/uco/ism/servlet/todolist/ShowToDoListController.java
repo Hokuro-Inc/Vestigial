@@ -15,8 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import es.uco.ism.business.task.TaskDTO;
+import es.uco.ism.business.task.*;
 import es.uco.ism.data.TaskDAO;
+import es.uco.ism.business.user.UserDTO;
+import es.uco.ism.data.UserListDAO;
 import es.uco.ism.display.ToDoListBean;
 import es.uco.ism.display.UserBean;
 
@@ -58,6 +60,7 @@ public class ShowToDoListController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		String idLista;
 		TaskDAO taskDAO = new TaskDAO(url_bd, username_bd, password_bd, prop);
+		UserListDAO userlistDAO = new UserListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_TO_DO_LIST"; 
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
@@ -73,15 +76,18 @@ public class ShowToDoListController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				String usuarioActual = (String) objJson.get("user");
 				idLista = (String) objJson.get("idLista");
+				TaskDTO task = new TaskDTO(" ", usuarioActual, " ", " ", Status.Done, idLista);
+				UserDTO user = new UserDTO(usuarioActual, "", "", "", "");
+				
 				if (idLista != null && !idLista.equals("") ) {
 					//Debemos de dar las tareas de la lista deseada
-					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuarioActual,idLista);
+					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(task);
 					jsonDataEnviar.put("ToDoList",listaTareas);
 					mensajeResultado = "[OK]Se devuelven todas las tareas de la lista " + idLista;
 				}
 				else {
 					//Debemos de dar todos los nombres de las listas del usuario
-					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuarioActual);
+					ArrayList<String> listaTareas = userlistDAO.QueryByUser(user);
 					jsonDataEnviar.put("ToDoLists",listaTareas);
 					mensajeResultado = "[OK]Se devuelven todas las listas de tareas" + listaTareas.size();
 				}
@@ -94,10 +100,14 @@ public class ShowToDoListController extends HttpServlet {
 		else {
 			if (login) {
 				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
+				String usuarioActual = (String) objJson.get("user");
 				idLista = request.getParameter("idLista");
+				TaskDTO task = new TaskDTO(" ", usuarioActual, " ", " ", Status.Done, idLista);
+				UserDTO user = new UserDTO(usuarioActual, "", "", "", "");
+				
 				if (idLista != null && !idLista.equals("") ) {
 					//Supongo que solicitaremos todos los eventos del usuario para mostrar no?
-					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuario.getEmail(),idLista);
+					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(task);
 					
 					ToDoListBean listaTareasUsuario = new ToDoListBean ();
 					
@@ -110,7 +120,7 @@ public class ShowToDoListController extends HttpServlet {
 				else {
 					//Sigfica que queremos mostrar el conjunto de listas de tareas que tiene el usuario.
 					
-					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
+					ArrayList<String> listaTareas = userlistDAO.QueryByUser(user);
 					
 					ToDoListBean listaTareasUsuario = new ToDoListBean();
 					
