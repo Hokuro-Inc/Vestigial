@@ -75,6 +75,7 @@ public class CreateEventController extends HttpServlet {
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
 				nameEvent = (String) objJson.get("nameEvent");
+				String owner = (String) objJson.get("user");
 				if (nameEvent != null && !nameEvent.equals("")) {
 					descriptionEvent = (String) objJson.get("descriptionEvent");
 					startEventDate = (String) objJson.get("startEvent");
@@ -99,7 +100,7 @@ public class CreateEventController extends HttpServlet {
 					}
 					
 					String idEvent = ""; // Generar ID evento
-					EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+					EventDTO newEvent = new EventDTO (idEvent, owner, startEvent, endEvent, nameEvent, descriptionEvent);
 					if (eventDAO.Insert(newEvent) <=0 )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el evento "  + nameEvent; 
 					}else {

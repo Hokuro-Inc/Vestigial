@@ -74,13 +74,14 @@ public class UpdateTaskController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
+				String usuarioActual = (String) objJson.get("user");
 				descriptionTask = (String) objJson.get("descriptionTask");
 				idLista = (String) objJson.get("idLista");
 				nameTask = (String) objJson.get("nameTask");
 				statusTask = (String) objJson.get("statusTask");
 				Status estadoTask = Status.valueOf(statusTask) ;
 				if (nameTask != null && !nameTask.equals("")) {
-					TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, estadoTask,idLista);
+					TaskDTO newTask = new TaskDTO (idTask, usuarioActual, nameTask, descriptionTask, estadoTask,idLista);
 					if (taskDAO.Update(newTask) <=0 )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar la tarea"  + idTask; 
 					}

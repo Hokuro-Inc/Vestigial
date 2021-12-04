@@ -11,19 +11,20 @@ import { ContactViewPage } from '../contact-view/contact-view.page'
 export class ContactsPage implements OnInit {
 
   contacts: Contact[];
+  filteredList: Contact[];
 
   constructor(private contactsService: ContactsService, private modalController: ModalController) { }
 
   ngOnInit() {
-    let data = {
+    let user = {
       "user": sessionStorage.getItem("user"),
     };
 
-    this.contactsService.getData(JSON.stringify(data)).subscribe(
+    this.contactsService.getData(JSON.stringify(user)).subscribe(
       (response) => {
 				//console.log("Respuesta", response);
 				if (response != '') {
-          var data = JSON.parse(response).Agenda;
+          let data = JSON.parse(response).Agenda;
           this.contacts = [];
           
           data.forEach((element: any) => {
@@ -40,6 +41,7 @@ export class ContactsPage implements OnInit {
             ));
           });
 
+          this.filteredList = this.contacts;
           //console.log(this.contacts.forEach(e => console.log(e)));
         }
 			},
@@ -48,6 +50,20 @@ export class ContactsPage implements OnInit {
 				console.log("Completed");
 			}
     );
+  }
+
+  filter(event: any) {
+    let value = event.target.value;
+
+    if (value && value.trim() != '') {
+      this.filteredList = this.contacts.filter(item => {
+        return item.fullname.toLowerCase().indexOf(value.toLowerCase()) > -1 ||
+          item.alias.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      });
+    }
+    else {
+      this.filteredList = this.contacts;
+    }
   }
 
   async showContact(contact: Contact) {
@@ -74,6 +90,7 @@ export class Contact {
   phone: string;
   prefix: string;
   surname: string;
+  fullname: string;
 
   constructor(address: string, alias: string, description: string, email: string, name: string, owner: string, phone: string, prefix: string, surname: string) {
     this.address = address;
@@ -85,5 +102,6 @@ export class Contact {
     this.phone = phone;
     this.prefix = prefix;
     this.surname = surname;
+    this.fullname = name + " " + surname;
   }
 }

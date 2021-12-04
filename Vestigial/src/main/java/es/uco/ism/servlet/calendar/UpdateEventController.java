@@ -69,6 +69,7 @@ public class UpdateEventController extends HttpServlet {
 		String dataJson = request.getReader().readLine();
 		JSONObject objJson = null;
 		if (dataJson != null) {
+			String usuarioActual = null;
 			objJson = new JSONObject(dataJson);
 			response.setContentType("application/json");
 			JSONObject jsonDataEnviar = null;
@@ -79,6 +80,7 @@ public class UpdateEventController extends HttpServlet {
 				idEvent = (String) objJson.get("idEvent");
 				nameEvent = (String) objJson.get("nameEvent");
 				if (nameEvent != null && !nameEvent.equals("")) {
+					usuarioActual = (String) objJson.get("user");
 					descriptionEvent = (String) objJson.get("descriptionEvent");
 					startEventDate = (String) objJson.get("startEvent");
 					endEventDate = (String) objJson.get("endEvent");	
@@ -102,7 +104,7 @@ public class UpdateEventController extends HttpServlet {
 					}
 					
 					idEvent = ""; // Generar ID evento
-					EventDTO newEvent = new EventDTO (idEvent, usuario.getEmail(), startEvent, endEvent, nameEvent, descriptionEvent);
+					EventDTO newEvent = new EventDTO (idEvent, usuarioActual, startEvent, endEvent, nameEvent, descriptionEvent);
 					if (eventDAO.Update(newEvent) <=0 )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar el evento "  + nameEvent; 
 					}else {

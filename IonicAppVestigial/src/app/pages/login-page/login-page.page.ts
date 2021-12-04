@@ -39,12 +39,12 @@ export class LoginPagePage implements OnInit {
 
 	onSubmit(values: any) {
 		//console.log("Page", values);
-		var res = false;
+		let res = false;
 
 		this.loginService.getData(values).subscribe(
 			(response) => {
 				//console.log("Respuesta", response);
-				var data = JSON.parse(response);
+				let data = JSON.parse(response);
 
 				if (data.Mensaje.includes("OK")) res = true;
 			},

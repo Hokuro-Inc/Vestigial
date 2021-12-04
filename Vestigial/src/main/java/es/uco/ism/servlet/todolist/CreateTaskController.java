@@ -71,6 +71,7 @@ public class CreateTaskController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
+				String usuarioActual = (String) objJson.get("user");
 				descriptionTask = (String) objJson.get("descriptionTask");
 				idLista = (String) objJson.get("idLista");
 				nameTask = (String) objJson.get("nameTask");
