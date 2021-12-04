@@ -15,7 +15,6 @@ export class AgendaPagePage implements OnInit {
   	}
 
   	async addContact() {
-      console.log("hola");
 	    const modal = await this.modalController.create({
 	      // Data passed in by componentProps
 	      component: AddContactPage,

@@ -16,8 +16,6 @@ export class ContactsPage implements OnInit {
   constructor(private contactsService: ContactsService, private modalController: ModalController) { }
 
   ngOnInit() {
-    console.log("entra al oninit")
-    console.log(sessionStorage.getItem("user"));
     let user = {
       "user": sessionStorage.getItem("user"),
     };

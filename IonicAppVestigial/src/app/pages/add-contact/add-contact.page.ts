@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
-import { Contact } from '../contacts/contacts.page'
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+
 @Component({
   selector: 'app-add-contact',
   templateUrl: './add-contact.page.html',
@@ -13,14 +13,9 @@ export class AddContactPage implements OnInit {
 
   validations_form: FormGroup;
 
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService, private router: Router) { }
-
-
+  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService, private navController: NavController) { }
 
   ngOnInit() {
-    let user = {
-      "user": sessionStorage.getItem("user"),
-    };
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
@@ -43,15 +38,12 @@ export class AddContactPage implements OnInit {
   }
 
   onSubmit(contact: any){
-    console.log("Page", contact);
-
     this.contactService.addContact(contact).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        sessionStorage.setItem("user", contact.email);
-        this.router.navigate(['/calendar']);
+        this.navController.navigateBack(['/contacts']);
         //alert("Funciona!!!!");
       }
     );
