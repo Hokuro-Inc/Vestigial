@@ -57,6 +57,10 @@ const routes: Routes = [
   },  {
     path: 'add-contact',
     loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule)
+  },
+  {
+    path: 'modify-contact',
+    loadChildren: () => import('./pages/modify-contact/modify-contact.module').then( m => m.ModifyContactPageModule)
   }
 
 
