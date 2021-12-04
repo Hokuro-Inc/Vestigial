@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { Task } from '../todolist-page/todolist.page';
 
 @Component({
   selector: 'app-task',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskPage implements OnInit {
 
-  constructor() { }
+  task: Task;
+  constructor(public modalController: ModalController) { }
 
   ngOnInit() {
+    //console.log(this.task);
   }
 
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      'dismissed': true
+    });
+  }
 }

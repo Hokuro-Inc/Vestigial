@@ -1,9 +1,17 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>task</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>{{task.id}} {{task.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list >
+        <ion-item>Nombre: {{task.name}}</ion-item>
+        <ion-item>Descripcion: {{task.description}}</ion-item>
+        <ion-item>Estado: {{task.status}}</ion-item>
+        <ion-item>Pertenece a la lista: {{task.list}}</ion-item>
+    </ion-list>
 </ion-content>

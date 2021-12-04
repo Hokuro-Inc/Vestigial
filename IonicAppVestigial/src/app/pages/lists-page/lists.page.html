@@ -1,9 +1,33 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>lists</ion-title>
-  </ion-toolbar>
-</ion-header>
+<body>
+  <ion-app>
+    <ion-header translucent>
+      <ion-toolbar>
+        <ion-searchbar>
+           <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+        </ion-searchbar>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content fullscreen>
+      <ion-list *ngFor="let task of todolist; let i = index">
+        <ion-item button (click)="showList(todolist[i])">{{todolist[i].id}} -> {{todolist[i].name}}</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-app>
 
-<ion-content>
+  <script>
+    const searchbar = document.querySelector('ion-searchbar');
+    const items = Array.from(document.querySelector('ion-list').children);
 
-</ion-content>
+    searchbar.addEventListener('ionInput', handleInput);
+
+    function handleInput(event) {
+      const query = event.target.value.toLowerCase();
+      requestAnimationFrame(() => {
+        items.forEach(item => {
+          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+          item.style.display = shouldShow ? 'block' : 'none';
+        });
+      });
+    }
+  </script>
+</body>
