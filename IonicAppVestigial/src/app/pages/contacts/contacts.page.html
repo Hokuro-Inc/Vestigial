@@ -2,32 +2,15 @@
   <ion-app>
     <ion-header translucent>
       <ion-toolbar>
-        <ion-searchbar>
+        <ion-searchbar (ionInput)="filter($event)">
            <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
         </ion-searchbar>
       </ion-toolbar>
     </ion-header>
     <ion-content fullscreen>
-      <ion-list *ngFor="let contact of contacts; let i = index">
-        <ion-item button (click)="showContact(contacts[i])">{{contacts[i].name}} -> {{contacts[i].alias}}</ion-item>
+      <ion-list *ngFor="let contact of filteredList; let i = index">
+        <ion-item button (click)="showContact(filteredList[i])">{{filteredList[i].fullname}} -> {{filteredList[i].alias}}</ion-item>
       </ion-list>
     </ion-content>
   </ion-app>
-
-  <script>
-    const searchbar = document.querySelector('ion-searchbar');
-    const items = Array.from(document.querySelector('ion-list').children);
-
-    searchbar.addEventListener('ionInput', handleInput);
-
-    function handleInput(event) {
-      const query = event.target.value.toLowerCase();
-      requestAnimationFrame(() => {
-        items.forEach(item => {
-          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
-          item.style.display = shouldShow ? 'block' : 'none';
-        });
-      });
-    }
-  </script>
 </body>
