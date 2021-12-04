@@ -63,6 +63,7 @@ public class ShowToDoListController extends HttpServlet {
 		String dataJson = request.getReader().readLine();
 		JSONObject objJson = null;
 		if (dataJson != null) {
+			
 			objJson = new JSONObject(dataJson);
 			response.setContentType("application/json");
 			JSONObject jsonDataEnviar = null;
@@ -70,16 +71,17 @@ public class ShowToDoListController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
+				String usuarioActual = (String) objJson.get("user");
 				idLista = (String) objJson.get("idLista");
 				if (idLista != null && !idLista.equals("") ) {
 					//Debemos de dar las tareas de la lista deseada
-					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuario.getEmail(),idLista);
+					ArrayList <TaskDTO> listaTareas = taskDAO.QueryByOwnerAndLabel(usuarioActual,idLista);
 					jsonDataEnviar.put("ToDoList",listaTareas);
 					mensajeResultado = "[OK]Se devuelven todas las tareas de la lista " + idLista;
 				}
 				else {
 					//Debemos de dar todos los nombres de las listas del usuario
-					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuario.getEmail());
+					ArrayList<String> listaTareas = taskDAO.QueryListsByOwner(usuarioActual);
 					jsonDataEnviar.put("ToDoLists",listaTareas);
 					mensajeResultado = "[OK]Se devuelven todas las listas de tareas" + listaTareas.size();
 				}
