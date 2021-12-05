@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.business.event.EventDTO;
+import es.uco.ism.business.task.Status;
+import es.uco.ism.business.task.TaskDTO;
 
 public class EventDAO extends DBConnectImpl{
 	/**
@@ -198,7 +200,34 @@ public class EventDAO extends DBConnectImpl{
     }
 
 	public ArrayList<EventDTO> QueryByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+
+ArrayList<EventDTO> listEvent = new ArrayList<EventDTO>();
+		
+
+        try {
+            Connection con = getConnection();
+
+            String statement = sqlProp.getProperty("Select_Event_User");
+
+            PreparedStatement stmt = con.prepareStatement(statement);
+            stmt.setString(1, email);
+
+            ResultSet set = stmt.executeQuery();
+            
+            while (set.next()) {
+            		
+            	EventDTO aux = new EventDTO(set.getString(1), email, set.getDate(4), set.getDate(5), set.getString(2), set.getString(3));
+            	listEvent.add(aux);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return listEvent;
 	}
 }
