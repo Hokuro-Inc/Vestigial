@@ -2,30 +2,28 @@
   <ion-toolbar>
 
        <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
-       <ion-title>Nota {{note.name}} </ion-title>
+       <ion-title>Notes</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
 
 <ion-list>
 
-  <ion-item-sliding >
+  <ion-item-sliding *ngFor ="let note of notepads | async">
 
-    <ion-item button (click) = "open(item)">
+    <ion-item button (click) = "showNotePad(note)">
 
       <ion-label>
-        <h3>{{ note.title }}</h3>
-      </ion-label>
   
+        <h2>{{ note.title }}</h2> 
   
-      <ion-label text-right>
-        <p>{{ note.body }}</p>
       </ion-label>
+
   
     </ion-item>
 
 
-    <ion-item-options side="start">
+      <ion-item-options side="start">
         <ion-item-option color ="primary" (click)="editContact(note)">Editar</ion-item-option>
       </ion-item-options>
 
@@ -47,5 +45,9 @@
 
 
 </ion-list>
+
+  <ion-col>
+        <ion-item button (click)="addNotePad()">Crear un nuevo Bloc</ion-item>
+  </ion-col>
 
 </ion-content>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
+import { NotepadService } from 'src/app/services/notepad-service/notepad.service';
+import { ModalController } from '@ionic/angular';
+import { Notepad } from '../notepads/notepads.page'
+import { ModifyNotePage } from '../modify-note/modify-note.page'
 
 @Component({
   selector: 'app-notepad',
@@ -9,14 +11,51 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class NotepadPage implements OnInit {
 
+  notepad: Notepad;
 
-  notes: Observable<any>;
-
-  constructor(private dataService: DataService) { }
+  constructor(private notepadService: NotepadService, private modalController: ModalController) { }
 
   ngOnInit() {
-
-    this.notes = this.dataService.getNotes();
+    //console.log(this.note);
+  }
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      'dismissed': true
+    });
   }
 
+  async editContact(notepad: Notepad) {
+    //console.log(contact);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ModifyNotePage,
+      componentProps: {
+        contact: notepad,
+      }
+    });
+    return await modal.present();
+  }
+
+  async deleteContact(notepad: Notepad) {
+      //console.log(contact);
+      let datas = {
+        "user": sessionStorage.getItem("user"),
+        "name" : notepad.name
+      };
+      this.notepadService.removeNotePad(JSON.stringify(datas)).subscribe(
+        (response) => { 
+          //console.log("Respuesta", response);
+          if (response != '') {
+            let data = JSON.parse(response).Mensaje
+            console.log("Mensaje",data)
+          }
+        },
+        (error) => console.log("Error", error),
+        () => {
+          console.log("Completed");
+        }
+      ); 
+  }
 }

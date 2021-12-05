@@ -89,6 +89,18 @@ const routes: Routes = [
   },  {
     path: 'event-view',
     loadChildren: () => import('./pages/event-view/event-view.module').then( m => m.EventViewPageModule)
+  },
+  {
+    path: 'notepads',
+    loadChildren: () => import('./pages/notepads/notepads.module').then( m => m.NotepadsPageModule)
+  },
+  {
+    path: 'modify-note',
+    loadChildren: () => import('./pages/modify-note/modify-note.module').then( m => m.ModifyNotePageModule)
+  },
+  {
+    path: 'add-note',
+    loadChildren: () => import('./pages/add-note/add-note.module').then( m => m.AddNotePageModule)
   }
 
 
