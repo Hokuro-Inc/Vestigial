@@ -75,6 +75,7 @@ public class UpdateTaskController extends HttpServlet {
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
 				String usuarioActual = (String) objJson.get("user");
+				idTask = (String) objJson.get("idTask");
 				descriptionTask = (String) objJson.get("descriptionTask");
 				idLista = (String) objJson.get("idLista");
 				nameTask = (String) objJson.get("nameTask");
