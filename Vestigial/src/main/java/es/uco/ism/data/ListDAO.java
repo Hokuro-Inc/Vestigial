@@ -41,6 +41,33 @@ public class ListDAO extends DBConnectImpl {
         return groups;
     }
 	
+	public String QueryByList(String lista) {
+		
+    	String listaBuscada = null;
+
+        try {
+            Connection con = getConnection();
+            String statement = sqlProp.getProperty("Select_List_By_Name");
+            PreparedStatement stmt = con.prepareStatement(statement);
+            stmt.setString(1, lista);
+            ResultSet set = stmt.executeQuery();
+            
+            while (set.next()) {
+            	
+            	listaBuscada = set.getString(1);
+            }
+
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return listaBuscada;
+    }
+	
 	public int Insert(String name) {
 		
         int status = 0;

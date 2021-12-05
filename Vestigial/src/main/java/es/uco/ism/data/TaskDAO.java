@@ -92,7 +92,7 @@ public class TaskDAO extends DBConnectImpl{
 
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, task.getOwner());
-            stmt.setString(1, task.getList());
+            stmt.setString(2, task.getList());
             ResultSet set = stmt.executeQuery();
             
             while (set.next()) {

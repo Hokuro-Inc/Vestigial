@@ -76,7 +76,7 @@ public class ShowToDoListController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				String usuarioActual = (String) objJson.get("user");
 				idLista = (String) objJson.get("idLista");
-				TaskDTO task = new TaskDTO(" ", usuarioActual, " ", " ", Status.Done, idLista);
+				TaskDTO task = new TaskDTO(" ", usuarioActual, " ", " ", Status.Archived, idLista);
 				UserDTO user = new UserDTO(usuarioActual, "", "", "", "");
 				
 				if (idLista != null && !idLista.equals("") ) {
@@ -101,7 +101,7 @@ public class ShowToDoListController extends HttpServlet {
 			if (login) {
 				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
 				idLista = request.getParameter("idLista");
-				TaskDTO task = new TaskDTO(" ", usuario.getEmail(), " ", " ", Status.Done, idLista);
+				TaskDTO task = new TaskDTO(" ", usuario.getEmail(), " ", " ", Status.Archived, idLista);
 				UserDTO user = new UserDTO(usuario.getEmail(), "", "", "", "");
 				
 				if (idLista != null && !idLista.equals("") ) {

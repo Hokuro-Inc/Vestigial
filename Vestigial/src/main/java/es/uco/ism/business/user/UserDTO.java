@@ -1,6 +1,7 @@
 package es.uco.ism.business.user;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class UserDTO implements Serializable {
 
@@ -11,7 +12,7 @@ public class UserDTO implements Serializable {
 	private String phone;
 	private String prefix;
 	private String[] groups;
-	private String[] lists;
+	private ArrayList<String> lists;
  	
 	/**
 	 * Constructor completo de un usuario para el login
@@ -138,12 +139,12 @@ public class UserDTO implements Serializable {
 		this.groups = groups;
 	}
 	
-	public String[] getLists() {
+	public ArrayList<String> getLists() {
 		
 		return lists;
 	}
 	
-	public void setLists(String[] lists) {
+	public void setLists(ArrayList<String> lists) {
 		
 		this.lists = lists;
 	}

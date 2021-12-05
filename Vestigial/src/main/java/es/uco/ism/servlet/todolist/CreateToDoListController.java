@@ -3,6 +3,7 @@ package es.uco.ism.servlet.todolist;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
+import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.ListDAO;
+import es.uco.ism.data.UserListDAO;
 import es.uco.ism.display.UserBean;
 
 /**
@@ -53,6 +56,7 @@ public class CreateToDoListController extends HttpServlet {
 		
 		RequestDispatcher disparador = null;
 		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
+		UserListDAO userListDAO = new UserListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_LISTA"; 
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
@@ -66,13 +70,26 @@ public class CreateToDoListController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
-				idLista = (String) objJson.get("idLista");
-				if (toDoListDAO.Insert(idLista) <= 0) {
-					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la lista"  + idLista;
+				idLista = (String) objJson.get("name");
+				System.out.println(idLista);
+				
+				String usuarioActual = (String) objJson.get("user");
+				System.out.println(usuarioActual);
+				
+				if (toDoListDAO.QueryByList(idLista) == null) {
+					if (toDoListDAO.Insert(idLista) <= 0) {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la lista"  + idLista;
+					}
 				}
-				else {
-					mensajeResultado = "[OK]Se ha creado correctamente la lista" + idLista;
+				UserDTO user = new UserDTO (usuarioActual,"","","","");
+				ArrayList<String> listasUsuario = new ArrayList<String>() ;
+				listasUsuario.add(idLista);
+				user.setLists(listasUsuario);
+				if (userListDAO.Insert(user) <= 0) {
+					mensajeResultado = "[ERROR]Ha surgido un problema a la hora vincular la lista"  + idLista + " al usuario";
 				}
+				mensajeResultado = "[OK]Se ha creado correctamente la lista" + idLista;
+				
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);
 			out.print(jsonDataEnviar);

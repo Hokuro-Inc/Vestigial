@@ -76,7 +76,7 @@ public class CreateTaskController extends HttpServlet {
 				idLista = (String) objJson.get("idLista");
 				nameTask = (String) objJson.get("nameTask");
 				if (nameTask != null && !nameTask.equals("")) {
-					TaskDTO newTask = new TaskDTO (idTask, usuarioActual, nameTask, descriptionTask, Status.InProcess,idLista);
+					TaskDTO newTask = new TaskDTO (idTask, usuarioActual, nameTask, descriptionTask, Status.ToDo,idLista);
 					if (taskDAO.Insert(newTask) <=0 )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la tarea"  + idTask; 
 					}
@@ -103,7 +103,7 @@ public class CreateTaskController extends HttpServlet {
 					idLista= request.getParameter("idList");
 					
 					idTask = ""; // Generar ID evento
-					TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.InProcess,idLista);
+					TaskDTO newTask = new TaskDTO (idTask, usuario.getEmail(), nameTask, descriptionTask, Status.ToDo,idLista);
 					
 					if (taskDAO.Insert(newTask) <=0 )  {
 						mensajeNextPage = "Ha surgido un problema a la hora de crear la tarea";
