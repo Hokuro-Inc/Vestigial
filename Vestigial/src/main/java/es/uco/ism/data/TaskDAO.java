@@ -1,6 +1,8 @@
 package es.uco.ism.data;
 
 import es.uco.ism.data.db.impl.*;
+import es.uco.ism.utils.PasswordHashing;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,9 +125,24 @@ public class TaskDAO extends DBConnectImpl{
 
         try {
             String statement = sqlProp.getProperty("Insert_Task");
+            String statement2 = sqlProp.getProperty("Insert_ID");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, task.getId());
+            PreparedStatement stmt2 = con.prepareStatement(statement2, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt2.setInt(1, 0);
+            stmt2.executeUpdate();
+            
+            ResultSet rs = stmt2.getGeneratedKeys();
+            String id = new String();
+            
+            if(rs.next()){
+          
+            	int key = rs.getInt(1);
+            	
+            	id = PasswordHashing.createHash(String.valueOf(key), PasswordHashing.createSalt());
+            }
+            
+            stmt.setString(1, id);
             stmt.setString(2, task.getName());
             stmt.setString(3, task.getDescription());
             stmt.setString(4, task.getStatus().toString());
