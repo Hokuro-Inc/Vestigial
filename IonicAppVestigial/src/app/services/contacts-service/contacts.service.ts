@@ -16,4 +16,10 @@ export class ContactsService {
     return this.httpClient.post('http://localhost:8080/Vestigial/AddContact', data, { responseType:'text' });
   }
 
+  public updateContact(data: string) {
+    return this.httpClient.post('http://localhost:8080/Vestigial/UpdateContact', data, { responseType:'text' });
+  }
+  public removeContact(data: string) {
+    return this.httpClient.post('http://localhost:8080/Vestigial/RemoveContact', data, { responseType:'text' });
+  }
 }

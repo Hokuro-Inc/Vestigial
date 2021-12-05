@@ -14,5 +14,7 @@
         <ion-item>Direccion: {{contact.address}}</ion-item>
         <ion-item>Email: {{contact.email}}</ion-item>
         <ion-item>Descripcion: {{contact.description}}</ion-item>
+        <ion-item button (click)="editContact(contact)">Editar</ion-item>
+        <ion-item button (click)="deleteContact(contact)">Eliminar</ion-item>
     </ion-list>
 </ion-content>

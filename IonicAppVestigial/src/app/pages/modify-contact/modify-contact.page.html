@@ -1,9 +1,58 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>modifyContact</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Modificar Contacto {{contact.name}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true" id="register">
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
+    <ion-item lines="full">
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" name="name" formControlName="name" value= {{contact.name}} required></ion-input>
+    </ion-item>
 
+    <ion-item lines="full">
+      <ion-label position="floating">Apellidos</ion-label>
+      <ion-input type="text" name="surname" formControlName="surname" value= {{contact.surname}} required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Prefijo</ion-label>
+      <ion-input type="text" name="prefix" formControlName="prefix" value= {{contact.prefix}} required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Telefono</ion-label>
+      <ion-input type="text" name="phone" formControlName="phone" value= {{contact.phone}} disabled required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Direccion</ion-label>
+      <ion-input type="text" name="address" formControlName="address" value= {{contact.address}} required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Alias</ion-label>
+      <ion-input type="text" name="alias" formControlName="alias" value= {{contact.alias}} required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" name="email" formControlName="email" value= {{contact.email}} required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-input type="text" name="description" formControlName="description" value= {{contact.description}} required></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>
