@@ -100,10 +100,9 @@ public class ShowToDoListController extends HttpServlet {
 		else {
 			if (login) {
 				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-				String usuarioActual = (String) objJson.get("user");
 				idLista = request.getParameter("idLista");
-				TaskDTO task = new TaskDTO(" ", usuarioActual, " ", " ", Status.Done, idLista);
-				UserDTO user = new UserDTO(usuarioActual, "", "", "", "");
+				TaskDTO task = new TaskDTO(" ", usuario.getEmail(), " ", " ", Status.Done, idLista);
+				UserDTO user = new UserDTO(usuario.getEmail(), "", "", "", "");
 				
 				if (idLista != null && !idLista.equals("") ) {
 					//Supongo que solicitaremos todos los eventos del usuario para mostrar no?

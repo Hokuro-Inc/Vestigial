@@ -57,6 +57,7 @@ public class RemoveContactController extends HttpServlet {
 		String nextPage ="Agenda"; 
 		String mensajeNextPage = "";
 		String phone;
+		String prefix;
 		String dataJson = request.getReader().readLine();
 		JSONObject objJson = null;
 		if (dataJson != null) {
@@ -67,14 +68,19 @@ public class RemoveContactController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
+//				String usuarioactual = (String) objJson.get("user");
 				phone = (String) objJson.get("phone");
+				prefix = (String) objJson.get("prefix");
+				phone = phone + "-" + prefix;
 				if ( contactDAO.Delete(phone) <= 0 )  {
 					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar el contacto "  + phone; 
 				}
 				else {
 					mensajeResultado = "[OK]Se ha borrado correctamente el contacto " + phone;
 				}
+				System.out.println("Se ha borrado");
 			}
+			
 			jsonDataEnviar.put("Mensaje", mensajeResultado);
 			out.print(jsonDataEnviar);
 			out.close();
@@ -82,6 +88,7 @@ public class RemoveContactController extends HttpServlet {
 		else {
 			if (login) {
 				phone = request.getParameter("phone");
+				prefix = request.getParameter("prefix");
 				//Comprobamos si venimos de la vista movil
 				
 				if (phone != null  && !phone.equals("")) {

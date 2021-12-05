@@ -87,7 +87,7 @@ public class UpdateContactController extends HttpServlet {
 				email = (String) objJson.get("email");
 				description = (String) objJson.get("description");
 				address = (String) objJson.get("address");
-				owner = (String) objJson.get("owner");
+				owner = (String) objJson.get("user");
 				
 				if (name != null && !name.equals("")) {
 					ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
