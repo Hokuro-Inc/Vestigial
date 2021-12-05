@@ -19,6 +19,7 @@ export class AppComponent {
     //{ title: 'To Do List', url: '/folder/ToDoList', icon: 'list' },
     { title: 'Agenda', url: '/agenda-page/contacts', icon: 'book' },
     { title: 'Notas', url: '/notepad', icon: 'archive' },
+    { title: 'Lista de tareas', url: '/lists', icon: 'list' },
 
   ];
 

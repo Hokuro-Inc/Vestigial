@@ -54,21 +54,27 @@ const routes: Routes = [
   {
     path: 'contact-view',
     loadChildren: () => import('./pages/contact-view/contact-view.module').then( m => m.ContactViewPageModule)
-  },  {
+  },
+  {
     path: 'add-contact',
     loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule)
   },
   {
     path: 'modify-contact',
     loadChildren: () => import('./pages/modify-contact/modify-contact.module').then( m => m.ModifyContactPageModule)
+  },
+  {
+    path: 'lists',
+    loadChildren: () => import('./pages/lists-page/lists.module').then( m => m.ListsPageModule)
+  },
+  {
+    path: 'todolist',
+    loadChildren: () => import('./pages/todolist-page/todolist.module').then( m => m.TodolistPageModule)
+  },
+  {
+    path: 'task',
+    loadChildren: () => import('./pages/task-page/task.module').then( m => m.TaskPageModule)
   }
-
-
-
-
-
-
-
 
 ];
 
