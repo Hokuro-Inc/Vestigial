@@ -10,12 +10,17 @@
 <ion-content [fullscreen]="true">
   <div class="ion-padding">
 
-    <ion-calendar [(ngModel)]="dateMulti"
-        [options]="optionsMulti"
+    <ion-calendar [(ngModel)]="date"
+        style="background-color: black"
+        [options]="options"
         [type]="type"
-        [format]="'YYYY-MM-DD'">
+        [format]="'YYYY-MM-DD'"
+        (change)="onChange($event)">
     </ion-calendar>
 
+    <ion-list *ngFor="let event of filteredEvents; let i = index">
+      <ion-item button (click)="showEvent(filteredEvents[i])">{{filteredEvents[i].name}} -> {{filteredEvents[i].description}}</ion-item>
+    </ion-list>
     
   </div>
 </ion-content>

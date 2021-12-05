@@ -43,7 +43,7 @@ export class AddContactPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/contacts']);
+        //this.navController.navigateBack(['/agenda-page/contacts']);
         //alert("Funciona!!!!");
       }
     );

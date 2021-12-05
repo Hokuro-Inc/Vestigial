@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>{{event.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list >
+    <ion-item>Nombre: {{event.name}}</ion-item>
+    <ion-item>Descripcion: {{event.description}}</ion-item>
+    <ion-item>Inicio: {{event.start}}</ion-item>
+    <ion-item>Fin: {{event.end}}</ion-item>
+    <ion-item button (click)="editEvent(event)">Editar</ion-item>
+    <ion-item button (click)="deleteEvent(event)">Eliminar</ion-item>
+</ion-list>
+</ion-content>

@@ -68,7 +68,7 @@ public class ShowCalendarController extends HttpServlet {
 			//Provenimos de la vista Movil
 			String usuarioActual = null;
 			response.setContentType("application/json");
-			JSONObject jsonDataEnviar = null;
+			JSONObject jsonDataEnviar = new JSONObject();
 			objJson = new JSONObject(dataJson);
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
@@ -76,7 +76,6 @@ public class ShowCalendarController extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				ArrayList <EventDTO> listadoEventos = eventDAO.QueryByEmail(usuarioActual);
 				if (!listadoEventos.isEmpty()) {
-					jsonDataEnviar = new JSONObject();
 					jsonDataEnviar.put("Calendar", listadoEventos);
 					mensajeResultado = "[OK]Se han cargado todos los eventos del usuario";
 				}

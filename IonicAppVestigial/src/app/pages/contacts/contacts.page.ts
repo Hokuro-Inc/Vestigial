@@ -52,6 +52,44 @@ export class ContactsPage implements OnInit {
     );
   }
 
+  doRefresh(event: any) {
+    let user = {
+      "user": sessionStorage.getItem("user"),
+    };
+
+    this.contactsService.getData(JSON.stringify(user)).subscribe(
+      (response) => {
+				//console.log("Respuesta", response);
+				if (response != '') {
+          let data = JSON.parse(response).Agenda;
+          this.contacts = [];
+          
+          data.forEach((element: any) => {
+            this.contacts.push(new Contact(
+              element.address,
+              element.alias,
+              element.description,
+              element.email,
+              element.name,
+              element.owner,
+              element.phone,
+              element.prefix,
+              element.surname
+            ));
+          });
+
+          this.filteredList = this.contacts;
+          //console.log(this.contacts.forEach(e => console.log(e)));
+        }
+			},
+			(error) => console.log("Error", error),
+			() => {
+        event.target.complete();
+				console.log("Completed");
+			}
+    );
+  }
+
   filter(event: any) {
     let value = event.target.value;
 

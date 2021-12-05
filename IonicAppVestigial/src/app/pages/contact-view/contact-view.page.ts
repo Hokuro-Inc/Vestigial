@@ -3,6 +3,7 @@ import { ContactsService } from 'src/app/services/contacts-service/contacts.serv
 import { ModalController } from '@ionic/angular';
 import { Contact } from '../contacts/contacts.page'
 import { ModifyContactPage } from '../modify-contact/modify-contact.page'
+
 @Component({
   selector: 'app-contact-view',
   templateUrl: './contact-view.page.html',
