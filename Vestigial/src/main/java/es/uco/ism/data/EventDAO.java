@@ -1,6 +1,8 @@
 package es.uco.ism.data;
 
 import es.uco.ism.data.db.impl.*;
+import es.uco.ism.utils.PasswordHashing;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,16 +90,37 @@ public class EventDAO extends DBConnectImpl{
      */
     public int Insert(EventDTO evento) {
         int status = 0;
-
+        java.sql.Date sqlDate = null;
+        
         try {
             String statement = sqlProp.getProperty("Insert_Event");
+            String statement2 = sqlProp.getProperty("Insert_ID");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(1, evento.getId());
+            PreparedStatement stmt2 = con.prepareStatement(statement2, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt2.setInt(1, 0);
+            stmt2.executeUpdate();
+            
+            ResultSet rs = stmt2.getGeneratedKeys();
+            String id = new String();
+            
+            if(rs.next()){
+                
+            	int key = rs.getInt(1);
+            	
+            	id = PasswordHashing.createHash(String.valueOf(key), PasswordHashing.createSalt());
+            }
+            
+            stmt.setString(1, id);
             stmt.setString(2, evento.getName());
             stmt.setString(3, evento.getDescription());
-            stmt.setDate(4, (java.sql.Date) evento.getStart());
-            stmt.setDate(5, (java.sql.Date) evento.getEnd());
+            
+            sqlDate = new java.sql.Date(evento.getStart().getTime());
+            stmt.setDate(4, sqlDate);
+            
+            sqlDate = new java.sql.Date(evento.getEnd().getTime());
+            stmt.setDate(5, sqlDate);
+            
             stmt.setString(6, evento.getOwner());        
             status = stmt.executeUpdate();
                         

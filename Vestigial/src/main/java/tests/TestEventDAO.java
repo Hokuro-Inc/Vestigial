@@ -14,11 +14,11 @@ import es.uco.ism.utils.PasswordHashing;
 public class TestEventDAO {
 	public static void main (String[] args ) throws IOException {
 		Properties propertiesBD = new Properties();
-		FileReader fileReaderBD = new FileReader("WebContent/server.properties");
+		FileReader fileReaderBD = new FileReader("src/main/webapp/WEB-INF/server.properties");
 		propertiesBD.load(fileReaderBD);
 
 		Properties propertiesSQL = new Properties();
-		FileReader fileReader = new FileReader("WebContent/sql.properties");
+		FileReader fileReader = new FileReader("src/main/webapp/WEB-INF/sql.properties");
 		propertiesSQL.load(fileReader);
 		
 		System.out.println("Test EventDAO");
@@ -31,7 +31,7 @@ public class TestEventDAO {
 		String salt = PasswordHashing.createSalt();
 		String passwordHash = PasswordHashing.createHash(password, salt);
 				
-		UserDTO propietarioTest = new UserDTO("chris@gmail.com",passwordHash,salt,"660651903","123");
+		UserDTO propietarioTest = new UserDTO("blablacar2@gmail.com",passwordHash,salt,"660651903","123");
 		String ID = "12345"; // Como generamos las ID
 		EventDTO eventoTest = new EventDTO (ID,propietarioTest.getEmail(),new Date(), new Date(),"Test 1" , "Descripcion Prueba ");
 		
