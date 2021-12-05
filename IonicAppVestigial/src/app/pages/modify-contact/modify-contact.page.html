@@ -21,7 +21,7 @@
 
     <ion-item lines="full">
       <ion-label position="floating">Prefijo</ion-label>
-      <ion-input type="text" name="prefix" formControlName="prefix" [(ngModel)]="contact.prefix" required></ion-input>
+      <ion-input type="text" name="prefix" formControlName="prefix" disabled [(ngModel)]="contact.prefix" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
@@ -51,7 +51,7 @@
 
     <ion-row>
       <ion-col>
-        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Sign Up</ion-button>
+        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Modificar contacto</ion-button>
       </ion-col>
     </ion-row>
   </form>
