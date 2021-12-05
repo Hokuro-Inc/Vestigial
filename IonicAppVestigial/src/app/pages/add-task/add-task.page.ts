@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
+import {List} from '../lists-page/lists.page'
 import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-add-task',
@@ -11,7 +12,7 @@ import { NavController } from '@ionic/angular';
 export class AddTaskPage implements OnInit {
 
   validations_form: FormGroup;
-
+  lista : List;
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService, private navController: NavController) { }
 
   ngOnInit() {
@@ -29,8 +30,15 @@ export class AddTaskPage implements OnInit {
     });
   }
 
-  onSubmit(contact: any){
-    this.todolistService.addTask(contact).subscribe(
+  onSubmit(task: any){
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "nameTask": task.name,
+      "descriptionTask" : task.description,
+      "lista" : this.lista.name
+    };
+    console.log(data)
+    this.todolistService.addTask(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {

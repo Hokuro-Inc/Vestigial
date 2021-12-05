@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
 import {TaskPage} from '../task-page/task.page'
 import {List} from '../lists-page/lists.page'
-
+import { AddTaskPage } from '../add-task/add-task.page';
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.page.html',
@@ -59,6 +59,18 @@ export class TodolistPage implements OnInit {
       component: TaskPage,
       componentProps: {
         task: task,
+      }
+    });
+    return await modal.present();
+  }
+
+  async addTask() {
+    //console.log(listaElegida);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: AddTaskPage,
+      componentProps: {
+        lista: this.lista,
       }
     });
     return await modal.present();

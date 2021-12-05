@@ -13,7 +13,15 @@
       <ion-list *ngFor="let task of todolist; let i = index">
         <ion-item button (click)="showTask(todolist[i])">{{todolist[i].id}} -> {{todolist[i].name}}</ion-item>
       </ion-list>
+  
+      <ion-col>
+        <ion-item button (click)="addTask()">Crear una nueva tarea</ion-item>
+      </ion-col>
     </ion-content>
+
+    
+    
+
   </ion-app>
 
   <script>

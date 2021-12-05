@@ -164,15 +164,15 @@ public class ContactDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Update_Contact");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(9, contacto.getPhone()+"-"+contacto.getPrefix());
+            stmt.setString(8, contacto.getPhone()+"-"+contacto.getPrefix());
             stmt.setString(1, contacto.getName());
             stmt.setString(2, contacto.getSurname());
             stmt.setString(3, contacto.getAlias());
             stmt.setString(4, contacto.getEmail());  
             stmt.setString(5, contacto.getDescription());  
             stmt.setString(6, contacto.getAddress());  
-            stmt.setString(7, contacto.getOwner());  
-            stmt.setString(8, contacto.getPhone()+"+"+contacto.getPrefix());  
+            stmt.setString(9, contacto.getOwner());  
+            stmt.setString(7, contacto.getPhone()+"+"+contacto.getPrefix());  
             status = stmt.executeUpdate();
             
             if (stmt != null) {

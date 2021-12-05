@@ -73,7 +73,7 @@ public class CreateTaskController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				String usuarioActual = (String) objJson.get("user");
 				descriptionTask = (String) objJson.get("descriptionTask");
-				idLista = (String) objJson.get("idLista");
+				idLista = (String) objJson.get("lista");
 				nameTask = (String) objJson.get("nameTask");
 				if (nameTask != null && !nameTask.equals("")) {
 					TaskDTO newTask = new TaskDTO (idTask, usuarioActual, nameTask, descriptionTask, Status.ToDo,idLista);
