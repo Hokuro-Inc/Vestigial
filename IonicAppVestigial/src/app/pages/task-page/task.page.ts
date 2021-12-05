@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
 import { Task } from '../todolist-page/todolist.page';
+import { ModifyTaskPage } from '../modify-task/modify-task.page'
 
 @Component({
   selector: 'app-task',
@@ -10,7 +12,7 @@ import { Task } from '../todolist-page/todolist.page';
 export class TaskPage implements OnInit {
 
   task: Task;
-  constructor(public modalController: ModalController) { }
+  constructor(private todolistService: TodolistService, public modalController: ModalController) { }
 
   ngOnInit() {
     //console.log(this.task);
@@ -22,5 +24,39 @@ export class TaskPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
+  }
+
+  async editTask(task: Task) {
+    //console.log(contact);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ModifyTaskPage,
+      componentProps: {
+        task: task,
+      }
+    });
+    return await modal.present();
+  }
+
+  async deleteTask(task: Task) {
+      //console.log(contact);
+      let datas = {
+        "user": sessionStorage.getItem("user"),
+        "idTask" : task.id,
+      };
+      this.todolistService.removeTask(JSON.stringify(datas)).subscribe(
+        (response) => { 
+          //console.log("Respuesta", response);
+          if (response != '') {
+            let data = JSON.parse(response).Mensaje
+            console.log("Mensaje",data)
+            this.dismiss()
+          }
+        },
+        (error) => console.log("Error", error),
+        () => {
+          console.log("Completed");
+        }
+      ); 
   }
 }

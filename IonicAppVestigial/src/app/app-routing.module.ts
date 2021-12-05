@@ -82,6 +82,10 @@ const routes: Routes = [
   {
     path: 'add-todolist',
     loadChildren: () => import('./pages/add-todolist/add-todolist.module').then( m => m.AddTodolistPageModule)
+  },
+  {
+    path: 'modify-task',
+    loadChildren: () => import('./pages/modify-task/modify-task.module').then( m => m.ModifyTaskPageModule)
   }
 
 ];
