@@ -73,7 +73,7 @@ public class ShowBlocController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				usuarioActual = (String) objJson.get("user");
 				if (usuarioActual != null && !usuarioActual.equals("") ) {
-					ArrayList<BlocDTO> blocs = blocDAO.QueryByOwner(usuario.getEmail());
+					ArrayList<BlocDTO> blocs = blocDAO.QueryByOwner(usuarioActual);
 					if (blocs.isEmpty()) {
 						mensajeResultado = "[ERROR]No se posee ningún bloc de notas";
 					}
