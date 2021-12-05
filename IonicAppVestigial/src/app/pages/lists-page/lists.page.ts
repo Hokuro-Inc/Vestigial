@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
 import { TodolistPage } from '../todolist-page/todolist.page';
-
+import { AddTodolistPage } from '../add-todolist/add-todolist.page';
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.page.html',
@@ -26,7 +26,7 @@ export class ListsPage implements OnInit {
           if (response != '') {
             var data = JSON.parse(response).ToDoLists;
             this.lists = [];
-            
+            console.log("Datas",data)
             data.forEach((element: any) => {
               this.lists.push(new List(element));
             });
@@ -49,6 +49,15 @@ export class ListsPage implements OnInit {
       componentProps: {
         lista: listaElegida,
       }
+    });
+    return await modal.present();
+  }
+
+  async addList() {
+    //console.log(listaElegida);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: AddTodolistPage,
     });
     return await modal.present();
   }

@@ -11,6 +11,11 @@
       <ion-list *ngFor="let list of lists; let i = index">
         <ion-item button (click)="showList(lists[i])">{{lists[i].name}}</ion-item>
       </ion-list>
+
+      <ion-col>
+        <ion-item button (click)="addList()">Crear una nueva lista</ion-item>
+      </ion-col>
+
     </ion-content>
   </ion-app>
 
