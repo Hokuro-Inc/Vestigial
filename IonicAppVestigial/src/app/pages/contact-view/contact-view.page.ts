@@ -58,8 +58,6 @@ export class ContactViewPage implements OnInit {
           console.log("Completed");
         }
       ); 
-
-      this.router.navigate(['/contacts']);
   }
 
 }

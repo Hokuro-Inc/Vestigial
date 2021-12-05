@@ -11,42 +11,42 @@
   <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
     <ion-item lines="full">
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input type="text" name="name" formControlName="name" value= {{contact.name}} required></ion-input>
+      <ion-input type="text" name="name" formControlName="name" [(ngModel)]="contact.name" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Apellidos</ion-label>
-      <ion-input type="text" name="surname" formControlName="surname" value= {{contact.surname}} required></ion-input>
+      <ion-input type="text" name="surname" formControlName="surname" [(ngModel)]="contact.surname" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Prefijo</ion-label>
-      <ion-input type="text" name="prefix" formControlName="prefix" value= {{contact.prefix}} required></ion-input>
+      <ion-input type="text" name="prefix" formControlName="prefix" [(ngModel)]="contact.prefix" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Telefono</ion-label>
-      <ion-input type="text" name="phone" formControlName="phone" value= {{contact.phone}} disabled required></ion-input>
+      <ion-input type="text" name="phone" formControlName="phone" disabled [(ngModel)]="contact.phone" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Direccion</ion-label>
-      <ion-input type="text" name="address" formControlName="address" value= {{contact.address}} required></ion-input>
+      <ion-input type="text" name="address" formControlName="address" [(ngModel)]="contact.address" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Alias</ion-label>
-      <ion-input type="text" name="alias" formControlName="alias" value= {{contact.alias}} required></ion-input>
+      <ion-input type="text" name="alias" formControlName="alias" [(ngModel)]="contact.alias" required> </ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" name="email" formControlName="email" value= {{contact.email}} required></ion-input>
+      <ion-input type="text" name="email" formControlName="email" [(ngModel)]="contact.email" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Descripcion</ion-label>
-      <ion-input type="text" name="description" formControlName="description" value= {{contact.description}} required></ion-input>
+      <ion-input type="text" name="description" formControlName="description" [(ngModel)]="contact.description"  required></ion-input>
     </ion-item>
 
     <ion-row>
