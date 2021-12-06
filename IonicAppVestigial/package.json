@@ -32,6 +32,7 @@
     "cordova-plugin-contacts": "^3.0.1",
     "cordova-sms-plugin": "^1.0.1",
     "ion2-calendar": "^3.0.0-rc.0",
+    "ionic2-calendar": "^0.6.9",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
