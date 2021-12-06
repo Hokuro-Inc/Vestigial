@@ -32,7 +32,7 @@ export class NotepadPage implements OnInit {
       // Data passed in by componentProps
       component: ModifyNotePage,
       componentProps: {
-        contact: notepad,
+        note: notepad,
       }
     });
     return await modal.present();
