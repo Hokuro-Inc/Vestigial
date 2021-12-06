@@ -57,7 +57,9 @@ export class ContactViewPage implements OnInit {
         (error) => console.log("Error", error),
         () => {
           console.log("Completed");
+          this.dismiss();
         }
+
       ); 
   }
 

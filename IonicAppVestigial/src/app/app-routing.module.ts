@@ -101,6 +101,10 @@ const routes: Routes = [
   {
     path: 'add-note',
     loadChildren: () => import('./pages/add-note/add-note.module').then( m => m.AddNotePageModule)
+  },
+  {
+    path: 'import-contact',
+    loadChildren: () => import('./pages/import-contact/import-contact.module').then( m => m.ImportContactPageModule)
   }
 
 
