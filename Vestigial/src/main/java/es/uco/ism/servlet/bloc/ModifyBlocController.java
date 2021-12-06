@@ -79,7 +79,7 @@ public class ModifyBlocController extends HttpServlet {
 				if (usuarioActual != null && !usuarioActual.equals("") ) {
 					name = (String) objJson.get("name");
 					text = (String) objJson.get("text");
-					bloc = new BlocDTO(usuarioActual,name,text);
+					bloc = new BlocDTO(name,usuarioActual,text);
 					BlocDTO blocAntiguo = blocDAO.QueryByName(bloc);
 					System.out.println("HOLA");
 					if (blocAntiguo == null) {

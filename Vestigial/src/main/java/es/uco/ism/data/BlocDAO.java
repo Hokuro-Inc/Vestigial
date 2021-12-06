@@ -90,21 +90,15 @@ public class BlocDAO extends DBConnectImpl {
 	public BlocDTO QueryByName(BlocDTO bloc) {
 		
 		BlocDTO note = null;
-		System.out.println("HOLA");
-		System.out.println(bloc.getName());
-		System.out.println(bloc.getOwner());
         try {
         	
         	Connection con = getConnection();
-        	System.out.println("HA PETADO");
             String statement = sqlProp.getProperty("Select_Bloc_Name");
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, bloc.getName());
             stmt.setString(2, bloc.getOwner());
             ResultSet set = stmt.executeQuery();
-            System.out.println("HA PETADO 2");
             if (set.next()) {            	
-            	System.out.println("HA PETADO 3");
             	note = new BlocDTO(bloc.getName(), bloc.getOwner(), set.getString(2));
             }
 
@@ -113,7 +107,6 @@ public class BlocDAO extends DBConnectImpl {
             }
         }
         catch (Exception e) {
-        	System.out.println("HA PETADO 1");
         	e.printStackTrace();
         }
         
@@ -192,7 +185,7 @@ public class BlocDAO extends DBConnectImpl {
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, bloc.getName());
-            stmt.setString(1, bloc.getOwner());
+            stmt.setString(2, bloc.getOwner());
             status = stmt.executeUpdate();
             
             if (stmt != null) {

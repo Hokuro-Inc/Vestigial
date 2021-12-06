@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CalendarComponentOptions, CalendarModal, CalendarModalOptions, DayConfig } from 'ion2-calendar';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
-import { CalendarModalPage } from '../calendar-modal/calendar-modal.page';
 import { EventViewPage } from '../event-view/event-view.page';
 
 @Component({
