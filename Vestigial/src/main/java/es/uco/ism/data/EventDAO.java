@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.business.event.EventDTO;
-import es.uco.ism.business.task.Status;
-import es.uco.ism.business.task.TaskDTO;
 
 public class EventDAO extends DBConnectImpl{
 	/**
@@ -69,7 +67,7 @@ public class EventDAO extends DBConnectImpl{
             stmt.setString(1, id);
             ResultSet set = stmt.executeQuery();
             if (set.next()) {
-            	
+            	//getTimestamp
             	evento = new EventDTO(id, set.getString(5), set.getDate(3), set.getDate(4), set.getString(1), set.getString(2));
             }
 
@@ -92,7 +90,7 @@ public class EventDAO extends DBConnectImpl{
      */
     public int Insert(EventDTO evento) {
         int status = 0;
-        java.sql.Date sqlDate = null;
+        java.sql.Timestamp sqlDate = null;
         
         try {
             String statement = sqlProp.getProperty("Insert_Event");
@@ -117,13 +115,13 @@ public class EventDAO extends DBConnectImpl{
             stmt.setString(2, evento.getName());
             stmt.setString(3, evento.getDescription());
             
-            sqlDate = new java.sql.Date(evento.getStart().getTime());
-            stmt.setDate(4, sqlDate);
+            sqlDate = new java.sql.Timestamp(evento.getStart().getTime());
+            stmt.setTimestamp(4, sqlDate);
             
-            sqlDate = new java.sql.Date(evento.getEnd().getTime());
-            stmt.setDate(5, sqlDate);
+            sqlDate = new java.sql.Timestamp(evento.getEnd().getTime());
+            stmt.setTimestamp(5, sqlDate);
             
-            stmt.setString(6, evento.getOwner());        
+            stmt.setString(6, evento.getOwner());
             status = stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -153,8 +151,8 @@ public class EventDAO extends DBConnectImpl{
             stmt.setString(6, evento.getId());
             stmt.setString(1, evento.getName());
             stmt.setString(2, evento.getDescription());
-            stmt.setDate(3, (java.sql.Date) evento.getStart());
-            stmt.setDate(4, (java.sql.Date) evento.getEnd());
+            stmt.setTimestamp(3, new java.sql.Timestamp(evento.getStart().getTime()));
+            stmt.setTimestamp(4, new java.sql.Timestamp(evento.getEnd().getTime()));
             stmt.setString(5, evento.getOwner());        
             status = stmt.executeUpdate();
             
@@ -216,7 +214,7 @@ ArrayList<EventDTO> listEvent = new ArrayList<EventDTO>();
             
             while (set.next()) {
             		
-            	EventDTO aux = new EventDTO(set.getString(1), email, set.getDate(4), set.getDate(5), set.getString(2), set.getString(3));
+            	EventDTO aux = new EventDTO(set.getString(1), email, set.getTimestamp(4), set.getTimestamp(5), set.getString(2), set.getString(3));
             	listEvent.add(aux);
             }
 

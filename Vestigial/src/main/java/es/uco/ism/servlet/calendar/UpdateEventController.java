@@ -84,9 +84,9 @@ public class UpdateEventController extends HttpServlet {
 					descriptionEvent = (String) objJson.get("description");
 					startEventDate = (String) objJson.get("start");
 					endEventDate = (String) objJson.get("end");	
-					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					
-					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					
 					Date startEvent = null;
 					try {
@@ -103,7 +103,6 @@ public class UpdateEventController extends HttpServlet {
 						e.printStackTrace();
 					}
 					
-					idEvent = ""; // Generar ID evento
 					EventDTO newEvent = new EventDTO (idEvent, usuarioActual, startEvent, endEvent, nameEvent, descriptionEvent);
 					if (eventDAO.Update(newEvent) <=0 )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar el evento "  + nameEvent; 

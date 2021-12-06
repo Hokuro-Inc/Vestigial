@@ -14,7 +14,7 @@ export class ModifyEventPage implements OnInit {
 
   validations_form: FormGroup;
 
-  event : Event;
+  event: Event;
 
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private calendarService: CalendarService, private navController: NavController) { }
 
@@ -35,14 +35,14 @@ export class ModifyEventPage implements OnInit {
     });
   }
 
-  onSubmit(note: any){
+  onSubmit(event: any){
     let data = {
       "user": sessionStorage.getItem("user"),
-      "idEvent": note.id,
-      "name": note.name,
-      "description" : note.description,
-      "start" : note.start,
-      "end" : note.end,
+      "idEvent": this.event.id,
+      "name": event.name,
+      "description" : event.description,
+      "start" : this.getDate(event.start),
+      "end" : this.getDate(event.end),
     };
     console.log(data)
     this.calendarService.updateEvent(JSON.stringify(data)).subscribe(
@@ -50,9 +50,19 @@ export class ModifyEventPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/calendar']);
+        //this.navController.navigateBack(['/calendar']);
         //alert("Funciona!!!!");
       }
     );
+  }
+
+  getDate(dateStr: string) {
+    let date = new Date(dateStr);
+    let day = String(date.getDate()).padStart(2, '0');
+		let month = String(date.getMonth() + 1).padStart(2, '0');
+		let year = date.getFullYear();
+    let hour = String(date.getHours()).padStart(2, '0');
+    let minute = String(date.getMinutes()).padStart(2, '0');
+		return year + '-' + month + '-' + day + " " + hour + ":" + minute + ":00";
   }
 }

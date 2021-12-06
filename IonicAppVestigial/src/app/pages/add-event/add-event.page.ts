@@ -33,15 +33,15 @@ export class AddEventPage implements OnInit {
     });
   }
 
-  onSubmit(note: any){
+  onSubmit(event: any) {
     let data = {
       "user": sessionStorage.getItem("user"),
-      "name": note.name,
-      "description" : note.description,
-      "start" : note.start,
-      "end" : note.end,
+      "name": event.name,
+      "description" : event.description,
+      "start" : this.getDate(event.start),
+      "end" : this.getDate(event.end),
     };
-    console.log(data)
+    console.log(data);
     this.calendarService.addEvent(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
@@ -51,5 +51,15 @@ export class AddEventPage implements OnInit {
         //alert("Funciona!!!!");
       }
     );
+  }
+
+  getDate(dateStr: string) {
+    let date = new Date(dateStr);
+    let day = String(date.getDate()).padStart(2, '0');
+		let month = String(date.getMonth() + 1).padStart(2, '0');
+		let year = date.getFullYear();
+    let hour = String(date.getHours()).padStart(2, '0');
+    let minute = String(date.getMinutes()).padStart(2, '0');
+		return year + '-' + month + '-' + day + " " + hour + ":" + minute + ":00";
   }
 }
