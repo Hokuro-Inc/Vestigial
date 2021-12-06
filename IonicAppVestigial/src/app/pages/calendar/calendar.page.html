@@ -12,54 +12,24 @@
 </ion-header>
  
 <ion-content>
-  <ion-segment [(ngModel)]="calendar.mode">
-    <ion-segment-button value="month">
-      <ion-label>Month</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="week">
-      <ion-label>Week</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="day">
-      <ion-label>Day</ion-label>
-    </ion-segment-button>
-  </ion-segment>
- 
-  <ion-row>
-    <ion-col size="6">
-      <ion-button (click)="createRandomEvents()" expand="block" fill="outline">
-        Add random events
-      </ion-button>
-    </ion-col>
-    <ion-col size="6">
-      <ion-button (click)="removeEvents()" expand="block" fill="outline">
-        Remove all events
-      </ion-button>
-    </ion-col>
-  </ion-row>
- 
- 
+
     <ion-col size="8" class="ion-text-center">
       <h2>{{ viewTitle }}</h2>
     </ion-col>
     
-    <ng-template #monthviewDefaultEventDetailTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+    <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="date" let-noEventsLabel="noEventsLabel">
       <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
-          <ion-item *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
-                  <span *ngIf="!event.allDay" class="monthview-eventdetail-timecolumn">{{event.startTime|date: 'HH:mm'}}
-                      -
-                      {{event.endTime|date: 'HH:mm'}}
-                  </span>
-              <span *ngIf="event.allDay" class="monthview-eventdetail-timecolumn">{{allDayLabel}}</span>
-              <span class="event-detail">  |  {{event.title}}</span>
+          <ion-item button *ngFor="let event of filteredEvents" (click)="showEvent(event)">
+            <div>{{event.name}} -> {{event.description}}</div>
           </ion-item>
-          <ion-item *ngIf="selectedDate?.events.length==0">
-              <div class="no-events-label">{{noEventsLabel}}</div>
+          <ion-item *ngIf="filteredEvents.length==0">
+            <div class="no-events-label">{{noEventsLabel}}</div>
           </ion-item>
       </ion-list>
   </ng-template>
  
   <calendar
-    [monthviewEventDetailTemplate]="monthviewDefaultEventDetailTemplate"
+    [monthviewEventDetailTemplate]="template"
     [eventSource]="eventSource"
     [calendarMode]="calendar.mode"
     [currentDate]="calendar.currentDate"
@@ -75,9 +45,5 @@
     noEventsLabel="No hay eventos"
   >
   </calendar>
-
-  <ion-list *ngFor="let event of filteredEvents; let i = index">
-    <ion-item button (click)="showEvent(filteredEvents[i])">{{filteredEvents[i].name}} -> {{filteredEvents[i].description}}</ion-item>
-  </ion-list>
  
 </ion-content>
