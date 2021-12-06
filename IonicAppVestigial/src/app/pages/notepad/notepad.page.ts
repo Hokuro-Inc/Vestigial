@@ -26,7 +26,7 @@ export class NotepadPage implements OnInit {
     });
   }
 
-  async editContact(notepad: Notepad) {
+  async editNotePad(notepad: Notepad) {
     //console.log(contact);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
@@ -38,7 +38,7 @@ export class NotepadPage implements OnInit {
     return await modal.present();
   }
 
-  async deleteContact(notepad: Notepad) {
+  async deleteNotePad(notepad: Notepad) {
       //console.log(contact);
       let datas = {
         "user": sessionStorage.getItem("user"),
