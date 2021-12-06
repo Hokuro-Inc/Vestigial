@@ -78,12 +78,12 @@ public class UpdateEventController extends HttpServlet {
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
 				idEvent = (String) objJson.get("idEvent");
-				nameEvent = (String) objJson.get("nameEvent");
+				nameEvent = (String) objJson.get("name");
 				if (nameEvent != null && !nameEvent.equals("")) {
 					usuarioActual = (String) objJson.get("user");
-					descriptionEvent = (String) objJson.get("descriptionEvent");
-					startEventDate = (String) objJson.get("startEvent");
-					endEventDate = (String) objJson.get("endEvent");	
+					descriptionEvent = (String) objJson.get("description");
+					startEventDate = (String) objJson.get("start");
+					endEventDate = (String) objJson.get("end");	
 					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 					
 					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
