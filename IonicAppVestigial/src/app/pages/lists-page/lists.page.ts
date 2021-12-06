@@ -41,6 +41,33 @@ export class ListsPage implements OnInit {
       );
   }
 
+  doRefresh (event : any) {
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "idLista": ""
+    };
+
+    this.TodolistService.getData(JSON.stringify(data)).subscribe(
+        (response) => {
+          //console.log("Respuesta", response);
+          if (response != '') {
+            var data = JSON.parse(response).ToDoLists;
+            this.lists = [];
+            console.log("Datas",data)
+            data.forEach((element: any) => {
+              this.lists.push(new List(element));
+            });
+
+            //console.log(this.lists.forEach(e => console.log(e)));
+          }
+        },
+        (error) => console.log("Error", error),
+        () => {
+          console.log("Completed");
+        }
+      );
+  }
+
   async showList(listaElegida: List) {
     //console.log(listaElegida);
     const modal = await this.modalController.create({

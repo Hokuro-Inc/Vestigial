@@ -42,6 +42,32 @@ export class NotepadsPage implements OnInit {
     );
   }
 
+  doRefresh (event : any ) {
+    let user = {
+      "user": sessionStorage.getItem("user"),
+    };
+
+    this.notepadService.getNotePads(JSON.stringify(user)).subscribe(
+      (response) => {
+        if (response != '') {
+          let data = JSON.parse(response).Blocs;
+          this.notepads = [];
+          data.forEach((element: any) => {
+            this.notepads.push(new Notepad(
+              element.name,
+              element.text
+            ));
+          });
+          //console.log(this.notepads.forEach(e => console.log(e)));
+        }
+      },
+      (error) => console.log("Error", error),
+      () => {
+        event.target.complete();
+        console.log("Completed");
+      }
+    );
+  }
 
   async showNotePad(note: Notepad) {
     //console.log(contact);
