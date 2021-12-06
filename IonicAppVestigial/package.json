@@ -26,6 +26,7 @@
     "@capacitor/status-bar": "1.0.6",
     "@ionic-native/call-number": "^5.36.0",
     "@ionic-native/contacts": "^5.36.0",
+    "@ionic-native/nfc": "^5.36.0",
     "@ionic-native/sms": "^5.36.0",
     "@ionic/angular": "^5.5.2",
     "call-number": "^1.0.1",
@@ -33,6 +34,7 @@
     "cordova-sms-plugin": "^1.0.1",
     "ion2-calendar": "^3.0.0-rc.0",
     "moment": "^2.29.1",
+    "phonegap-nfc": "^1.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
