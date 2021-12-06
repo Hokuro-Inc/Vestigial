@@ -41,7 +41,18 @@ export class ModifyContactPage implements OnInit {
   }
 
   onSubmit(contact: any){
-    this.contactService.addContact(contact).subscribe(
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "name": contact.name,
+      "surname": contact.surname,
+      "prefix": contact.prefix,
+      "phone": contact.phone,
+      "address": contact.address,
+      "email": contact.email,
+      "description": contact.description,
+      "alias": contact.alias
+    };
+    this.contactService.updateContact(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
