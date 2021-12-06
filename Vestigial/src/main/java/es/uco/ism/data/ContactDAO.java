@@ -164,15 +164,14 @@ public class ContactDAO extends DBConnectImpl{
             String statement = sqlProp.getProperty("Update_Contact");
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
-            stmt.setString(8, contacto.getPhone()+"-"+contacto.getPrefix());
             stmt.setString(1, contacto.getName());
             stmt.setString(2, contacto.getSurname());
             stmt.setString(3, contacto.getAlias());
             stmt.setString(4, contacto.getEmail());  
             stmt.setString(5, contacto.getDescription());  
             stmt.setString(6, contacto.getAddress());  
-            stmt.setString(9, contacto.getOwner());  
-            stmt.setString(7, contacto.getPhone()+"+"+contacto.getPrefix());  
+            stmt.setString(8, contacto.getOwner());  
+            stmt.setString(7, contacto.getPhone()+"-"+contacto.getPrefix());  
             status = stmt.executeUpdate();
             
             if (stmt != null) {
@@ -192,7 +191,7 @@ public class ContactDAO extends DBConnectImpl{
      * @param email Email del usuario a borrar
      * @return El numero de filas afectadas o 0 en caso de fallo
      */
-    public int Delete(String telefono) {
+    public int Delete(String telefono, String owner) {
     	ArrayList<Integer> results = new ArrayList<Integer>();
         int status = 0;
 
@@ -201,6 +200,7 @@ public class ContactDAO extends DBConnectImpl{
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, telefono);
+            stmt.setString(2, owner);
             results.add(stmt.executeUpdate());
             status = CheckResults(results);
             

@@ -68,11 +68,11 @@ public class RemoveContactController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
-//				String usuarioactual = (String) objJson.get("user");
+				String usuarioactual = (String) objJson.get("user");
 				phone = (String) objJson.get("phone");
 				prefix = (String) objJson.get("prefix");
 				phone = phone + "-" + prefix;
-				if ( contactDAO.Delete(phone) <= 0 )  {
+				if ( contactDAO.Delete(phone,usuarioactual) <= 0 )  {
 					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar el contacto "  + phone; 
 				}
 				else {
@@ -94,7 +94,7 @@ public class RemoveContactController extends HttpServlet {
 				if (phone != null  && !phone.equals("")) {
 					// Venimos de la vista por lo cual debemos de eliminar el evento del usuario y regresarlo al controlador de calendario.
 					
-					if (contactDAO.Delete(phone) < 0 ) {
+					if (contactDAO.Delete(phone,usuario.getEmail()) < 0 ) {
 						mensajeNextPage = "Lo sentimos ha ocurrido un error al borrar el contacto";
 					}
 					else {

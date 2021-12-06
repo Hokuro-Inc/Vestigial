@@ -72,7 +72,7 @@ public class BlocDAO extends DBConnectImpl {
 
             while (set.next()) {            	
             	
-            	note = new BlocDTO(set.getString(1), owner, set.getString(3));
+            	note = new BlocDTO(set.getString(1), owner, set.getString(2));
                 notes.add(note);
             }
 

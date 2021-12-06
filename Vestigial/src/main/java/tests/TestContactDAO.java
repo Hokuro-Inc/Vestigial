@@ -48,7 +48,7 @@ public class TestContactDAO {
 
 		assert contactDAO.QueryByPhone(contactoTest.getPhone()).getAddress() != contactoTest.getAddress() : "Error direccion actualizada del contacto ";
 		
-		assert contactDAO.Delete(contactoTest.getPhone()) > 0: "Error al borrar el contacto";
+		assert contactDAO.Delete(contactoTest.getPhone(),contactoTest.getEmail()) > 0: "Error al borrar el contacto";
 		
 		assert contactDAO.QueryByPhone(contactoTest.getPhone()) == null : "Error se ha encontrado un contacto borrado";
 		
