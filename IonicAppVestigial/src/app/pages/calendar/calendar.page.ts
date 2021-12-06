@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { CalendarComponent } from 'ion2-calendar';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
 import { EventViewPage } from '../event-view/event-view.page';
+import { AddEventPage } from '../add-event/add-event.page';
 
 @Component({
   selector: 'app-calendar',
@@ -81,6 +82,13 @@ export class CalendarPage implements OnInit {
 			componentProps: {
 				event: event
 			}
+		});
+		return await modal.present();
+	}
+
+	async addEvent(event: Event) {
+		const modal = await this.modalController.create({
+			component: AddEventPage,
 		});
 		return await modal.present();
 	}

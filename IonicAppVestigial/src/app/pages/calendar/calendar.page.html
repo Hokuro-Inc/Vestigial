@@ -40,5 +40,11 @@
     noEventsLabel="No hay eventos"
   >
   </calendar>
- 
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addEvent(filteredList[i])">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>

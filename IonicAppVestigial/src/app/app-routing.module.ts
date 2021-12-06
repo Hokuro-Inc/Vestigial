@@ -105,6 +105,14 @@ const routes: Routes = [
   {
     path: 'import-contact',
     loadChildren: () => import('./pages/import-contact/import-contact.module').then( m => m.ImportContactPageModule)
+  },
+  {
+    path: 'modify-event',
+    loadChildren: () => import('./pages/modify-event/modify-event.module').then( m => m.ModifyEventPageModule)
+  },
+  {
+    path: 'add-event',
+    loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   }
 
 
