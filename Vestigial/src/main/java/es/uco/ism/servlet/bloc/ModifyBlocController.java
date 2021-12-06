@@ -81,10 +81,7 @@ public class ModifyBlocController extends HttpServlet {
 					text = (String) objJson.get("text");
 					bloc = new BlocDTO(name,usuarioActual,text);
 					BlocDTO blocAntiguo = blocDAO.QueryByName(bloc);
-					System.out.println("HOLA");
-					if (blocAntiguo == null) {
-						System.out.println("ESTOY A NULL");
-					}
+
 					if (text != null && !text.equals("") ) {
 						if (blocAntiguo != null) {
 							// Ya existe por lo que actualizamos

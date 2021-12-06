@@ -93,7 +93,6 @@ public class ContactDAO extends DBConnectImpl{
         try {
             Connection con = getConnection();
             String statement = sqlProp.getProperty("Select_All_Contact_Owner");
-            System.out.println(statement);
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, email);
             ResultSet set = stmt.executeQuery();
@@ -128,7 +127,6 @@ public class ContactDAO extends DBConnectImpl{
         try {
             String statement = sqlProp.getProperty("Insert_Contact");
         	Connection con = getConnection();
-        	System.out.println(contacto.toString());
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contacto.getPhone()+"-"+contacto.getPrefix());
             stmt.setString(2, contacto.getName());

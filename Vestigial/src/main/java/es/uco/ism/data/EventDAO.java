@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.ism.business.event.EventDTO;
-import es.uco.ism.business.task.Status;
-import es.uco.ism.business.task.TaskDTO;
 
 public class EventDAO extends DBConnectImpl{
 	/**

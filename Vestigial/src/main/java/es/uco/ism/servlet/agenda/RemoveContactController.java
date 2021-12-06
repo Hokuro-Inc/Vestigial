@@ -78,7 +78,6 @@ public class RemoveContactController extends HttpServlet {
 				else {
 					mensajeResultado = "[OK]Se ha borrado correctamente el contacto " + phone;
 				}
-				System.out.println("Se ha borrado");
 			}
 			
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

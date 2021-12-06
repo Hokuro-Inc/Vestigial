@@ -71,10 +71,8 @@ public class CreateToDoListController extends HttpServlet {
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
 				idLista = (String) objJson.get("name");
-				System.out.println(idLista);
 				
 				String usuarioActual = (String) objJson.get("user");
-				System.out.println(usuarioActual);
 				
 				if (toDoListDAO.QueryByList(idLista) == null) {
 					if (toDoListDAO.Insert(idLista) <= 0) {

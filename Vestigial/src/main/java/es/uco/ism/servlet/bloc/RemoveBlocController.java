@@ -81,7 +81,6 @@ public class RemoveBlocController extends HttpServlet{
 				else {
 					mensajeResultado = "[OK]Se ha borrado correctamente el bloc " + name;
 				}
-				System.out.println("Se ha borrado");
 			}
 			
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

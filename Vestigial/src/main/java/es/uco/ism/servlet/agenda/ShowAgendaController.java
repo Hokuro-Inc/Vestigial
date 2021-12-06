@@ -95,8 +95,6 @@ public class ShowAgendaController extends HttpServlet {
 				AgendaBean agendaUsuario = new AgendaBean ();
 				agendaUsuario.setContacts(listadoContactos);				
 				session.setAttribute("Agenda", agendaUsuario);
-				System.out.println("Hola Tengo que ir a la vista");
-				System.out.println("num contactos" + listadoContactos.size());
 				
 				nextPage ="View/Agenda/ShowAgenda.jsp"; 
 			}

@@ -97,12 +97,10 @@ public class LoginController extends HttpServlet {
 				
 				if (UserEmail != null) {
 					
-					System.out.println("CONTROLADOR LOGIN");
 					UserDTO userDTO = userDAO.QueryByEmail(UserEmail);
 					
 					if (userDTO == null) {
 						//El usuario no existe 
-						System.out.println("No existe el usuario");
 						nextPage = "View/Main/loginView.jsp";
 						mensajeNextPage = "Error de Usuario, Intentelo de Nuevo";
 					}
@@ -116,12 +114,10 @@ public class LoginController extends HttpServlet {
 							usuario = new UserBean ();
 							usuario.setEmail(UserEmail);
 							session.setAttribute("userBean", usuario);
-							System.out.println("Se ha logueado correctamente");
 							nextPage = "/"; //mira redireccion
 						}
 						else {
 							nextPage = "View/Main/loginView.jsp";
-							System.out.println("Contrase�a incorrecta");
 							mensajeNextPage = "Error de Contrase�a, Intentelo de Nuevo";
 						}
 					}

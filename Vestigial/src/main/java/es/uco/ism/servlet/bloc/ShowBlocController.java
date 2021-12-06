@@ -61,9 +61,7 @@ public class ShowBlocController extends HttpServlet {
 		String nextPage ="View/Bloc/showBloc.jsp";
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
-		System.out.println("He entrado en el controlador de mostrar blocs de notas");
 		if (dataJson != null) {
-			System.out.println("He entrado en el controlador de mostrar blocs de notas");
 			String usuarioActual = null;
 			response.setContentType("application/json");
 			JSONObject objJson = new JSONObject(dataJson);

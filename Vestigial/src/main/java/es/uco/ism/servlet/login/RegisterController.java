@@ -120,7 +120,6 @@ public class RegisterController extends HttpServlet {
 					String passwordHash = PasswordHashing.createHash(userPassword, salt);
 					
 					UserDTO userDTO = new UserDTO (userEmail, passwordHash, salt, userPhone, userPrefix);
-					System.out.println("Tengo que insertar");
 					userDAO.Insert(userDTO);
 					
 					nextPage = "index.jsp"; //mirar redireccion
