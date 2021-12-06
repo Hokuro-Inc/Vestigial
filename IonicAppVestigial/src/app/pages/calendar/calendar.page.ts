@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { CalendarComponentOptions } from 'ion2-calendar';
+import { CalendarComponentOptions, CalendarModal, CalendarModalOptions, DayConfig } from 'ion2-calendar';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
+import { CalendarModalPage } from '../calendar-modal/calendar-modal.page';
 import { EventViewPage } from '../event-view/event-view.page';
 
 @Component({
@@ -89,6 +90,43 @@ export class CalendarPage implements OnInit {
 			}
 		});
 		return await modal.present();
+	}
+
+	/*async openCalendar() {
+		const modal = await this.modalController.create({
+			component: CalendarModalPage
+		});
+		return await modal.present();
+	}*/
+
+	async openCalendar() {
+		let _daysConfig: DayConfig[] = [];
+		for (let i = 0; i < 31; i++) {
+			_daysConfig.push({
+			date: new Date(2017, 0, i + 1),
+			subTitle: `$${i + 1}`,
+			marked:true
+			})
+		}
+		const options: CalendarModalOptions = {
+			title: 'Calendario',
+			color:'primary',
+			pickMode: 'single',
+			weekStart: 1,
+			weekdays: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+			
+		};
+  
+		let myCalendar =  await this.modalController.create({
+			component: CalendarModal,
+			componentProps: { 
+				options: options
+			}
+		});
+   
+	  	myCalendar.present();
+
+		console.log((await myCalendar.onDidDismiss()).data);
 	}
 
 }
