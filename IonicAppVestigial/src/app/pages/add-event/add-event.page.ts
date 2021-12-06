@@ -42,12 +42,12 @@ export class AddEventPage implements OnInit {
       "end" : note.end,
     };
     console.log(data)
-    this.calendarService.updateEvent(JSON.stringify(data)).subscribe(
+    this.calendarService.addEvent(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/notepads']);
+        this.navController.navigateBack(['/calendar']);
         //alert("Funciona!!!!");
       }
     );

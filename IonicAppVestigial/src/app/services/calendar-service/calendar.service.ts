@@ -11,9 +11,13 @@ export class CalendarService {
   public getData(data: string) {
     return this.httpClient.post('http://localhost:8080/Vestigial/ShowCalendar', data, { responseType:'text' });
   }
-  
+ 
+  public addEvent(data: string) {
+    return this.httpClient.post('http://localhost:8080/Vestigial/CreateEvent', data, { responseType:'text' });
+  }
+
   public updateEvent(data: string) {
-    return this.httpClient.post('http://localhost:8080/Vestigial/RemoveEvent', data, { responseType:'text' });
+    return this.httpClient.post('http://localhost:8080/Vestigial/UpdateEvent', data, { responseType:'text' });
   }
   
   public removeEvent(data: string) {

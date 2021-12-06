@@ -50,7 +50,7 @@ export class ModifyEventPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/notepads']);
+        this.navController.navigateBack(['/calendar']);
         //alert("Funciona!!!!");
       }
     );
