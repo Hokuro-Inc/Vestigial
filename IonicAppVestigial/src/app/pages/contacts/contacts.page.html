@@ -11,6 +11,12 @@
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
+<ion-fab vertical = "bottom" horizontal = "end" slot="fixed" >
+  <ion-fab-button button (click)="addContact()">
+    <ion-icon name = "add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+      
       <ion-list *ngFor="let contact of filteredList; let i = index">
         <ion-item button (click)="showContact(filteredList[i])">{{filteredList[i].fullname}} -> {{filteredList[i].alias}}</ion-item>
       </ion-list>
