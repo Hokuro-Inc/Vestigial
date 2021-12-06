@@ -90,6 +90,26 @@
 </servlet-mapping>
 
 <servlet>
+    <servlet-name>AddBloc</servlet-name>
+    <servlet-class>es.uco.ism.servlet.bloc.CreateBlocController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>AddBloc</servlet-name>
+    <url-pattern>/AddBloc</url-pattern>
+    <url-pattern>/CreateBloc</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>RemoveBloc</servlet-name>
+    <servlet-class>es.uco.ism.servlet.bloc.RemoveBlocController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RemoveBloc</servlet-name>
+    <url-pattern>/RemoveBloc</url-pattern>
+    <url-pattern>/DeleteBloc</url-pattern>
+</servlet-mapping>
+
+<servlet>
     <servlet-name>ShowBloc</servlet-name>
     <servlet-class>es.uco.ism.servlet.bloc.ShowBlocController</servlet-class>
 </servlet>

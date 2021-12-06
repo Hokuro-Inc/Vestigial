@@ -26,7 +26,6 @@ export class ContactsPage implements OnInit {
 				if (response != '') {
           let data = JSON.parse(response).Agenda;
           this.contacts = [];
-          
           data.forEach((element: any) => {
             this.contacts.push(new Contact(
               element.address,

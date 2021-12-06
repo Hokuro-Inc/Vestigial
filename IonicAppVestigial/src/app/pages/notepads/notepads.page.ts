@@ -23,11 +23,9 @@ export class NotepadsPage implements OnInit {
 
     this.notepadService.getNotePads(JSON.stringify(user)).subscribe(
       (response) => {
-        //console.log("Respuesta", response);
         if (response != '') {
-          let data = JSON.parse(response).NotePads;
+          let data = JSON.parse(response).Blocs;
           this.notepads = [];
-          
           data.forEach((element: any) => {
             this.notepads.push(new Notepad(
               element.name,

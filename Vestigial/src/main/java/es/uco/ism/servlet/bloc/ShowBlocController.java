@@ -61,8 +61,9 @@ public class ShowBlocController extends HttpServlet {
 		String nextPage ="View/Bloc/showBloc.jsp";
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
-		
+		System.out.println("He entrado en el controlador de mostrar blocs de notas");
 		if (dataJson != null) {
+			System.out.println("He entrado en el controlador de mostrar blocs de notas");
 			String usuarioActual = null;
 			response.setContentType("application/json");
 			JSONObject objJson = new JSONObject(dataJson);
@@ -78,10 +79,10 @@ public class ShowBlocController extends HttpServlet {
 						mensajeResultado = "[ERROR]No se posee ningún bloc de notas";
 					}
 					else {
-						jsonDataEnviar.append("Blocs", blocs);						
+						jsonDataEnviar.put("Blocs", blocs);						
 						mensajeResultado = "[OK]Se estan enviando los blocs del usuario " + usuarioActual;
 					}
-					jsonDataEnviar.append("Mensaje", mensajeResultado);
+					jsonDataEnviar.put("Mensaje", mensajeResultado);
 				}
 				out.print(jsonDataEnviar);
 				out.close();

@@ -43,7 +43,7 @@ export class AddNotePage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/todolist']);
+        this.navController.navigateBack(['/blocs']);
         //alert("Funciona!!!!");
       }
     );

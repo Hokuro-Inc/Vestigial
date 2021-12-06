@@ -20,8 +20,7 @@ export class ModifyNotePage implements OnInit {
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      status: new FormControl('', Validators.required),
+      text: new FormControl('', Validators.required)
     })
   }
 

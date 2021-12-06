@@ -1,7 +1,9 @@
 <ion-header translucent>
   <ion-toolbar>
 
-       <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+      <ion-buttons slot="start">
+        <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+      </ion-buttons>
        <ion-title>Nota {{note.name}} </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,15 +13,15 @@
 
   <ion-item-sliding >
 
-    <ion-item button (click) = "open(item)">
+    <ion-item button >
 
       <ion-label>
-        <h3>{{ note.title }}</h3>
+        <h2>{{ note.name }}</h2>
       </ion-label>
   
   
       <ion-label text-right>
-        <p>{{ note.body }}</p>
+        <p>{{ note.text }}</p>
       </ion-label>
   
     </ion-item>

@@ -69,7 +69,7 @@ public class RemoveBlocController extends HttpServlet{
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
-				user = usuario.getEmail();
+				user = (String) objJson.get("user");
 				name = (String) objJson.get("name");
 				text = (String) objJson.get("text");
 				

@@ -81,6 +81,10 @@ public class ModifyBlocController extends HttpServlet {
 					text = (String) objJson.get("text");
 					bloc = new BlocDTO(usuarioActual,name,text);
 					BlocDTO blocAntiguo = blocDAO.QueryByName(bloc);
+					System.out.println("HOLA");
+					if (blocAntiguo == null) {
+						System.out.println("ESTOY A NULL");
+					}
 					if (text != null && !text.equals("") ) {
 						if (blocAntiguo != null) {
 							// Ya existe por lo que actualizamos
@@ -97,11 +101,11 @@ public class ModifyBlocController extends HttpServlet {
 								mensajeResultado = "[ERROR]Ha ocurrido un error al crear el bloc " + name;
 							}
 						}
-						jsonDataEnviar.append("Mensaje", mensajeResultado);
+						jsonDataEnviar.put("Mensaje", mensajeResultado);
 					}
 					else {
 						//Enviamos la informacion necesaria a la vista de modificar
-						jsonDataEnviar.append("updateContact", blocAntiguo);
+						jsonDataEnviar.put("updateContact", blocAntiguo);
 						mensajeResultado = "[OK]Se envia la informacion del bloc para editar " + name;
 					}	
 				}

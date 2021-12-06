@@ -90,19 +90,22 @@ public class BlocDAO extends DBConnectImpl {
 	public BlocDTO QueryByName(BlocDTO bloc) {
 		
 		BlocDTO note = null;
-		
+		System.out.println("HOLA");
+		System.out.println(bloc.getName());
+		System.out.println(bloc.getOwner());
         try {
         	
         	Connection con = getConnection();
+        	System.out.println("HA PETADO");
             String statement = sqlProp.getProperty("Select_Bloc_Name");
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, bloc.getName());
             stmt.setString(2, bloc.getOwner());
             ResultSet set = stmt.executeQuery();
-
+            System.out.println("HA PETADO 2");
             if (set.next()) {            	
-            	
-            	note = new BlocDTO(bloc.getName(), bloc.getOwner(), set.getString(3));
+            	System.out.println("HA PETADO 3");
+            	note = new BlocDTO(bloc.getName(), bloc.getOwner(), set.getString(2));
             }
 
             if (stmt != null) {
@@ -110,7 +113,8 @@ public class BlocDAO extends DBConnectImpl {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+        	System.out.println("HA PETADO 1");
+        	e.printStackTrace();
         }
         
         return note;
