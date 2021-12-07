@@ -27,5 +27,10 @@ export class ContactsService {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/RemoveContact', data, { responseType:'text' });
     //return this.httpClient.post('http://localhost:8080/Vestigial/RemoveContact', data, { responseType:'text' });
   }
+
+  public getProfile(data: string) {
+    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/ShowProfile', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/ShowAgenda', data, { responseType:'text' });
+  }
   
 }

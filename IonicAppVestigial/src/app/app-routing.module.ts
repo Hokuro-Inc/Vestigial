@@ -118,6 +118,10 @@ const routes: Routes = [
   {
     path: 'aboutus',
     loadChildren: () => import('./pages/aboutus/aboutus.module').then( m => m.AboutusPageModule)
+  },
+  {
+    path: 'show-profile',
+    loadChildren: () => import('./pages/show-profile/show-profile.module').then( m => m.ShowProfilePageModule)
   }
 
 

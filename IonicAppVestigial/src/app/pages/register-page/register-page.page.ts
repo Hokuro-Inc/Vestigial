@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { RegisterService } from 'src/app/services/register-service/register.service';
+import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
+import { Contact } from '../contacts/contacts.page'
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,8 +14,8 @@ import { Router } from '@angular/router';
 export class RegisterPagePage implements OnInit {
 
   validations_form: FormGroup;
-
-  constructor(public modalController: ModalController, public formBuilder: FormBuilder, private registerService: RegisterService, private router: Router) { }
+  contact: Contact;
+  constructor(public modalController: ModalController, private contactService: ContactsService, public formBuilder: FormBuilder, private registerService: RegisterService, private router: Router) { }
 
   ngOnInit(){
     this.validations_form = this.formBuilder.group({
@@ -49,10 +51,26 @@ export class RegisterPagePage implements OnInit {
 			() => {
 				this.dismiss();
 				sessionStorage.setItem("user", values.email);
+        sessionStorage.setItem("phone", values.phone);
 				this.router.navigate(['/calendar']);
 				//alert("Funciona!!!!");
 			}
 		);
+    let contact = {
+        "email": values.getItem("user"),
+        "phone" : values.phone +'-'+ values.prefix,
+      };
+
+      console.log(contact);
+      /*this.contactService.addContact(contact).subscribe(
+      (response) => console.log("Respuesta", response),
+      (error) => console.log("Error", error),
+      () => {
+        this.dismiss();
+        //this.navController.navigateBack(['/agenda-page/contacts']);
+        //alert("Funciona!!!!");
+      }
+    );*/
 	}
 
 }

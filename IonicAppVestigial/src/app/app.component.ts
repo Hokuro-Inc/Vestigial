@@ -15,6 +15,7 @@ export class AppComponent {
   
 
   public appPages = [
+    { title: 'Mi Contacto', url: '/show-profile', icon: 'person' },
     { title: 'Calendario', url: '/calendar', icon: 'calendar' },
     //{ title: 'To Do List', url: '/folder/ToDoList', icon: 'list' },
     { title: 'Agenda', url: '/agenda-page/contacts', icon: 'book' },
