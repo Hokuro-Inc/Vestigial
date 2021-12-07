@@ -99,7 +99,7 @@ public class UpdateContactController extends HttpServlet {
 					}
 				}
 				else {
-					ContactDTO contacto = contactDAO.QueryByPhone(phone);
+					ContactDTO contacto = contactDAO.QueryByPhone(phone,owner);
 					if ( contacto == null )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de preparar la informacion para editar el contacto "  + phone; 
 					}
@@ -147,7 +147,7 @@ public class UpdateContactController extends HttpServlet {
 					// Tenemos que dirigirnos a la vista
 					// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
 					if (phone != null  && !phone.equals("")) {
-						ContactDTO contactToUpdate = contactDAO.QueryByPhone(phone);
+						ContactDTO contactToUpdate = contactDAO.QueryByPhone(phone,usuario.getEmail());
 						ContactBean contactBean = new ContactBean();
 						contactBean.setContact(contactToUpdate);
 						nextPage = "View/Agenda/CreateContact.jsp";

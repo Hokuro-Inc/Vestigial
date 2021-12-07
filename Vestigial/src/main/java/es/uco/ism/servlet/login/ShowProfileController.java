@@ -1,4 +1,4 @@
-package es.uco.ism.servlet.agenda;
+package es.uco.ism.servlet.login;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,15 +21,16 @@ import es.uco.ism.display.ContactBean;
 import es.uco.ism.display.UserBean;
 
 /**
- * Servlet implementation class ExportContact
+ * Servlet implementation class ShowProfileController
  */
-public class ExportContactController extends HttpServlet {
+@WebServlet("/ShowProfileController")
+public class ShowProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExportContactController() {
+    public ShowProfileController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,23 +46,28 @@ public class ExportContactController extends HttpServlet {
 		String password_bd = request.getServletContext().getInitParameter("PASSWORD");
 		String sql = request.getServletContext().getInitParameter("sql");
 		
+
+		
 		ServletContext application = getServletContext();
 		InputStream myIO = application.getResourceAsStream(sql);
 		java.util.Properties prop = new java.util.Properties();
 		prop.load(myIO);
 		
+
+
 		UserBean usuario = (UserBean) session.getAttribute("userBean");
-		
+
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
-		
+
 		RequestDispatcher disparador = null;
-		
-		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_AGENDA"; 
+		ContactDAO contactDAO = new ContactDAO (url_bd, username_bd, password_bd, prop);
+		String nextPage ="View/Main/loginView.jsp"; 
 		String mensajeNextPage = "";
-		String phone;
 		String dataJson = request.getReader().readLine();
 		JSONObject objJson = null;
+		String userEmail;
+		String userPhone ;
+		
 		if (dataJson != null) {
 			objJson = new JSONObject(dataJson);
 			response.setContentType("application/json");
@@ -69,52 +76,46 @@ public class ExportContactController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
-				phone = (String) objJson.get("phone");
-				String usuarioActual = (String) objJson.get("user");
-
-				ContactDTO contacto = contactDAO.QueryByPhone(phone,usuarioActual);
-				if ( contacto == null )  {
-					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de exportar el contacto "  + phone; 
-				}
-				else {
-					mensajeResultado = "[OK]Se ha preparado la informacion para exportar el contacto " + phone;
-					jsonDataEnviar.put("contactExport", contacto);
+				userEmail = (String) objJson.get("user");
+				userPhone = (String) objJson.get("phone");
+				
+				ContactDTO contacto = contactDAO.QueryByPhone(userEmail,userPhone);
+				if (contacto != null) {
+					mensajeResultado = "[ERROR] El usuario no existe";
+				}else {
+					mensajeResultado = "[OK]Se ha preparado la informacion para editar la contacto " + userPhone;
+					jsonDataEnviar.put("contactUpdate", contacto);
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);
 			out.print(jsonDataEnviar);
 			out.close();
-		}
-		else {
-			if (login) {
-				//Significa que me encuentro logueado, en dicho caso realizaremos las siguientes comprobaciones
-				
-				phone = request.getParameter("phone");
-				
+		}else {
+			if (!login) {
+				userEmail = request.getParameter("email");
+				userPhone = request.getParameter("phone");
+				ContactDTO contacto = contactDAO.QueryByPhone(userEmail,userPhone);
+					// Se debe de ir a la vista
+					
+				nextPage = "View/Main/registerView.jsp"; 
+				ContactBean contactoBean = new ContactBean();
+				contactoBean.setContact(contacto);
+				mensajeNextPage = "Rellene todos los campos obligatorios para registrarse";
+				request.setAttribute("mensaje", mensajeNextPage);
+				request.setAttribute("perfil", contactoBean);
 
-					// Tenemos que dirigirnos a la vista
-					// Debemos de buscar el evento y enviar a la vista los datos de el anteriores.
-					if (phone != null  && !phone.equals("")) {
-						ContactDTO contactExport = contactDAO.QueryByPhone(phone,usuario.getEmail());
-						ContactBean contactBean = new ContactBean();
-						contactBean.setContact(contactExport);
-						nextPage = "VISTA_EXPORTAR_CONTACTO";
-						session.setAttribute("ContactToExport", contactBean);
-					}
-					else {
-						mensajeNextPage = "ACCESO NO PERMITIDO, no se ha suministrado la ID del CONTACTO a modificar";
-					}
-							
 			}
-			else{
-				// No se encuentra logueado, mandamos a la pagina de login.
-				nextPage = "LOGIN";
-				mensajeNextPage = "No se encuentra logueado. ACCESO NO PERMITIDO";
+			else {
+				//ya esta logeado, se va al home
+				nextPage = "Home";
+				disparador = request.getRequestDispatcher("Home"); // mirar
+				mensajeNextPage = "Ya estas logeado";
+
 			}
 			disparador = request.getRequestDispatcher(nextPage);
 			request.setAttribute("mensaje", mensajeNextPage);
 			disparador.forward(request, response);
-		}
+			}
 	}
 
 	/**

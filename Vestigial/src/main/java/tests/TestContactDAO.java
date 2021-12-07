@@ -37,20 +37,20 @@ public class TestContactDAO {
 		
 		assert contactDAO.Insert(contactoTest) > 0: "No se ha introducido el contacto";
 		
-		assert contactDAO.QueryByPhone(contactoTest.getPhone()) != null : "No se ha encontrado el contacto ";
+		assert contactDAO.QueryByPhone(contactoTest.getPhone(),contactoTest.getOwner()) != null : "No se ha encontrado el contacto ";
 		
-		assert contactDAO.QueryByPhone(contactoTest.getPhone()).getEmail() != contactoTest.getEmail() : "Error correo del contacto ";
+		assert contactDAO.QueryByPhone(contactoTest.getPhone(),contactoTest.getOwner()).getEmail() != contactoTest.getEmail() : "Error correo del contacto ";
 		
-		assert contactDAO.QueryByPhone(contactoTest.getPhone()).getOwner() != contactoTest.getOwner() : "Error propietario del contacto ";
+		assert contactDAO.QueryByPhone(contactoTest.getPhone(),contactoTest.getOwner()).getOwner() != contactoTest.getOwner() : "Error propietario del contacto ";
 
 		contactoTest.setAddress("Direccion2");
 		assert contactDAO.Update(contactoTest) > 0: "Error al actualizar el contacto";
 
-		assert contactDAO.QueryByPhone(contactoTest.getPhone()).getAddress() != contactoTest.getAddress() : "Error direccion actualizada del contacto ";
+		assert contactDAO.QueryByPhone(contactoTest.getPhone(),contactoTest.getOwner()).getAddress() != contactoTest.getAddress() : "Error direccion actualizada del contacto ";
 		
 		assert contactDAO.Delete(contactoTest.getPhone(),contactoTest.getEmail()) > 0: "Error al borrar el contacto";
 		
-		assert contactDAO.QueryByPhone(contactoTest.getPhone()) == null : "Error se ha encontrado un contacto borrado";
+		assert contactDAO.QueryByPhone(contactoTest.getPhone(),contactoTest.getOwner()) == null : "Error se ha encontrado un contacto borrado";
 		
 		System.out.println("Fin del test");
 	}
