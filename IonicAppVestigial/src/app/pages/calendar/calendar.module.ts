@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CalendarPageRoutingModule } from './calendar-routing.module';
 import { CalendarPage } from './calendar.page';
-import { CalendarModule  } from 'ion2-calendar';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 
@@ -18,7 +17,6 @@ registerLocaleData(localeEs, 'es');
     CommonModule,
     FormsModule,
     IonicModule,
-    CalendarModule,
     CalendarPageRoutingModule,
     NgCalendarModule
   ],

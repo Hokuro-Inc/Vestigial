@@ -26,7 +26,7 @@ export class ListsPage implements OnInit {
           if (response != '') {
             var data = JSON.parse(response).ToDoLists;
             this.lists = [];
-            console.log("Datas",data)
+            //console.log("Datas",data)
             data.forEach((element: any) => {
               this.lists.push(new List(element));
             });
