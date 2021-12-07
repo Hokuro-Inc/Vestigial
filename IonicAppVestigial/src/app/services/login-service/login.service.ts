@@ -11,6 +11,6 @@ export class LoginService {
   public getData(data: string) {
     //console.log("Service", data);
     //return this.httpClient.post('https://hokuro.xyz/Vestigial/Login', data, { responseType:'text' });
-    return this.httpClient.post('https://localhost::8080/Vestigial/Login', data, { responseType:'text' });
+    return this.httpClient.post('http://localhost:8080/Vestigial/Login', data, { responseType:'text' });
   }
 }
