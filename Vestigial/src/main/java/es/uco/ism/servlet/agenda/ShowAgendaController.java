@@ -69,6 +69,10 @@ public class ShowAgendaController extends HttpServlet {
 					jsonDataEnviar.put("Agenda", listadoContactos);
 					mensajeResultado = "[OK]Se han cargado todos los contactos del usuario";
 				}
+				else {
+					jsonDataEnviar.put("Agenda", "");
+					mensajeResultado = "[OK]El usuario no tiene ningun contacto";
+				}
 				jsonDataEnviar.put("Mensaje", mensajeResultado);
 				out.print(jsonDataEnviar);
 				out.close();
