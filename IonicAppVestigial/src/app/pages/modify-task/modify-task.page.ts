@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
 import { Task } from '../todolist-page/todolist.page';
-import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modify-task',
@@ -16,7 +15,7 @@ export class ModifyTaskPage implements OnInit {
 
   task : Task;
   
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService, private navController: NavController) { }
+  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService) { }
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
@@ -40,16 +39,14 @@ export class ModifyTaskPage implements OnInit {
       "descriptionTask" : task.description,
       "statusTask" : task.status,
       "idLista" : this.task.list,
-      "idTask" : this.task.id
-      
+      "idTask" : this.task.id  
     };
-    console.log(data)
+
     this.todolistService.updateTask(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/todolist']);
         //alert("Funciona!!!!");
       }
     );

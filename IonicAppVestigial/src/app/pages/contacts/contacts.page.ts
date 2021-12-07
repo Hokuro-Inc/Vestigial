@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
 import { ModalController } from '@ionic/angular';
 import { ContactViewPage } from '../contact-view/contact-view.page'
@@ -13,9 +13,13 @@ export class ContactsPage implements OnInit {
   contacts: Contact[];
   filteredList: Contact[];
 
-  constructor(private contactsService: ContactsService, private modalController: ModalController) { }
+  constructor(private contactsService: ContactsService, private modalController: ModalController, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.getContacts();
+  }
+
+  getContacts() {
     let user = {
       "user": sessionStorage.getItem("user"),
     };
@@ -41,7 +45,6 @@ export class ContactsPage implements OnInit {
           });
 
           this.filteredList = this.contacts;
-          //console.log(this.contacts.forEach(e => console.log(e)));
         }
 			},
 			(error) => console.log("Error", error),
@@ -78,7 +81,6 @@ export class ContactsPage implements OnInit {
           });
 
           this.filteredList = this.contacts;
-          //console.log(this.contacts.forEach(e => console.log(e)));
         }
 			},
 			(error) => console.log("Error", error),

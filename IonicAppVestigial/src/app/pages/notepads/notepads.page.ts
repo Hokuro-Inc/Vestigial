@@ -32,7 +32,6 @@ export class NotepadsPage implements OnInit {
               element.text
             ));
           });
-          //console.log(this.notepads.forEach(e => console.log(e)));
         }
       },
       (error) => console.log("Error", error),
@@ -58,7 +57,6 @@ export class NotepadsPage implements OnInit {
               element.text
             ));
           });
-          //console.log(this.notepads.forEach(e => console.log(e)));
         }
       },
       (error) => console.log("Error", error),

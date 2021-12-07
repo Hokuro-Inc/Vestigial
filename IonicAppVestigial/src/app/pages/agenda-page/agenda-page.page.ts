@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AddContactPage } from '../add-contact/add-contact.page'
+import { ContactsPage } from '../contacts/contacts.page';
 import { ImportContactPage } from '../import-contact/import-contact.page'
 
 @Component({
@@ -10,10 +11,9 @@ import { ImportContactPage } from '../import-contact/import-contact.page'
 })
 export class AgendaPagePage implements OnInit {
 
-  	constructor(private modalController: ModalController) { }
+  	constructor(private modalController: ModalController, private contactsPage: ContactsPage) { }
 
-  	ngOnInit() {
-  	}
+  	ngOnInit() { }
 
   	getMobileOperatingSystem() {
     var userAgent = navigator.userAgent || navigator.vendor;
@@ -40,6 +40,10 @@ export class AgendaPagePage implements OnInit {
 	      // Data passed in by componentProps
 	      component: AddContactPage,
 	    });
+		modal.onDidDismiss().then(_ => {
+			console.log("dismissed");
+			this.contactsPage.getContacts();
+		})
 	    return await modal.present();
   	}
 

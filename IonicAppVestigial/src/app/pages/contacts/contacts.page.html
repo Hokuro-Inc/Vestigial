@@ -12,8 +12,8 @@
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
      
-      <ion-list *ngFor="let contact of filteredList; let i = index">
-        <ion-item button (click)="showContact(filteredList[i])">{{filteredList[i].fullname}} -> {{filteredList[i].alias}}</ion-item>
+      <ion-list *ngFor="let contact of filteredList">
+        <ion-item button (click)="showContact(contact)">{{contact.fullname}} -> {{contact.alias}}</ion-item>
       </ion-list>
     </ion-content>
   </ion-app>

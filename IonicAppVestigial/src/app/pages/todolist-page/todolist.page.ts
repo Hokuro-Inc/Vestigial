@@ -21,11 +21,10 @@ export class TodolistPage implements OnInit {
         "user": sessionStorage.getItem("user"),
         "idLista": this.lista.name
       };
-      console.log(data);
 
       this.TodolistService.getData(JSON.stringify(data)).subscribe(
         (response) => {
-          console.log("Respuesta", response);
+          //console.log("Respuesta", response);
           if (response != '') {
             var data = JSON.parse(response).ToDoList;
             this.todolist = [];
@@ -40,8 +39,6 @@ export class TodolistPage implements OnInit {
                 element.list,
               ));
             });
-
-            console.log(this.todolist.forEach(e => console.log(e)));
           }
         },
         (error) => console.log("Error", error),
@@ -56,11 +53,10 @@ export class TodolistPage implements OnInit {
         "user": sessionStorage.getItem("user"),
         "idLista": this.lista.name
       };
-      console.log(data);
 
       this.TodolistService.getData(JSON.stringify(data)).subscribe(
         (response) => {
-          console.log("Respuesta", response);
+          //console.log("Respuesta", response);
           if (response != '') {
             var data = JSON.parse(response).ToDoList;
             this.todolist = [];
@@ -75,8 +71,6 @@ export class TodolistPage implements OnInit {
                 element.list,
               ));
             });
-
-            console.log(this.todolist.forEach(e => console.log(e)));
           }
         },
         (error) => console.log("Error", error),

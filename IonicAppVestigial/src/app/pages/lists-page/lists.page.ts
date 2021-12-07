@@ -31,7 +31,6 @@ export class ListsPage implements OnInit {
               this.lists.push(new List(element));
             });
 
-            //console.log(this.lists.forEach(e => console.log(e)));
           }
         },
         (error) => console.log("Error", error),
