@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
 import { EventViewPage } from '../event-view/event-view.page';
