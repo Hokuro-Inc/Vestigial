@@ -97,7 +97,8 @@
 
                     <div class="slider-content">
                       <h1></h1>
-                      <p>Texto Sobre Nosotros y la aplicacion</p>
+                      <p>Somos Hokuro Incorporated, una empresa fundada por seis miembros de la Universidad de Córdoba, actualmente cursando ingeniería informática en la misma.
+Desde su fundación, llevamos 4 años trabajando juntos, realizando diversos proyectos en ese tiempo, entre ellos, Vestigial.</p>
                        <br></br>
                       	        <a href="#about" class="main-stroked-button">Leer más</a>
                   				<a href="Login" class="main-stroked-button">Acceder</a>
