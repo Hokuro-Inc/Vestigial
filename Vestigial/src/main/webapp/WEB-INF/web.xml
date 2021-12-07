@@ -22,6 +22,16 @@
     <url-pattern>/Register</url-pattern>
     <url-pattern>/CrearCuenta</url-pattern>
 </servlet-mapping>
+
+<servlet>
+    <servlet-name>ShowProfile</servlet-name>
+    <servlet-class>es.uco.ism.servlet.login.ShowProfileController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ShowProfile</servlet-name>
+    <url-pattern>/ShowProfile</url-pattern>
+    <url-pattern>/Profile</url-pattern>
+</servlet-mapping>
  
   <!-- Mapeo de la Agenda-->
 <servlet>
