@@ -10,6 +10,7 @@ export class RegisterService {
 
   public getData(data: string) {
     //console.log("Service", data);
-    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/Register', data, { responseType:'text' });
+    //return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/Register', data, { responseType:'text' });
+    return this.httpClient.post('http://localhost:8080/Vestigial/Register', data, { responseType:'text' });
   }
 }

@@ -18,6 +18,17 @@ export class ShowProfilePage implements OnInit {
 
   	ngOnInit() {
   		//console.log(this.contact);
+  		let values = {
+        "email": sessionStorage.getItem("email"),
+        "phone" : sessionStorage.getItem("phone"),
+      	};
+  		this.contactsService.getProfile(JSON.stringify(values)).subscribe(
+			(response) => console.log("Respuesta", response),
+			(error) => console.log("Error", error),
+			() => {
+				//alert("Funciona!!!!");
+			}
+		);
   	}
 
 	async editContact(contact: Contact) {

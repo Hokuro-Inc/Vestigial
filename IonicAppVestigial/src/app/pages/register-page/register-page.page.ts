@@ -42,35 +42,47 @@ export class RegisterPagePage implements OnInit {
     });
   }
 
+  anadir(contact) {
+    console.log(contact);
+    this.contactService.addContact(JSON.stringify(contact)).subscribe(
+      (response) => console.log("Respuesta", response),
+      (error) => console.log("Error", error),
+      () => {
+        this.dismiss();
+        this.router.navigate(['/calendar']);
+        //this.navController.navigateBack(['/agenda-page/contacts']);
+        //alert("Funciona!!!!");
+      }
+    );
+  }
+
 	onSubmit(values: any){
 		//console.log("Page", values);
+    let contact = {
+        "email": values.email,
+        "phone" : values.phone,
+        "prefix": values.prefix,
+        "name": "",
+        "surname": "",
+        "address": "",
+        "description": "",
+        "alias": "",
+        "owner": values.email,
+      };
+
+      console.log(contact);
 
 		this.registerService.getData(values).subscribe(
 			(response) => console.log("Respuesta", response),
 			(error) => console.log("Error", error),
 			() => {
-				this.dismiss();
 				sessionStorage.setItem("user", values.email);
-        sessionStorage.setItem("phone", values.phone);
-				this.router.navigate(['/calendar']);
+        sessionStorage.setItem("phone", values.phone +'-'+ values.prefix);
+				this.anadir(contact)
 				//alert("Funciona!!!!");
 			}
 		);
-    let contact = {
-        "email": values.getItem("user"),
-        "phone" : values.phone +'-'+ values.prefix,
-      };
-
-      console.log(contact);
-      /*this.contactService.addContact(contact).subscribe(
-      (response) => console.log("Respuesta", response),
-      (error) => console.log("Error", error),
-      () => {
-        this.dismiss();
-        //this.navController.navigateBack(['/agenda-page/contacts']);
-        //alert("Funciona!!!!");
-      }
-    );*/
+    
 	}
 
 }
