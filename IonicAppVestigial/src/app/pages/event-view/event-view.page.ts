@@ -17,8 +17,7 @@ export class EventViewPage implements OnInit {
 
   constructor(private calendarService: CalendarService,private modalController: ModalController) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   dismiss() {
     // using the injected ModalController this page
@@ -41,23 +40,23 @@ export class EventViewPage implements OnInit {
 
   async deleteEvent(event: Event) {
     let datas = {
-        "idEvent" : event.id
-      };
-      this.calendarService.removeEvent(JSON.stringify(datas)).subscribe(
-        (response) => { 
-          //console.log("Respuesta", response);
-          if (response != '') {
-            let data = JSON.parse(response).Mensaje
-            console.log("Mensaje",data)
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
-          this.dismiss();
+      "idEvent" : event.id
+    };
+    this.calendarService.removeEvent(JSON.stringify(datas)).subscribe(
+      (response) => { 
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje
+          console.log("Mensaje",data)
         }
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        this.dismiss();
+      }
 
-      ); 
+    );
   }
 
 }

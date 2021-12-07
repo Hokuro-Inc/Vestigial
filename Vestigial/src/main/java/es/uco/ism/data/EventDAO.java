@@ -215,7 +215,7 @@ ArrayList<EventDTO> listEvent = new ArrayList<EventDTO>();
             
             while (set.next()) {
             	
-            	EventDTO aux = new EventDTO(set.getString(1), email, new Date (set.getTimestamp(4).getTime()),  new Date (set.getTimestamp(5).getTime()), set.getString(2), set.getString(3));
+            	EventDTO aux = new EventDTO(set.getString(1), email, new Date (set.getTimestamp(4).getTime()), new Date (set.getTimestamp(5).getTime()), set.getString(2), set.getString(3));
             	listEvent.add(aux);
             }
 

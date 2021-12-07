@@ -44,7 +44,7 @@ export class ModifyEventPage implements OnInit {
       "start" : this.getDate(event.start),
       "end" : this.getDate(event.end),
     };
-    console.log(data)
+
     this.calendarService.updateEvent(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
@@ -65,4 +65,15 @@ export class ModifyEventPage implements OnInit {
     let minute = String(date.getMinutes()).padStart(2, '0');
 		return year + '-' + month + '-' + day + " " + hour + ":" + minute + ":00";
   }
+
+  getDateFormat(dateStr: string) {
+    let date = new Date(dateStr.replace(' CET', ''));
+    let day = String(date.getDate()).padStart(2, '0');
+		let month = String(date.getMonth() + 1).padStart(2, '0');
+		let year = date.getFullYear();
+    let hour = String(date.getHours()).padStart(2, '0');
+    let minute = String(date.getMinutes()).padStart(2, '0');
+		return month + " " + day + " " + year + " " + hour + ":" + minute;
+  }
+
 }
