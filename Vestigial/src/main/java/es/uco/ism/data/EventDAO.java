@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import es.uco.ism.business.event.EventDTO;
@@ -213,8 +214,8 @@ ArrayList<EventDTO> listEvent = new ArrayList<EventDTO>();
             ResultSet set = stmt.executeQuery();
             
             while (set.next()) {
-            		
-            	EventDTO aux = new EventDTO(set.getString(1), email, set.getTimestamp(4), set.getTimestamp(5), set.getString(2), set.getString(3));
+            	
+            	EventDTO aux = new EventDTO(set.getString(1), email, new Date (set.getTimestamp(4).getTime()),  new Date (set.getTimestamp(5).getTime()), set.getString(2), set.getString(3));
             	listEvent.add(aux);
             }
 

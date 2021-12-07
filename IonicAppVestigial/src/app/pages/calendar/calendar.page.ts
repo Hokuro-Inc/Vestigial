@@ -41,7 +41,7 @@ export class CalendarPage implements OnInit {
 
 		this.calendarService.getData(JSON.stringify(user)).subscribe(
 			(response) => {
-				//console.log("Respuesta", response);
+				console.log("Respuesta", response);
 				if (response != '') {
 					let data = JSON.parse(response).Calendar;
 					this.events = [];
@@ -58,7 +58,9 @@ export class CalendarPage implements OnInit {
 					});
 
 					this.filteredEvents = this.events.filter(item => {
-						return item.start == curDateStr;
+							console.log(curDateStr)
+							console.log(item.start)
+						return curDateStr.indexOf(item.start) > -1;
 					});
          		 	//this.events.forEach(e => console.log(e));
 					//this.filteredEvents.forEach(e => console.log(e));
