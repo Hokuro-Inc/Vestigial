@@ -77,6 +77,7 @@ public class ShowBlocController extends HttpServlet {
 					ArrayList<BlocDTO> blocs = blocDAO.QueryByOwner(usuarioActual);
 					if (blocs.isEmpty()) {
 						mensajeResultado = "[ERROR]No se posee ningún bloc de notas";
+						jsonDataEnviar.put("Blocs", "[]");	
 					}
 					else {
 						jsonDataEnviar.put("Blocs", blocs);						

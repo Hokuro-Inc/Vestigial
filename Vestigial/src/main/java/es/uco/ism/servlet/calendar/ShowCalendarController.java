@@ -80,7 +80,7 @@ public class ShowCalendarController extends HttpServlet {
 					mensajeResultado = "[OK]Se han cargado todos los eventos del usuario";
 				}
 				else {
-					jsonDataEnviar.put("Calendar", "");
+					jsonDataEnviar.put("Calendar", "[]");
 					mensajeResultado = "[OK]El usuario no tiene ningun evento";
 				}
 				jsonDataEnviar.put("Mensaje", mensajeResultado);
