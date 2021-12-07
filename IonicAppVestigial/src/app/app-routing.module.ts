@@ -86,7 +86,8 @@ const routes: Routes = [
   {
     path: 'modify-task',
     loadChildren: () => import('./pages/modify-task/modify-task.module').then( m => m.ModifyTaskPageModule)
-  },  {
+  },
+  {
     path: 'event-view',
     loadChildren: () => import('./pages/event-view/event-view.module').then( m => m.EventViewPageModule)
   },
@@ -113,6 +114,10 @@ const routes: Routes = [
   {
     path: 'add-event',
     loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
+  },
+  {
+    path: 'aboutus',
+    loadChildren: () => import('./pages/aboutus/aboutus.module').then( m => m.AboutusPageModule)
   }
 
 

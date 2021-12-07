@@ -20,6 +20,7 @@ export class AppComponent {
     { title: 'Agenda', url: '/agenda-page/contacts', icon: 'book' },
     { title: 'Notas', url: '/notepads', icon: 'archive' },
     { title: 'Lista de tareas', url: '/lists', icon: 'list' },
+    { title: 'Sobre nosotros', url: '/aboutus', icon: 'information-circle'}
 
   ];
 
