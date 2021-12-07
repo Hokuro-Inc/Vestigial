@@ -1,31 +1,53 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-  	 <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Calendario</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openCalendar()">
-        <ion-icon name="calendar"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+       <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+       <ion-title>Calendar</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="ion-padding">
+  
 
-    <ion-calendar [(ngModel)]="date"
-        style="background-color: black"
-        [options]="options"
-        [type]="type"
-        [format]="'YYYY-MM-DD'"
-        (change)="onChange($event)">
-    </ion-calendar>
+ 
+<ion-content>
 
-    <ion-list *ngFor="let event of filteredEvents; let i = index">
-      <ion-item button (click)="showEvent(filteredEvents[i])">{{filteredEvents[i].name}} -> {{filteredEvents[i].description}}</ion-item>
-    </ion-list>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addEvent()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+    <ion-col size="8" class="ion-text-center">
+      <h2>{{ viewTitle }}</h2>
+    </ion-col>
     
-  </div>
+    <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="date" let-noEventsLabel="noEventsLabel">
+      <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+          <ion-item button *ngFor="let event of filteredEvents" (click)="showEvent(event)">
+            <div>{{event.name}} -> {{event.description}}</div>
+          </ion-item>
+          <ion-item *ngIf="filteredEvents.length==0">
+            <div class="no-events-label">{{noEventsLabel}}</div>
+          </ion-item>
+      </ion-list>
+  </ng-template>
+ 
+  <calendar
+    [monthviewEventDetailTemplate]="template"
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    startHour="6"
+    endHour="20"
+    step="30"
+    startingDayWeek="1"
+    showEventDetail="false"
+    autoSelect="false"
+    noEventsLabel="No hay eventos"
+  >
+  </calendar>
+
+
 </ion-content>

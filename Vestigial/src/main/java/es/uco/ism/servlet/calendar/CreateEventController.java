@@ -74,15 +74,15 @@ public class CreateEventController extends HttpServlet {
 			jsonDataEnviar = new JSONObject();
 			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
-				nameEvent = (String) objJson.get("nameEvent");
+				nameEvent = (String) objJson.get("name");
 				String owner = (String) objJson.get("user");
 				if (nameEvent != null && !nameEvent.equals("")) {
-					descriptionEvent = (String) objJson.get("descriptionEvent");
-					startEventDate = (String) objJson.get("startEvent");
-					endEventDate = (String) objJson.get("endEvent");	
-					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+					descriptionEvent = (String) objJson.get("description");
+					startEventDate = (String) objJson.get("start");
+					endEventDate = (String) objJson.get("end");
+					SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					
-					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					
 					Date startEvent = null;
 					try {

@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Modificar Evento {{event.name}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="register">
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
+    <ion-item lines="full">
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" name="name" formControlName="name" [(ngModel)]="event.name" disabled required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-input type="text" name="description" formControlName="description" [(ngModel)]="event.description" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Fecha de Inicio</ion-label>
+      <ion-datetime displayFormat="D MMM YYYY H:mm" name="start" formControlName="start" [ngModel]="getDateFormat(event.start)"></ion-datetime>
+    </ion-item> 
+    
+    <ion-item>
+      <ion-label position="floating">Fecha de Fin</ion-label>
+      <ion-datetime displayFormat="D MMM YYYY H:mm" name="end" formControlName="end" [ngModel]="getDateFormat(event.end)"></ion-datetime>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Modificar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

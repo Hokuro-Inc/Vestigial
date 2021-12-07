@@ -8,6 +8,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content fullscreen>
+      <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-list *ngFor="let list of lists; let i = index">
         <ion-item button (click)="showList(lists[i])">{{lists[i].name}}</ion-item>
       </ion-list>

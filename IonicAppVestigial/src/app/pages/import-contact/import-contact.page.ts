@@ -4,7 +4,7 @@ import { ContactsService } from 'src/app/services/contacts-service/contacts.serv
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs'
 
-import { NFC, Ndef, NfcTag} from '@ionic-native/nfc/ngx';
+//import { NFC, Ndef, NfcTag} from '@ionic-native/nfc/ngx';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ImportContactPage implements OnInit {
   ndefMsg:      string    = '';
 
 
-  constructor(private modalController: ModalController, private nfc: NFC, private ndef: Ndef, private contactService: ContactsService, private navController: NavController) { }
+  constructor(/*private modalController: ModalController, private nfc: NFC, private ndef: Ndef, private contactService: ContactsService, private navController: NavController*/) { }
 
   async ngOnInit() {
 /*

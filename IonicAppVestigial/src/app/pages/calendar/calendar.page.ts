@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { CalendarComponentOptions, CalendarModal, CalendarModalOptions, DayConfig } from 'ion2-calendar';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
 import { EventViewPage } from '../event-view/event-view.page';
+import { AddEventPage } from '../add-event/add-event.page';
 
 @Component({
   selector: 'app-calendar',
@@ -11,27 +11,25 @@ import { EventViewPage } from '../event-view/event-view.page';
 })
 export class CalendarPage implements OnInit {
 
-	events: Event[];
-	filteredEvents: Event[];
+	events: Event[] = [];
+	filteredEvents: Event[] = [];
 	date: string;
-  	type: 'string';
-
-  	options: CalendarComponentOptions = {
-    	pickMode: 'single',
-		showMonthPicker: true,
-		weekStart: 1,
-		weekdays: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-		monthPickerFormat : ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-  	};
-
-  	constructor(private calendarService: CalendarService, private modalController: ModalController) { }
-  	
+  	viewTitle: string;
+ 
+	calendar = {
+		mode: 'month',
+		currentDate: new Date(),
+	};
+		
+	constructor(private calendarService: CalendarService, private modalController: ModalController) { }
+	
 	ngOnInit() {
-		let curDate = new Date();
+		/*let curDate = new Date();
 		let day = String(curDate.getDate()).padStart(2, '0');
 		let month = curDate.getMonth() + 1;
 		let year = curDate.getFullYear();
-		let curDateStr = year + '-' + month + '-' + day;
+		let curDateStr = year + '-' + month + '-' + day;*/
+		let curDateStr = this.getDate(new Date().toUTCString());
 
 		let user = {
 			"user": sessionStorage.getItem("user"),
@@ -56,7 +54,8 @@ export class CalendarPage implements OnInit {
 					});
 
 					this.filteredEvents = this.events.filter(item => {
-						return item.start == curDateStr;
+						let dateStr = this.getDate(item.start.replace(' CET', ''));
+						return curDateStr.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
 					});
          		 	//this.events.forEach(e => console.log(e));
 					//this.filteredEvents.forEach(e => console.log(e));
@@ -68,18 +67,11 @@ export class CalendarPage implements OnInit {
 			}
 		);
 	}
-
-  	onChange(event: any) {
-    	let curDate = event._d;
-		let day = String(curDate.getDate()).padStart(2, '0');
-		let month = curDate.getMonth() + 1;
-		let year = curDate.getFullYear();
-		let curDateStr = year + '-' + month + '-' + day;
-
-		this.filteredEvents = this.events.filter(item => {
-			return item.start == curDateStr;
-		});
-  	}
+	
+	// Selected date reange and hence title changed
+	onViewTitleChanged(title: string) {
+		this.viewTitle = title;
+	}
 
 	async showEvent(event: Event) {
 		const modal = await this.modalController.create({
@@ -91,41 +83,37 @@ export class CalendarPage implements OnInit {
 		return await modal.present();
 	}
 
-	/*async openCalendar() {
+	async addEvent(event: Event) {
 		const modal = await this.modalController.create({
-			component: CalendarModalPage
+			component: AddEventPage,
 		});
 		return await modal.present();
-	}*/
+	}
 
-	async openCalendar() {
-		let _daysConfig: DayConfig[] = [];
-		for (let i = 0; i < 31; i++) {
-			_daysConfig.push({
-			date: new Date(2017, 0, i + 1),
-			subTitle: `$${i + 1}`,
-			marked:true
-			})
-		}
-		const options: CalendarModalOptions = {
-			title: 'Calendario',
-			color:'primary',
-			pickMode: 'single',
-			weekStart: 1,
-			weekdays: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-			
-		};
-  
-		let myCalendar =  await this.modalController.create({
-			component: CalendarModal,
-			componentProps: { 
-				options: options
-			}
+	onTimeSelected(event: any) {
+		/*let curDate = event.selectedTime;
+		let day = String(curDate.getDate()).padStart(2, '0');
+		let month = curDate.getMonth() + 1;
+		let year = curDate.getFullYear();
+		this.date = year + '-' + month + '-' + day;*/
+		let selectedDate = this.getDate(event.selectedTime);
+		
+		this.filteredEvents = this.events.filter(item => {
+			let dateStr = this.getDate(item.start.replace(' CET', ''));
+			return selectedDate.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
 		});
-   
-	  	myCalendar.present();
 
-		console.log((await myCalendar.onDidDismiss()).data);
+		//this.filteredEvents.forEach(item => console.log(item));
+    }
+
+	getDate(dateStr: string) {
+		let date = new Date(dateStr);
+		let day = String(date.getDate()).padStart(2, '0');
+		let month = String(date.getMonth() + 1).padStart(2, '0');
+		let year = date.getFullYear();
+		let hour = String(date.getHours()).padStart(2, '0');
+		let minute = String(date.getMinutes()).padStart(2, '0');
+		return year + '-' + month + '-' + day + " " + hour + ":" + minute + ":00";
 	}
 
 }
