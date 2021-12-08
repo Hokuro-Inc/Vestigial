@@ -3,6 +3,7 @@ package es.uco.ism.servlet.login;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
+import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.ContactDAO;
 import es.uco.ism.display.ContactBean;
 import es.uco.ism.display.UserBean;
@@ -77,15 +79,17 @@ public class ShowProfileController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				userEmail = (String) objJson.get("user");
 				userPhone = (String) objJson.get("phone");
-				System.out.println("EL USUARIO DADO Y EL TELEFONO ES " + userEmail + " " + userPhone);
-				ContactDTO contacto = contactDAO.QueryByPhone(userEmail,userPhone);
+				ContactDTO contacto = contactDAO.QueryByPhone(userPhone,userEmail);
 				System.out.println(contacto);
 								
 				if (contacto == null) {
 					mensajeResultado = "[ERROR] El usuario no existe";
 				}else {
 					mensajeResultado = "[OK]Se envia la informacion del perfil" + userPhone;
-					jsonDataEnviar.put("Profile", contacto);
+					ArrayList<ContactDTO> perfilInfo = new ArrayList<>();
+					perfilInfo.add(contacto);
+					
+					jsonDataEnviar.put("Profile", perfilInfo);
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

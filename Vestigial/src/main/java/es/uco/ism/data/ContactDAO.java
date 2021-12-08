@@ -60,7 +60,7 @@ public class ContactDAO extends DBConnectImpl{
     
     public ContactDTO QueryByPhone(String phone,String owner) {
     	ContactDTO contacto = null;
-
+    	
         try {
             Connection con = getConnection();
             String statement = sqlProp.getProperty("Select_Contact");
@@ -72,7 +72,7 @@ public class ContactDAO extends DBConnectImpl{
             if (set.next()) {
             	
             	String[] tokens = phone.split("-");
-            	
+            
             	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), owner);
             }
 
