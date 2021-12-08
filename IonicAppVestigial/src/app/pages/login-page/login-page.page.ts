@@ -53,7 +53,6 @@ export class LoginPagePage implements OnInit {
 				if (res == true) {
 					this.dismiss();
 					sessionStorage.setItem("user", values.email);
-					sessionStorage.setItem("user", values.phone);
 					this.router.navigate(['/calendar']);
 					//alert("Funciona!!!");
 				}
