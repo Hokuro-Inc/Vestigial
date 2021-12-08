@@ -3,6 +3,7 @@ package es.uco.ism.servlet.todolist;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
+import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.ListDAO;
+import es.uco.ism.data.UserListDAO;
 import es.uco.ism.display.UserBean;
 
 /**
@@ -52,7 +55,7 @@ public class RemoveListController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		ListDAO toDoListDAO = new ListDAO(url_bd, username_bd, password_bd, prop);
+		UserListDAO toDoListDAO = new UserListDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="ShowToDoList"; 
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
@@ -68,8 +71,13 @@ public class RemoveListController extends HttpServlet {
 				jsonDataEnviar = new JSONObject();
 				String mensajeResultado = null;
 				idLista = (String) objJson.get("idLista");
+				String user = (String) objJson.get("user");
+				UserDTO usuarioInfo = new UserDTO (user, "", "", "", "");
+				ArrayList<String> listaEliminar = new ArrayList<> ();
+				listaEliminar.add(idLista);
+				usuarioInfo.setLists(listaEliminar);
 				if (idLista != null && !idLista.equals("")) {			
-					if (toDoListDAO.Delete(idLista) <= 0) {
+					if (toDoListDAO.Delete(usuarioInfo) <= 0) {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar la lista"  + idLista;
 					}
 					else {
@@ -84,8 +92,12 @@ public class RemoveListController extends HttpServlet {
 		else {
 			if (login) {
 				idLista = request.getParameter("idLista");
-				if (idLista != null && !idLista.equals("")) {			
-					if (toDoListDAO.Delete(idLista) <= 0) {
+				if (idLista != null && !idLista.equals("")) {	
+					UserDTO usuarioInfo = new UserDTO (usuario.getEmail(), "", "", "", "");
+					ArrayList<String> listaEliminar = new ArrayList<> ();
+					listaEliminar.add(idLista);
+					usuarioInfo.setLists(listaEliminar);
+					if (toDoListDAO.Delete(usuarioInfo) <= 0) {
 						mensajeNextPage = "Se ha borrado correctamente la tarea con ID -> " + idLista;
 					}
 					else {

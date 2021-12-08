@@ -104,6 +104,29 @@ export class TodolistPage implements OnInit {
     return await modal.present();
   }
 
+  async deleteList() {
+    //console.log(listaElegida);
+    let datas = {
+        "user": sessionStorage.getItem("user"),
+        "idLista" :this.lista
+      };
+      this.TodolistService.removeToDoList(JSON.stringify(datas)).subscribe(
+        (response) => { 
+          //console.log("Respuesta", response);
+          if (response != '') {
+            let data = JSON.parse(response).Mensaje
+            console.log("Mensaje",data)
+          }
+        },
+        (error) => console.log("Error", error),
+        () => {
+          console.log("Completed");
+          this.dismiss();
+        }
+
+      ); 
+  }
+
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
