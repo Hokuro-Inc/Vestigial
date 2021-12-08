@@ -75,7 +75,7 @@ public class UserDAO extends DBConnectImpl {
             	String phone = set.getString(3);
             	String[] tokens = phone.split("-");
             	
-            	user = new UserDTO(email, set.getString(1), set.getString(2), tokens[1], tokens[0]);
+            	user = new UserDTO(email, set.getString(1), set.getString(2), tokens[0], tokens[1]);
             }
 
             if (stmt != null) {

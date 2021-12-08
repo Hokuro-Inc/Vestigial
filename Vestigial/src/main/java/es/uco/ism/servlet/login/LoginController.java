@@ -3,6 +3,7 @@ package es.uco.ism.servlet.login;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -80,6 +81,11 @@ public class LoginController extends HttpServlet {
 			
 					if (passwordHash.equals(userDTO.getPwd())) {
 						mensajeResultado = "[OK] Usuario y Password Correcta";
+						ArrayList<UserDTO> usuarioInfo = new ArrayList<>();
+						
+						UserDTO usuarioAUX = new UserDTO (UserEmail, "", "", userDTO.getPhone(), userDTO.getPrefix()); 
+						usuarioInfo.add(usuarioAUX);
+						jsonDataEnviar.put("user", usuarioInfo);
 					}
 					else {
 						mensajeResultado = "[ERROR] Password Incorrecta";
