@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
-import {TaskPage} from '../task-page/task.page'
-import {List} from '../lists-page/lists.page'
+import { TaskPage } from '../task-page/task.page'
+import { List } from '../lists-page/lists.page'
 import { AddTaskPage } from '../add-task/add-task.page';
+
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.page.html',
@@ -12,73 +13,43 @@ import { AddTaskPage } from '../add-task/add-task.page';
 export class TodolistPage implements OnInit {
 
   todolist: Task[];
-  lista : List;
+  lista: List;
 
-  constructor(private TodolistService: TodolistService, private modalController: ModalController) { }
+  constructor(private todolistService: TodolistService, private modalController: ModalController) { }
 
-    ngOnInit() {
-      let data = {
-        "user": sessionStorage.getItem("user"),
-        "idLista": this.lista.name
-      };
-
-      this.TodolistService.getData(JSON.stringify(data)).subscribe(
-        (response) => {
-          //console.log("Respuesta", response);
-          if (response != '') {
-            var data = JSON.parse(response).ToDoList;
-            this.todolist = [];
-            
-            data.forEach((element: any) => {
-              this.todolist.push(new Task(
-                element.id,
-                element.owner,
-                element.name,
-                element.description,
-                element.status,
-                element.list,
-              ));
-            });
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
-        }
-      );
-    }
-  
-  doRefresh (event:any){
+  ngOnInit() {
+    //console.log(this.lista);
     let data = {
-        "user": sessionStorage.getItem("user"),
-        "idLista": this.lista.name
-      };
+      "user": sessionStorage.getItem("user"),
+      "idLista": this.lista.name
+    };
 
-      this.TodolistService.getData(JSON.stringify(data)).subscribe(
-        (response) => {
-          //console.log("Respuesta", response);
-          if (response != '') {
-            var data = JSON.parse(response).ToDoList;
-            this.todolist = [];
-            
-            data.forEach((element: any) => {
-              this.todolist.push(new Task(
-                element.id,
-                element.owner,
-                element.name,
-                element.description,
-                element.status,
-                element.list,
-              ));
-            });
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
+    this.todolistService.getData(JSON.stringify(data)).subscribe(
+      (response) => {
+        //console.log("Respuesta", response);
+        if (response != '') {
+          var data = JSON.parse(response).ToDoList;
+          this.todolist = [];
+
+          data.forEach((element: any) => {
+            this.todolist.push(new Task(
+              element.id,
+              element.owner,
+              element.name,
+              element.description,
+              element.status,
+              element.list,
+            ));
+          });
         }
-      );
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+      }
+    );
   }
+
   async showTask(task: Task) {
     //console.log(task);
     const modal = await this.modalController.create({
@@ -87,6 +58,15 @@ export class TodolistPage implements OnInit {
       component: TaskPage,
       componentProps: {
         task: task,
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        if (data.data.deleted) {
+          let task = data.data.task;
+          let index = this.todolist.indexOf(task);
+          this.todolist.splice(index, 1);
+        }
       }
     });
     return await modal.present();
@@ -99,6 +79,19 @@ export class TodolistPage implements OnInit {
       component: AddTaskPage,
       componentProps: {
         lista: this.lista,
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        let task = data.data.task;
+        this.todolist.push(new Task(
+          data.data.id,
+          task.user,
+          task.nameTask,
+          task.descriptionTask,
+          "ToDo",
+          task.lista
+        ));
       }
     });
     return await modal.present();
@@ -128,7 +121,6 @@ export class Task {
     this.name = name;
     this.description = description;
     this.status = status;
-    this.list = list;
-    
+    this.list = list;    
   }
 }

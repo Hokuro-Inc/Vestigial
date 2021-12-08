@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
-import {List} from '../lists-page/lists.page'
-import { NavController } from '@ionic/angular';
+import { List } from '../lists-page/lists.page'
+
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.page.html',
@@ -13,7 +13,7 @@ export class AddTaskPage implements OnInit {
 
   validations_form: FormGroup;
   lista : List;
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService, private navController: NavController) { }
+  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
@@ -22,11 +22,13 @@ export class AddTaskPage implements OnInit {
     })
   }
 
-  dismiss() {
+  dismiss(task: any, id: string) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'task': task,
+      'id': id
     });
   }
 
@@ -37,13 +39,16 @@ export class AddTaskPage implements OnInit {
       "descriptionTask" : task.description,
       "lista" : this.lista.name
     };
-    console.log(data)
+
+    let id = '0';
     this.todolistService.addTask(JSON.stringify(data)).subscribe(
-      (response) => console.log("Respuesta", response),
+      (response) => {
+        console.log("Respuesta", response);
+        id = JSON.parse(response).idTask;
+      },
       (error) => console.log("Error", error),
       () => {
-        this.dismiss();
-        this.navController.navigateBack(['/todolist']);
+        this.dismiss(data, id);
         //alert("Funciona!!!!");
       }
     );

@@ -18,11 +18,13 @@ export class TaskPage implements OnInit {
     //console.log(this.task);
   }
 
-  dismiss() {
+  dismiss(task: any, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'task': task,
+      'deleted': deleted
     });
   }
 
@@ -39,24 +41,24 @@ export class TaskPage implements OnInit {
   }
 
   async deleteTask(task: Task) {
-      //console.log(contact);
-      let datas = {
-        "user": sessionStorage.getItem("user"),
-        "idTask" : task.id,
-      };
-      this.todolistService.removeTask(JSON.stringify(datas)).subscribe(
-        (response) => { 
-          //console.log("Respuesta", response);
-          if (response != '') {
-            let data = JSON.parse(response).Mensaje
-            console.log("Mensaje",data)
-            this.dismiss()
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
+    //console.log(contact);
+    let datas = {
+      "user": sessionStorage.getItem("user"),
+      "idTask" : task.id,
+    };
+    this.todolistService.removeTask(JSON.stringify(datas)).subscribe(
+      (response) => { 
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje
+          console.log("Mensaje",data)
         }
-      ); 
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        this.dismiss(task, true);
+      }
+    ); 
   }
 }

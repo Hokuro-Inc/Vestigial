@@ -99,11 +99,15 @@ export class ContactsPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      let contact = data.data.contact;
-      let index = this.contacts.indexOf(contact);
-      this.contacts.splice(index, 1);
-      this.filteredList = this.contacts;
-      this.sort();
+      if (data.data != undefined) {
+        if (data.data.deleted == true) {
+          let contact = data.data.contact;
+          let index = this.contacts.indexOf(contact);
+          this.contacts.splice(index, 1);
+          this.filteredList = this.contacts;
+          this.sort();
+        }
+      }
     });
     return await modal.present();
   }

@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
 import { TodolistPage } from '../todolist-page/todolist.page';
 import { AddTodolistPage } from '../add-todolist/add-todolist.page';
+
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.page.html',
@@ -21,50 +22,24 @@ export class ListsPage implements OnInit {
     };
 
     this.TodolistService.getData(JSON.stringify(data)).subscribe(
-        (response) => {
-          //console.log("Respuesta", response);
-          if (response != '') {
-            var data = JSON.parse(response).ToDoLists;
-            this.lists = [];
-            //console.log("Datas",data)
+      (response) => {
+        //console.log("Respuesta", response);
+        if (response != '') {
+          var data = JSON.parse(response).ToDoLists;
+          this.lists = [];
+
+          if (data != '[]') {
             data.forEach((element: any) => {
               this.lists.push(new List(element));
             });
-
           }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
         }
-      );
-  }
-
-  doRefresh (event : any) {
-    let data = {
-      "user": sessionStorage.getItem("user"),
-      "idLista": ""
-    };
-
-    this.TodolistService.getData(JSON.stringify(data)).subscribe(
-        (response) => {
-          //console.log("Respuesta", response);
-          if (response != '') {
-            var data = JSON.parse(response).ToDoLists;
-            this.lists = [];
-            console.log("Datas",data)
-            data.forEach((element: any) => {
-              this.lists.push(new List(element));
-            });
-
-            //console.log(this.lists.forEach(e => console.log(e)));
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
-        }
-      );
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+      }
+    );
   }
 
   async showList(listaElegida: List) {
@@ -84,6 +59,12 @@ export class ListsPage implements OnInit {
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: AddTodolistPage,
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        let list = data.data.list;
+        this.lists.push(list);
+      }
     });
     return await modal.present();
   }
