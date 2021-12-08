@@ -149,10 +149,11 @@ public class TaskDAO extends DBConnectImpl{
             stmt.setString(5, task.getOwner());  
             stmt.setString(6, task.getList());
             status = stmt.executeUpdate();
-                        
+            
             if (stmt != null) {
             	stmt.close();
             }
+            task.setId(id);
         }
         catch (Exception e) {
             e.printStackTrace();

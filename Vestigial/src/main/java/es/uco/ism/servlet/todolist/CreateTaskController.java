@@ -81,7 +81,8 @@ public class CreateTaskController extends HttpServlet {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear la tarea"  + idTask; 
 					}
 					else {
-						mensajeResultado = "[OK]Se ha creado correctamente la tarea" + idTask;
+						mensajeResultado = "[OK]Se ha creado correctamente la tarea ->" + newTask.getId();
+						jsonDataEnviar.put("idTask",newTask.getId());
 					}
 				} else {
 					//Enviamos la informacion a la vista de angular
