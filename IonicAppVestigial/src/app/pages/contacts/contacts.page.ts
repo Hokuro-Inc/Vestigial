@@ -114,20 +114,22 @@ export class ContactsPage implements OnInit {
       component: AddContactPage,
     });      
     modal.onDidDismiss().then(data => {
-      let element = data.data.contact;
-      this.contacts.push(new Contact(
-        element.address,
-        element.alias,
-        element.description,
-        element.email,
-        element.name,
-        element.owner,
-        element.phone,
-        element.prefix,
-        element.surname
-      ));
-      this.filteredList = this.contacts;
-      this.sort();
+      if (data.data != undefined) {
+        let element = data.data.contact;
+        this.contacts.push(new Contact(
+          element.address,
+          element.alias,
+          element.description,
+          element.email,
+          element.name,
+          element.owner,
+          element.phone,
+          element.prefix,
+          element.surname
+        ));
+        this.filteredList = this.contacts;
+        this.sort();
+      }
     });
     return await modal.present();
   }
