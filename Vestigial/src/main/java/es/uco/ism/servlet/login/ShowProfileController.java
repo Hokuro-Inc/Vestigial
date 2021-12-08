@@ -92,7 +92,7 @@ public class ShowProfileController extends HttpServlet {
 			out.close();
 		}else {
 			if (!login) {
-				userEmail = request.getParameter("email");
+				userEmail = request.getParameter("user");
 				userPhone = request.getParameter("phone");
 				ContactDTO contacto = contactDAO.QueryByPhone(userEmail,userPhone);
 					// Se debe de ir a la vista

@@ -19,7 +19,7 @@ export class ShowProfilePage implements OnInit {
   	ngOnInit() {
   		//console.log(this.contact);
   		let values = {
-        "email": sessionStorage.getItem("email"),
+        "user": sessionStorage.getItem("user"),
         "phone" : sessionStorage.getItem("phone"),
       	};
   		this.contactsService.getProfile(JSON.stringify(values)).subscribe(
