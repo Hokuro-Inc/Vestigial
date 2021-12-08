@@ -18,6 +18,11 @@ export class ContactsService {
    //return this.httpClient.post('http://localhost:8080/Vestigial/AddContact', data, { responseType:'text' });
   }
 
+  public addGroup(data: string) {
+   return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/AddGroup', data, { responseType:'text' });
+   //return this.httpClient.post('http://localhost:8080/Vestigial/AddGroup', data, { responseType:'text' });
+  }
+
   public updateContact(data: string) {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/UpdateContact', data, { responseType:'text' });
     //return this.httpClient.post('http://localhost:8080/Vestigial/UpdateContact', data, { responseType:'text' });
@@ -33,4 +38,5 @@ export class ContactsService {
     //return this.httpClient.post('http://localhost:8080/Vestigial/ShowAgenda', data, { responseType:'text' });
   }
   
+
 }

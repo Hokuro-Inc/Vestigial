@@ -122,6 +122,10 @@ const routes: Routes = [
   {
     path: 'show-profile',
     loadChildren: () => import('./pages/show-profile/show-profile.module').then( m => m.ShowProfilePageModule)
+  },
+  {
+    path: 'add-group',
+    loadChildren: () => import('./pages/add-group/add-group.module').then( m => m.AddGroupPageModule)
   }
 
 

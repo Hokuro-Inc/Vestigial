@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Nuevo Grupo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="register">
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
+    <ion-item lines="full">
+      <ion-label position="floating">Nombre Del Grupo</ion-label>
+      <ion-input type="text" name="group" formControlName="group" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Crear Grupo</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

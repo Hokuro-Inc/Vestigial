@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AddContactPage } from '../add-contact/add-contact.page'
+import { AddGroupPage } from '../add-group/add-group.page'
 import { ContactsPage } from '../contacts/contacts.page';
 import { ImportContactPage } from '../import-contact/import-contact.page'
 
@@ -55,6 +56,18 @@ export class AgendaPagePage implements OnInit {
 	      	agente: this.getMobileOperatingSystem()
 	      }
 	    });
+	    return await modal.present();
+  	}
+
+  	async addGroup() {
+	    const modal = await this.modalController.create({
+	      // Data passed in by componentProps
+	      component: AddGroupPage,
+	    });
+		modal.onDidDismiss().then(_ => {
+			console.log("dismissed");
+			this.contactsPage.getContacts();
+		})
 	    return await modal.present();
   	}
 }
