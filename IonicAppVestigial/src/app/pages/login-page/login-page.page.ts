@@ -43,8 +43,11 @@ export class LoginPagePage implements OnInit {
 
 		this.loginService.getData(values).subscribe(
 			(response) => {
-				//console.log("Respuesta", response);
+				console.log("Respuesta", response);
 				let data = JSON.parse(response);
+				console.log("Data", data);
+				sessionStorage.setItem("user", values.email);
+				sessionStorage.setItem("phone", data.user[0].phone +"-"+ data.user[0].prefix);
 
 				if (data.Mensaje.includes("OK")) res = true;
 			},
@@ -52,7 +55,7 @@ export class LoginPagePage implements OnInit {
 			() => {
 				if (res == true) {
 					this.dismiss();
-					sessionStorage.setItem("user", values.email);
+					
 					this.router.navigate(['/calendar']);
 					//alert("Funciona!!!");
 				}

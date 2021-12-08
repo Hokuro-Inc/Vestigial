@@ -57,7 +57,6 @@ export class ModifyContactPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss();
-        this.navController.navigateBack(['/contacts']);
         //alert("Funciona!!!!");
       }
     );
