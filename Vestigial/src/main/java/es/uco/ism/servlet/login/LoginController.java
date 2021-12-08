@@ -83,7 +83,7 @@ public class LoginController extends HttpServlet {
 						mensajeResultado = "[OK] Usuario y Password Correcta";
 						ArrayList<UserDTO> usuarioInfo = new ArrayList<>();
 						
-						UserDTO usuarioAUX = new UserDTO (UserEmail, "", "", userDTO.getPhone(), userDTO.getPrefix()); 
+						UserDTO usuarioAUX = new UserDTO (UserEmail, "", "", userDTO.getPhone(), userDTO.getPrefix(),userDTO.getGroups()); 
 						usuarioInfo.add(usuarioAUX);
 						jsonDataEnviar.put("user", usuarioInfo);
 					}

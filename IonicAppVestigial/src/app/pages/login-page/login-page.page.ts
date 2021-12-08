@@ -48,7 +48,7 @@ export class LoginPagePage implements OnInit {
 				console.log("Data", data);
 				sessionStorage.setItem("user", values.email);
 				sessionStorage.setItem("phone", data.user[0].phone +"-"+ data.user[0].prefix);
-
+				sessionStorage.setItem("groups", data.user[0].groups);
 				if (data.Mensaje.includes("OK")) res = true;
 			},
 			(error) => console.log("Error", error),

@@ -85,7 +85,7 @@ public class UserGroupDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getGroups()[0]);
+            stmt.setString(2, user.getGroups().get(0));
             status = stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -113,8 +113,8 @@ public class UserGroupDAO extends DBConnectImpl{
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getGroups()[0]);
-            stmt.setString(1, user.getGroups()[1]);
+            stmt.setString(3, user.getGroups().get(0));
+            stmt.setString(1, user.getGroups().get(1));
 
             status = stmt.executeUpdate();
             
@@ -144,7 +144,7 @@ public class UserGroupDAO extends DBConnectImpl{
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getGroups()[0]);
+            stmt.setString(2, user.getGroups().get(0));
             results.add(stmt.executeUpdate());
             status = CheckResults(results);
             

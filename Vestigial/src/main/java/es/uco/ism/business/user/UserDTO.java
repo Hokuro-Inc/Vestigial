@@ -11,7 +11,7 @@ public class UserDTO implements Serializable {
 	private String salt;
 	private String phone;
 	private String prefix;
-	private String[] groups;
+	private ArrayList<String> groups;
 	private ArrayList<String> lists;
  	
 	/**
@@ -22,7 +22,7 @@ public class UserDTO implements Serializable {
 	 * @param salt Salt del login del usuario
 	 * @param phonePrefix Teléfono del usuario
 	 */
-	public UserDTO(String email, String password, String salt, String phone, String prefix, String[] groups) {
+	public UserDTO(String email, String password, String salt, String phone, String prefix, ArrayList<String> groups) {
 		this.email = email;
 		this.pwd = password;
 		this.salt = salt;
@@ -129,12 +129,12 @@ public class UserDTO implements Serializable {
 		this.prefix = prefix;
 	}
 	
-	public String[] getGroups() {
+	public ArrayList<String> getGroups() {
 		
 		return groups;
 	}
 	
-	public void setGroups(String[] groups) {
+	public void setGroups(ArrayList<String> groups) {
 		
 		this.groups = groups;
 	}
