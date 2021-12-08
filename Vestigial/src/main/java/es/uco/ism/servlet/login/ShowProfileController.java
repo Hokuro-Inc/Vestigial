@@ -23,7 +23,6 @@ import es.uco.ism.display.UserBean;
 /**
  * Servlet implementation class ShowProfileController
  */
-@WebServlet("/ShowProfileController")
 public class ShowProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -78,13 +77,15 @@ public class ShowProfileController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				userEmail = (String) objJson.get("user");
 				userPhone = (String) objJson.get("phone");
-				
+				System.out.println("EL USUARIO DADO Y EL TELEFONO ES " + userEmail + " " + userPhone);
 				ContactDTO contacto = contactDAO.QueryByPhone(userEmail,userPhone);
-				if (contacto != null) {
+				System.out.println(contacto);
+								
+				if (contacto == null) {
 					mensajeResultado = "[ERROR] El usuario no existe";
 				}else {
-					mensajeResultado = "[OK]Se ha preparado la informacion para editar la contacto " + userPhone;
-					jsonDataEnviar.put("contactUpdate", contacto);
+					mensajeResultado = "[OK]Se envia la informacion del perfil" + userPhone;
+					jsonDataEnviar.put("Profile", contacto);
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);
