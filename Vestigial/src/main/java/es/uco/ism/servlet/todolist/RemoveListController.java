@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import es.uco.ism.business.user.UserDTO;
-import es.uco.ism.data.ListDAO;
 import es.uco.ism.data.UserListDAO;
 import es.uco.ism.display.UserBean;
 

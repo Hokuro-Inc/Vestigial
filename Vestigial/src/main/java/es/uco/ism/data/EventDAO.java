@@ -124,7 +124,7 @@ public class EventDAO extends DBConnectImpl{
             
             stmt.setString(6, evento.getOwner());
             status = stmt.executeUpdate();
-                        
+            evento.setId(id);
             if (stmt != null) {
             	stmt.close();
             }

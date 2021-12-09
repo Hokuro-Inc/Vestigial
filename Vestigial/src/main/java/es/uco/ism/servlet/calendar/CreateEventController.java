@@ -105,9 +105,9 @@ public class CreateEventController extends HttpServlet {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el evento "  + nameEvent; 
 					}else {
 						mensajeResultado = "[OK]Se ha creado correctamente el evento " + nameEvent;
+						jsonDataEnviar.put("idEvent", newEvent.getId());
 					}
 				}
-				
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);
 			out.print(jsonDataEnviar);
