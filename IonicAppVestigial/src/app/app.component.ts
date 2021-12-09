@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { RegisterService } from './services/register-service/register.service';
 import { LoginService } from './services/login-service/login.service';
-import { NavController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -11,7 +12,7 @@ import { NavController } from '@ionic/angular';
 
 export class AppComponent {
   
-  constructor(private navController: NavController){}
+  constructor(private navController: NavController, private menuController: MenuController){}
   
 
   public appPages = [
@@ -25,9 +26,10 @@ export class AppComponent {
 
   ];
 
-  async logout() {
+  logout() {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("phone");
-    this.navController.navigateBack(['']);
+    this.navController.navigateBack(['/']);
+    this.menuController.close();
   }
 }
