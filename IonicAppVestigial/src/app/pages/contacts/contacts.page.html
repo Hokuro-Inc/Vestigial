@@ -8,19 +8,33 @@
       </ion-toolbar>
     </ion-header>
     <ion-content fullscreen>
-      <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
-     
-      <ion-list *ngFor="let contact of filteredList">
-        <ion-item *ngIf="contact.email != contact.owner " button (click)="showContact(contact)">{{contact.fullname}} -> {{contact.alias}}</ion-item>
+
+      <ion-list *ngFor="let contact of filteredList; trackBy: track">
+        <ion-item *ngIf="contact.email != contact.owner" button (click)="showContact(contact)">{{contact.fullname}} -> {{contact.alias}}</ion-item>
       </ion-list>
 
-      
-      <ion-list >
-        <ion-item button (click)="addGroup()">Crear un nuevo grupo</ion-item>
-      </ion-list>
-      
     </ion-content>
+    <ion-toolbar>
+      <ion-tabs>
+        <ion-tab-bar color="primary" slot="bottom">
+          
+          <ion-tab-button (click)="importContact()">
+            <ion-icon name="arrow-up"></ion-icon>
+              <ion-label>Importar</ion-label>
+          </ion-tab-button>
+        
+          <ion-tab-button (click)="addGroup()">
+            <ion-icon name="people"></ion-icon>
+              <ion-label>Crear un nuevo grupo</ion-label>
+          </ion-tab-button>
+        
+          <ion-tab-button (click)="addContact()">
+            <ion-icon name="person-add"></ion-icon>
+              <ion-label>Añadir Contacto</ion-label>
+          </ion-tab-button>
+        
+        </ion-tab-bar>
+      </ion-tabs>
+    </ion-toolbar>
   </ion-app>
 </body>

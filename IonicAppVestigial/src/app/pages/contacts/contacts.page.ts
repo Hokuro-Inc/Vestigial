@@ -3,6 +3,7 @@ import { ContactsService } from 'src/app/services/contacts-service/contacts.serv
 import { ModalController } from '@ionic/angular';
 import { ContactViewPage } from '../contact-view/contact-view.page'
 import { AddGroupPage } from '../add-group/add-group.page'
+import { AddContactPage } from '../add-contact/add-contact.page';
 
 @Component({
   selector: 'app-contacts',
@@ -34,20 +35,24 @@ export class ContactsPage implements OnInit {
 				if (response != '') {
           let data = JSON.parse(response).Agenda;
           this.contacts = [];
-          data.forEach((element: any) => {
-            this.contacts.push(new Contact(
-              element.address,
-              element.alias,
-              element.description,
-              element.email,
-              element.name,
-              element.owner,
-              element.phone,
-              element.prefix,
-              element.surname
-            ));
-          });
 
+          if (data != '[]') {
+            data.forEach((element: any) => {
+              this.contacts.push(new Contact(
+                element.address,
+                element.alias,
+                element.description,
+                element.email,
+                element.name,
+                element.owner,
+                element.phone,
+                element.prefix,
+                element.surname
+              ));
+            });
+          }
+
+          this.sort();
           this.filteredList = this.contacts;
         }
 			},
@@ -58,41 +63,22 @@ export class ContactsPage implements OnInit {
     );
   }
 
-  doRefresh(event: any) {
-    let user = {
-      "user": sessionStorage.getItem("user"),
-    };
+  sort() {
+    if (this.contacts.length == 0) return;
 
-    this.contactsService.getData(JSON.stringify(user)).subscribe(
-      (response) => {
-				//console.log("Respuesta", response);
-				if (response != '') {
-          let data = JSON.parse(response).Agenda;
-          this.contacts = [];
-          
-          data.forEach((element: any) => {
-            this.contacts.push(new Contact(
-              element.address,
-              element.alias,
-              element.description,
-              element.email,
-              element.name,
-              element.owner,
-              element.phone,
-              element.prefix,
-              element.surname
-            ));
-          });
+    this.contacts.sort((a, b) => {
+      if (a.fullname.toLowerCase() < b.fullname.toLowerCase()) {
+        return -1;
+      }
+      if (a.fullname.toLowerCase() > b.fullname.toLowerCase()) {
+        return 1;
+      }
+      return 0;
+    });
+  }
 
-          this.filteredList = this.contacts;
-        }
-			},
-			(error) => console.log("Error", error),
-			() => {
-        event.target.complete();
-				console.log("Completed");
-			}
-    );
+  track(index: number, item: Contact) {
+    return item.phone;
   }
 
   filter(event: any) {
@@ -132,6 +118,7 @@ export class ContactsPage implements OnInit {
       }
     );
   }
+
   async showContact(contact: Contact) {
     //console.log(contact);
     const modal = await this.modalController.create({
@@ -141,9 +128,18 @@ export class ContactsPage implements OnInit {
       	contact: contact,
       }
     });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        if (data.data.deleted == true) {
+          let contact = data.data.contact;
+          let index = this.contacts.indexOf(contact);
+          this.contacts.splice(index, 1);
+          this.filteredList = this.contacts;
+        }
+      }
+    });
     return await modal.present();
   }
-
 
   async addGroup() {
     const modal = await this.modalController.create({
@@ -153,11 +149,34 @@ export class ContactsPage implements OnInit {
         groups: this.groups,
       }
     });
+  }
+
+  async addContact() {
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: AddContactPage,
+    });      
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        let contact = data.data.contact;
+        this.contacts.push(new Contact(
+          contact.address,
+          contact.alias,
+          contact.description,
+          contact.email,
+          contact.name,
+          contact.owner,
+          contact.phone,
+          contact.prefix,
+          contact.surname
+        ));
+        this.sort();
+        this.filteredList = this.contacts;
+      }
+    });
     return await modal.present();
   }
 }
-
-
 
 export class Contact {
   address: string;

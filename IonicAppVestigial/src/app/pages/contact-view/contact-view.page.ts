@@ -13,17 +13,19 @@ export class ContactViewPage implements OnInit {
 
 	contact: Contact;
 
-  	constructor(private contactsService: ContactsService, public modalController: ModalController) { }
+  constructor(private contactsService: ContactsService, public modalController: ModalController) { }
 
-  	ngOnInit() {
-  		//console.log(this.contact);
-  	}
+  ngOnInit() {
+    //console.log(this.contact);
+  }
 
-   dismiss() {
+   dismiss(contact: Contact, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'contact': contact,
+      'deleted': deleted
     });
   }
 
@@ -40,27 +42,26 @@ export class ContactViewPage implements OnInit {
   }
 
   async deleteContact(contact: Contact) {
-      //console.log(contact);
-      let datas = {
-        "user": sessionStorage.getItem("user"),
-        "phone" : contact.phone,
-        "prefix" : contact.prefix
-      };
-      this.contactsService.removeContact(JSON.stringify(datas)).subscribe(
-        (response) => { 
-          //console.log("Respuesta", response);
-          if (response != '') {
-            let data = JSON.parse(response).Mensaje
-            console.log("Mensaje",data)
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
-          this.dismiss();
+    //console.log(contact);
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "phone" : contact.phone,
+      "prefix" : contact.prefix
+    };
+    this.contactsService.removeContact(JSON.stringify(data)).subscribe(
+      (response) => { 
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje
+          console.log("Mensaje",data)
         }
-
-      ); 
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        this.dismiss(contact, true);
+      }
+    ); 
   }
 
 }

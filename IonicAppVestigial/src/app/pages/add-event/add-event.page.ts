@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Event } from 'src/app/pages/calendar/calendar.page';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
-import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-event',
@@ -14,7 +13,7 @@ export class AddEventPage implements OnInit {
 
   validations_form: FormGroup;
 
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private calendarService: CalendarService, private navController: NavController) { }
+  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private calendarService: CalendarService) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
@@ -25,29 +24,34 @@ export class AddEventPage implements OnInit {
     })
   }
 
-  dismiss() {
+  dismiss(event: Event, id: string) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'event': event,
+      'id': id
     });
   }
 
-  onSubmit(event: any) {
+  onSubmit(event: Event) {
     let data = {
       "user": sessionStorage.getItem("user"),
       "name": event.name,
-      "description" : event.description,
-      "start" : this.getDate(event.start),
-      "end" : this.getDate(event.end),
+      "description": event.description,
+      "start": this.getDate(event.start),
+      "end": this.getDate(event.end),
     };
-    console.log(data);
+
+    let id = '0';
     this.calendarService.addEvent(JSON.stringify(data)).subscribe(
-      (response) => console.log("Respuesta", response),
+      (response) => {
+        console.log("Respuesta", response);
+        id = JSON.parse(response).idEvent;
+      },
       (error) => console.log("Error", error),
       () => {
-        this.dismiss();
-        this.navController.navigateBack(['/calendar']);
+        this.dismiss(event, id);
         //alert("Funciona!!!!");
       }
     );

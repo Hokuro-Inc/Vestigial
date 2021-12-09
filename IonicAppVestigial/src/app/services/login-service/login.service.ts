@@ -17,6 +17,7 @@ export class LoginService {
     //console.log("Service", data);
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/Login', data, { responseType: 'text' });
     //return this.httpClient.post('http://localhost:8080/Vestigial/Login', data, { responseType:'text' });
+    //return this.httpClient.post('https://hokuro.xyz/Vestigial/Login', data, { responseType:'text' });
   }
 
   request(url: string, data: string) {

@@ -18,7 +18,7 @@ export class AppComponent {
     { title: 'Mi Contacto', url: '/show-profile', icon: 'person' },
     { title: 'Calendario', url: '/calendar', icon: 'calendar' },
     //{ title: 'To Do List', url: '/folder/ToDoList', icon: 'list' },
-    { title: 'Agenda', url: '/agenda-page/contacts', icon: 'book' },
+    { title: 'Agenda', url: '/contacts', icon: 'book' },
     { title: 'Notas', url: '/notepads', icon: 'archive' },
     { title: 'Lista de tareas', url: '/lists', icon: 'list' },
     { title: 'Sobre nosotros', url: '/aboutus', icon: 'information-circle'}

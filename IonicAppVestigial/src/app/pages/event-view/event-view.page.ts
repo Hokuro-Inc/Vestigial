@@ -19,11 +19,13 @@ export class EventViewPage implements OnInit {
 
   ngOnInit() { }
 
-  dismiss() {
+  dismiss(event: Event, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'event': event,
+      'deleted': deleted
     });
   }
 
@@ -39,10 +41,10 @@ export class EventViewPage implements OnInit {
   }
 
   async deleteEvent(event: Event) {
-    let datas = {
+    let data = {
       "idEvent" : event.id
     };
-    this.calendarService.removeEvent(JSON.stringify(datas)).subscribe(
+    this.calendarService.removeEvent(JSON.stringify(data)).subscribe(
       (response) => { 
         //console.log("Respuesta", response);
         if (response != '') {
@@ -53,9 +55,8 @@ export class EventViewPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         console.log("Completed");
-        this.dismiss();
+        this.dismiss(event, true);
       }
-
     );
   }
 

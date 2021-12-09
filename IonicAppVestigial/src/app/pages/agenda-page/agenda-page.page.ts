@@ -17,33 +17,37 @@ export class AgendaPagePage implements OnInit {
   	ngOnInit() { }
 
   	getMobileOperatingSystem() {
-    var userAgent = navigator.userAgent || navigator.vendor;
+		var userAgent = navigator.userAgent || navigator.vendor;
 
-    // Windows Phone must come first because its UA also contains "Android"
-    if (/windows phone/i.test(userAgent)) {
-      return "Windows Phone";
-    }
+		// Windows Phone must come first because its UA also contains "Android"
+		if (/windows phone/i.test(userAgent)) {
+		return "Windows Phone";
+		}
 
-    if (/android/i.test(userAgent)) {
-       return "Android";
-    }
+		if (/android/i.test(userAgent)) {
+		return "Android";
+		}
 
-    // iOS detection from: http://stackoverflow.com/a/9039885/177710
-    if (/iPad|iPhone|iPod/.test(userAgent)) {
-       return "iOS";
-    }
+		// iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/iPad|iPhone|iPod/.test(userAgent)) {
+		return "iOS";
+		}
 
-    return "unknown";
-  }
+		return "unknown";
+	}
+
+  	/*addContact() {
+		this.contactsPage.addContact();
+	}*/
 
   	async addContact() {
 	    const modal = await this.modalController.create({
 	      // Data passed in by componentProps
 	      component: AddContactPage,
 	    });
-		modal.onDidDismiss().then(_ => {
-			console.log("dismissed");
-			this.contactsPage.getContacts();
+		modal.onDidDismiss().then(data => {
+			console.log(data.data.contact);
+			this.contactsPage.addContact();
 		})
 	    return await modal.present();
   	}
