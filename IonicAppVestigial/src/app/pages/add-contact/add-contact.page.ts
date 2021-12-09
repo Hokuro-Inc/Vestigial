@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
-import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-contact',
@@ -13,7 +12,7 @@ export class AddContactPage implements OnInit {
 
   validations_form: FormGroup;
 
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService, private navController: NavController) { }
+  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
@@ -44,7 +43,6 @@ export class AddContactPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         this.dismiss(contact);
-        //this.navController.navigateBack(['/agenda-page/contacts']);
         //alert("Funciona!!!!");
       }
     );
