@@ -20,6 +20,7 @@ export class ContactsPage implements OnInit {
 
   ngOnInit() {
     this.getContacts();
+    this.getGroups();
   }
 
   getContacts() {

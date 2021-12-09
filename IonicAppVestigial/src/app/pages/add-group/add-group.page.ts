@@ -32,7 +32,7 @@ export class AddGroupPage implements OnInit {
   onSubmit(formulario: any){
     let data = {
       "user": sessionStorage.getItem("user"),
-      "name": formulario.group
+      "group": formulario.group
     };
     console.log(data)
     this.contactsService.addGroup(JSON.stringify(data)).subscribe(

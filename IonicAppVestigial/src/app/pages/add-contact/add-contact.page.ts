@@ -18,6 +18,7 @@ export class AddContactPage implements OnInit {
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService, private navController: NavController) { }
 
   ngOnInit() {
+    console.log("En la vista de añadir contacto",this.groups);
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
@@ -28,7 +29,7 @@ export class AddContactPage implements OnInit {
       description: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
       owner: sessionStorage.getItem("user"),
-      groups: new FormControl('',Validators.required),
+      groups: new FormControl(''),
     })
   }
 
@@ -41,6 +42,7 @@ export class AddContactPage implements OnInit {
   }
 
   onSubmit(contact: any){
+    console.log(contact);
     this.contactService.addContact(contact).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),

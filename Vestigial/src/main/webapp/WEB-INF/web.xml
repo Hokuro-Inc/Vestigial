@@ -72,6 +72,15 @@
 </servlet-mapping>
 
 <servlet>
+    <servlet-name>RemoveGroup</servlet-name>
+    <servlet-class>es.uco.ism.servlet.agenda.RemoveGroupController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RemoveGroup</servlet-name>
+    <url-pattern>/RemoveGroup</url-pattern>
+</servlet-mapping>
+
+<servlet>
     <servlet-name>UpdateContact</servlet-name>
     <servlet-class>es.uco.ism.servlet.agenda.UpdateContactController</servlet-class>
 </servlet>

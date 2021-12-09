@@ -40,7 +40,7 @@ public class GroupDAO extends DBConnectImpl {
         return groups;
     }
 	
-	public String QueryByList(String group) {
+	public String QueryByGroup(String group) {
 			
     	String grupoBuscado = null;
 

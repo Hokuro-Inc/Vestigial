@@ -16,20 +16,19 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import es.uco.ism.business.user.UserDTO;
-import es.uco.ism.data.GroupDAO;
 import es.uco.ism.data.UserGroupDAO;
 import es.uco.ism.display.UserBean;
 
 /**
- * Servlet implementation class AddGroupController
+ * Servlet implementation class RemoveGroup
  */
-public class AddGroupController extends HttpServlet {
+public class RemoveGroupController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddGroupController() {
+    public RemoveGroupController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -55,62 +54,61 @@ public class AddGroupController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		GroupDAO groupDAO = new GroupDAO(url_bd, username_bd, password_bd, prop);
 		UserGroupDAO userGroupDAO = new UserGroupDAO(url_bd, username_bd, password_bd, prop);
-		String nextPage ="VISTA_MOSTRAR_FORMULARIO_CREAR_GRUPO"; 
+		String nextPage ="ShowToDoList"; 
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
 		JSONObject objJson = null;
 		String group;
 		if (dataJson != null) {
 			objJson = new JSONObject(dataJson);
-			response.setContentType("application/json");
-			JSONObject jsonDataEnviar = null;
-			PrintWriter out = response.getWriter();
-			jsonDataEnviar = new JSONObject();
-			String mensajeResultado = null;
 			if (!objJson.isEmpty()) {
+				objJson = new JSONObject(dataJson);
+				response.setContentType("application/json");
+				JSONObject jsonDataEnviar = null;
+				PrintWriter out = response.getWriter();
+				jsonDataEnviar = new JSONObject();
+				String mensajeResultado = null;
 				group = (String) objJson.get("group");
-				
-				String usuarioActual = (String) objJson.get("user");
-				
-				if (groupDAO.QueryByGroup(group) == null) {
-					if (groupDAO.Insert(group) <= 0) {
-						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el grupo"  + group;
+				String user = (String) objJson.get("user");
+				UserDTO usuarioInfo = new UserDTO (user, "", "", "", "");
+				ArrayList<String> groupEliminar = new ArrayList<> ();
+				groupEliminar.add(group);
+				usuarioInfo.setGroups(groupEliminar);
+				if (group != null && !group.equals("")) {			
+					if (userGroupDAO.Delete(usuarioInfo) <= 0) {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de borrar el grupo "  + group;
+					}
+					else {
+						mensajeResultado = "[OK]Se ha borrado correctamente el grupo " + group;
 					}
 				}
-				UserDTO user = new UserDTO (usuarioActual,"","","","");
-				ArrayList<String> gruposUsuario = new ArrayList<String>() ;
-				gruposUsuario.add(group);
-				user.setGroups(gruposUsuario);
-				if (userGroupDAO.Insert(user) <= 0) {
-					mensajeResultado = "[ERROR]Ha surgido un problema a la hora vincular el grupo "  + group + " al usuario";
-				}
-				mensajeResultado = "[OK]Se ha creado correctamente el grupo" + group;
-				
+				jsonDataEnviar.put("Mensaje", mensajeResultado);
+				out.print(jsonDataEnviar);
+				out.close();
 			}
-			jsonDataEnviar.put("Mensaje", mensajeResultado);
-			out.print(jsonDataEnviar);
-			out.close();
 		}
 		else {
 			if (login) {
 				group = request.getParameter("group");
-				
-				if (group != null && !group.equals("")) {
-					
-					if (groupDAO.Insert(group) <= 0) {
-						mensajeNextPage = "Ha surgido un problema a la hora de crear la lista de tareas";
-						nextPage = "VISTA_CREAR_GRUPO";
+				if (group != null && !group.equals("")) {	
+					UserDTO usuarioInfo = new UserDTO (usuario.getEmail(), "", "", "", "");
+					ArrayList<String> listaEliminar = new ArrayList<> ();
+					listaEliminar.add(group);
+					usuarioInfo.setGroups(listaEliminar);
+					if (userGroupDAO.Delete(usuarioInfo) <= 0) {
+						mensajeNextPage = "Se ha borrado correctamente el grupo -> " + group;
 					}
 					else {
-						nextPage = "VISTA_MOSTRAR_AGENDA";
+						mensajeNextPage = "Ha surgido un problema al borrar el grupo " + group;
 					}
+					
+					nextPage = "ShowToDoList";
 				}
 				else {
 					// Tenemos que dirigirnos a la vista
 					// No se si necesitamos enviarle algo a la vista de crear la lista.
-					nextPage = "VISTA_CREAR_GRUPO";
+					nextPage = "View/ToDoList/createTask.jsp";
 				}
 			}
 			else{
