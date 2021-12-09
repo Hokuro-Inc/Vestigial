@@ -103,7 +103,7 @@ export class TodolistPage implements OnInit {
         "user": sessionStorage.getItem("user"),
         "idLista" :this.lista
       };
-      this.TodolistService.removeToDoList(JSON.stringify(datas)).subscribe(
+      this.todolistService.removeToDoList(JSON.stringify(datas)).subscribe(
         (response) => { 
           //console.log("Respuesta", response);
           if (response != '') {
