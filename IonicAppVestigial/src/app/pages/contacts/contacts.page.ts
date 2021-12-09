@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
 import { ModalController } from '@ionic/angular';
 import { ContactViewPage } from '../contact-view/contact-view.page'
+import { AddGroupPage } from '../add-group/add-group.page'
 
 @Component({
   selector: 'app-contacts',
@@ -12,6 +13,8 @@ export class ContactsPage implements OnInit {
 
   contacts: Contact[];
   filteredList: Contact[];
+
+  groups: String[];
 
   constructor(private contactsService: ContactsService, private modalController: ModalController, private changeDetector: ChangeDetectorRef) { }
 
@@ -105,6 +108,29 @@ export class ContactsPage implements OnInit {
     }
   }
 
+  getGroups () {
+        let user = {
+      "user": sessionStorage.getItem("user"),
+    };
+
+    this.contactsService.getGroups(JSON.stringify(user)).subscribe(
+      (response) => {
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Groups;
+          this.groups = [];
+          console.log(data);
+          data.forEach((element: any) => {
+              this.groups.push(element);
+          });
+        }
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+      }
+    );
+  }
   async showContact(contact: Contact) {
     //console.log(contact);
     const modal = await this.modalController.create({
@@ -117,7 +143,20 @@ export class ContactsPage implements OnInit {
     return await modal.present();
   }
 
+
+  async addGroup() {
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: AddGroupPage,
+      componentProps: {
+        groups: this.groups,
+      }
+    });
+    return await modal.present();
+  }
 }
+
+
 
 export class Contact {
   address: string;

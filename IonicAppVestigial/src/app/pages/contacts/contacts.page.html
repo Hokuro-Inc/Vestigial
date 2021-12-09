@@ -15,6 +15,12 @@
       <ion-list *ngFor="let contact of filteredList">
         <ion-item *ngIf="contact.email != contact.owner " button (click)="showContact(contact)">{{contact.fullname}} -> {{contact.alias}}</ion-item>
       </ion-list>
+
+      
+      <ion-list >
+        <ion-item button (click)="addGroup()">Crear un nuevo grupo</ion-item>
+      </ion-list>
+      
     </ion-content>
   </ion-app>
 </body>

@@ -64,10 +64,6 @@ export class AgendaPagePage implements OnInit {
 	      // Data passed in by componentProps
 	      component: AddGroupPage,
 	    });
-		modal.onDidDismiss().then(_ => {
-			console.log("dismissed");
-			this.contactsPage.getContacts();
-		})
 	    return await modal.present();
   	}
 }

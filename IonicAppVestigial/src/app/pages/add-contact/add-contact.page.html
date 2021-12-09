@@ -49,6 +49,14 @@
       <ion-input type="text" name="description" formControlName="description" required></ion-input>
     </ion-item>
 
+    <ion-item>
+        <ion-label>Grupos</ion-label>
+        <ion-select multiple="true" name="groups" *ngFor="let group of groups; let i = index">
+          <ion-select-option value="{{groups[i]}}">{{groups[i]}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+
     <ion-row>
       <ion-col>
         <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Crear Contacto</ion-button>

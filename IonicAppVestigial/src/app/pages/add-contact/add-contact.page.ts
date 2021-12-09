@@ -13,6 +13,8 @@ export class AddContactPage implements OnInit {
 
   validations_form: FormGroup;
 
+  groups : String [];
+
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService, private navController: NavController) { }
 
   ngOnInit() {
@@ -25,7 +27,8 @@ export class AddContactPage implements OnInit {
       email: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
-      owner: sessionStorage.getItem("user")
+      owner: sessionStorage.getItem("user"),
+      groups: new FormControl('',Validators.required),
     })
   }
 
