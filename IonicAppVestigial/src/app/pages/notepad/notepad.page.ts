@@ -39,23 +39,22 @@ export class NotepadPage implements OnInit {
   }
 
   async deleteNotePad(notepad: Notepad) {
-      //console.log(contact);
-      let datas = {
-        "user": sessionStorage.getItem("user"),
-        "name" : notepad.name
-      };
-      this.notepadService.removeNotePad(JSON.stringify(datas)).subscribe(
-        (response) => { 
-          //console.log("Respuesta", response);
-          if (response != '') {
-            let data = JSON.parse(response).Mensaje
-            console.log("Mensaje",data)
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
+    let datas = {
+      "user": sessionStorage.getItem("user"),
+      "name": notepad.name
+    };
+    this.notepadService.removeNotePad(JSON.stringify(datas)).subscribe(
+      (response) => { 
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje
+          console.log("Mensaje",data)
         }
-      ); 
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+      }
+    );
   }
 }
