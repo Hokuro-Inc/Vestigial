@@ -44,8 +44,8 @@ export class ContactsPage implements OnInit {
             });
           }
 
-          this.filteredList = this.contacts;
           this.sort();
+          this.filteredList = this.contacts;
         }
 			},
 			(error) => console.log("Error", error),
@@ -56,9 +56,9 @@ export class ContactsPage implements OnInit {
   }
 
   sort() {
-    if (this.filteredList.length == 0) return 0;
+    if (this.contacts.length == 0) return;
 
-    this.filteredList.sort((a, b) => {
+    this.contacts.sort((a, b) => {
       if (a.fullname.toLowerCase() < b.fullname.toLowerCase()) {
         return -1;
       }
@@ -85,8 +85,6 @@ export class ContactsPage implements OnInit {
     else {
       this.filteredList = this.contacts;
     }
-
-    this.sort();
   }
 
   async showContact(contact: Contact) {
@@ -105,7 +103,6 @@ export class ContactsPage implements OnInit {
           let index = this.contacts.indexOf(contact);
           this.contacts.splice(index, 1);
           this.filteredList = this.contacts;
-          this.sort();
         }
       }
     });
@@ -131,8 +128,8 @@ export class ContactsPage implements OnInit {
           element.prefix,
           element.surname
         ));
-        this.filteredList = this.contacts;
         this.sort();
+        this.filteredList = this.contacts;
       }
     });
     return await modal.present();
