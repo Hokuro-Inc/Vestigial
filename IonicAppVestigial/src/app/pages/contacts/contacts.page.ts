@@ -142,6 +142,7 @@ export class ContactsPage implements OnInit {
   }
 
   async addGroup() {
+    console.log("HOla")
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: AddGroupPage,
@@ -149,12 +150,16 @@ export class ContactsPage implements OnInit {
         groups: this.groups,
       }
     });
+    return await modal.present();
   }
 
   async addContact() {
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: AddContactPage,
+      componentProps: {
+        groups: this.groups,
+      }
     });      
     modal.onDidDismiss().then(data => {
       if (data.data != undefined) {
