@@ -10,22 +10,22 @@ export class CalendarService {
 
   public getData(data: string) {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/ShowCalendar', data, { responseType:'text' });
-    //return this.httpClient.post('https://localhost:8080/Vestigial/ShowCalendar', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/ShowCalendar', data, { responseType:'text' });
   }
  
   public addEvent(data: string) {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/CreateEvent', data, { responseType:'text' });
-    //return this.httpClient.post('https://localhost:8080/Vestigial/CreateEvent', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/CreateEvent', data, { responseType:'text' });
   }
 
   public updateEvent(data: string) {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/UpdateEvent', data, { responseType:'text' });
-    //return this.httpClient.post('https://localhost:8080/Vestigial/UpdateEvent', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/UpdateEvent', data, { responseType:'text' });
   }
   
   public removeEvent(data: string) {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/RemoveEvent', data, { responseType:'text' });
-    //return this.httpClient.post('https://localhost:8080/Vestigial/RemoveEvent', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/RemoveEvent', data, { responseType:'text' });
   }
 
 }
