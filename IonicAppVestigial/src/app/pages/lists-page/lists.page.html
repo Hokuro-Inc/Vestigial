@@ -15,9 +15,11 @@
         <ion-item button (click)="showList(lists[i])">{{lists[i].name}}</ion-item>
       </ion-list>
 
-      <ion-col>
-        <ion-item button (click)="addList()">Crear una nueva lista</ion-item>
-      </ion-col>
+      <ion-fab vertical = "bottom" horizontal = "end" slot = "fixed">
+        <ion-fab-button (click) = "addList()">
+          <ion-icon name = "add"></ion-icon>
+          </ion-fab-button>
+      </ion-fab>
 
     </ion-content>
   </ion-app>

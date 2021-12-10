@@ -40,8 +40,12 @@
 
 </ion-list>
 
-  <ion-col>
-        <ion-item button (click)="addNotePad()">Crear un nuevo Bloc</ion-item>
-  </ion-col>
+
+<ion-fab vertical = "bottom" horizontal = "end" slot = "fixed">
+  <ion-fab-button (click) = "addNotePad()">
+    <ion-icon name = "add"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+
 
 </ion-content>
