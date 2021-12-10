@@ -12,7 +12,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class ShowProfilePage implements OnInit {
 
-	contact: Contact;
+	contact: Contact  = new Contact("","","","","","","","","");
 
   	constructor(private contactsService: ContactsService, public modalController: ModalController) { }
 
