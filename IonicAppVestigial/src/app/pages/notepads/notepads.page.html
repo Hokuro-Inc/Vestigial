@@ -1,51 +1,37 @@
 <ion-header translucent>
   <ion-toolbar>
-
-       <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
-       <ion-title>Notes</ion-title>
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Notes</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
-<ion-list>
+  
+  <ion-list>
 
-  <ion-item-sliding *ngFor ="let note of notepads; let i = index">
+    <ion-item-sliding *ngFor ="let note of notepads">
 
-    <ion-item button (click) = "showNotePad(notepads[i])"> {{ notepads[i].name }} 
-    </ion-item>
-
+      <ion-item button (click) = "showNotePad(note)"> {{ note.name }} </ion-item>
 
       <ion-item-options side="start">
-        <ion-item-option color ="primary" (click)="editNotePad(notepads[i])">Editar</ion-item-option>
+        <ion-item-option color ="primary" (click)="editNotePad(note)">Editar</ion-item-option>
       </ion-item-options>
-
   
       <ion-item-options side="end">
-        <ion-item-option color = "danger" (click)="deleteNotePad(notepads[i])">
+        <ion-item-option color = "danger" (click)="deleteNotePad(note)">
           <ion-icon slot = "icon-only" name ="trash"></ion-icon>
           Borrar
         </ion-item-option>
-          
       </ion-item-options>
 
+    </ion-item-sliding>
 
+  </ion-list>
 
-
-
-
-  </ion-item-sliding>
-
-
-</ion-list>
-
-
-<ion-fab vertical = "bottom" horizontal = "end" slot = "fixed">
-  <ion-fab-button (click) = "addNotePad()">
-    <ion-icon name = "add"></ion-icon>
+  <ion-fab vertical = "bottom" horizontal = "end" slot = "fixed">
+    <ion-fab-button (click) = "addNotePad()">
+      <ion-icon name = "add"></ion-icon>
     </ion-fab-button>
-</ion-fab>
+  </ion-fab>
 
 
 </ion-content>

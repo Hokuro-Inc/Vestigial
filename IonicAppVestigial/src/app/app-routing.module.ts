@@ -126,7 +126,11 @@ const routes: Routes = [
   {
     path: 'add-group',
     loadChildren: () => import('./pages/add-group/add-group.module').then( m => m.AddGroupPageModule)
+  },  {
+    path: 'groups',
+    loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
   }
+
 
 
 ];

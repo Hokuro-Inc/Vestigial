@@ -45,9 +45,8 @@ export class LoginPagePage implements OnInit {
 			(response) => {
 				console.log("Respuesta", response);
 				let data = JSON.parse(response);
-				console.log("Data", data);
 				sessionStorage.setItem("user", values.email);
-				sessionStorage.setItem("phone", data.user[0].phone +"-"+ data.user[0].prefix);
+				sessionStorage.setItem("phone", data.user[0].phone + "-" + data.user[0].prefix);
 				//sessionStorage.setItem("groups", data.user[0].groups);
 				if (data.Mensaje.includes("OK")) res = true;
 			},
