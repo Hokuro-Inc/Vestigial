@@ -3,6 +3,7 @@ import { RegisterPagePage } from '../register-page/register-page.page';
 import { LoginPagePage } from '../login-page/login-page.page';
 import { ModalController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-slides-page',
   templateUrl: './slides-page.page.html',
