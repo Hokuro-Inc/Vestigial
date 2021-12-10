@@ -44,17 +44,16 @@
       <ion-input type="text" name="email" formControlName="email" required></ion-input>
     </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">Descripcion</ion-label>
-      <ion-input type="text" name="description" formControlName="description" required></ion-input>
-    </ion-item>
-
-
     <ion-item>
         <ion-label>Grupos</ion-label>
         <ion-select multiple="true" name="groups" formControlName="groups" >
           <ion-select-option *ngFor="let group of groups; let i = index" value="{{groups[i]}}">{{groups[i]}}</ion-select-option>
         </ion-select>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-textarea rows="8" name="description" formControlName="description" required></ion-textarea>
     </ion-item>
 
     <ion-row>

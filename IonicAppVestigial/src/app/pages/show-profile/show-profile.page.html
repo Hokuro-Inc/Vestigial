@@ -16,8 +16,12 @@
 	        <ion-item>Direccion: {{contact.address}}</ion-item>
 	        <ion-item>Email: {{contact.email}}</ion-item>
 	        <ion-item>Descripcion: {{contact.description}}</ion-item>
-	        <ion-item button (click)="editContact(contact)">Editar</ion-item>
    		</ion-list>
+      <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
+        <ion-fab-button (click)="editContact(contact)">
+          <ion-icon name = "pencil"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
   </ion-app>
 </body>
