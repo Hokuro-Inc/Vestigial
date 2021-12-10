@@ -17,10 +17,11 @@ export class AppComponent {
   
   contact: Contact;
 
+  user : String;
   constructor(private contactsService: ContactsService, private navController: NavController, private menuController: MenuController){}
   ngOnInit() {
     //console.log(this.contact);
-    let user = sessionStorage.getItem("user");
+    this.user = sessionStorage.getItem("user");
   };
   
   
