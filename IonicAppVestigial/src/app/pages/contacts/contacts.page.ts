@@ -3,6 +3,7 @@ import { ContactsService } from 'src/app/services/contacts-service/contacts.serv
 import { ModalController } from '@ionic/angular';
 import { ContactViewPage } from '../contact-view/contact-view.page'
 import { AddContactPage } from '../add-contact/add-contact.page';
+import { ImportContactPage } from '../import-contact/import-contact.page';
 import { GroupsPage } from '../groups/groups.page';
 
 @Component({
@@ -179,6 +180,15 @@ export class ContactsPage implements OnInit {
     });
     return await modal.present();
   }
+
+  async importContact() {
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ImportContactPage,
+    });      
+    return await modal.present();
+  }
+
 }
 
 export class Contact {

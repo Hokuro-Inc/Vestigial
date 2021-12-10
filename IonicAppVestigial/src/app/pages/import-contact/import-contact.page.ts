@@ -4,7 +4,7 @@ import { ContactsService } from 'src/app/services/contacts-service/contacts.serv
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs'
 
-//import { NFC, Ndef, NfcTag} from '@ionic-native/nfc/ngx';
+import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
 
 
 @Component({
@@ -23,9 +23,17 @@ export class ImportContactPage implements OnInit {
   ndefMsg:      string    = '';
 
 
-  constructor(/*private modalController: ModalController, private nfc: NFC, private ndef: Ndef, private contactService: ContactsService, private navController: NavController*/) { }
-
+  constructor(private modalController: ModalController, private nfc: NFC, private ndef: Ndef, private contactService: ContactsService, private navController: NavController) { }
+  
   async ngOnInit() {
+
+
+    let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
+    this.readerModePage = this.readerModePage(flags).subscribe(
+      tag => console.log(JSON.stringify(tag)),
+      err => console.log(JSON.stringify(err)),
+      
+      )
 /*
     if (this.agente == "iOS") {
     		try {
