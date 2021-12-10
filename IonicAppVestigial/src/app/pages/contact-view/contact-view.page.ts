@@ -19,7 +19,7 @@ export class ContactViewPage implements OnInit {
     //console.log(this.contact);
   }
 
-   dismiss(contact: Contact, deleted: boolean = false) {
+  dismiss(contact: Contact, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
@@ -48,6 +48,7 @@ export class ContactViewPage implements OnInit {
       "phone" : contact.phone,
       "prefix" : contact.prefix
     };
+    
     this.contactsService.removeContact(JSON.stringify(data)).subscribe(
       (response) => { 
         //console.log("Respuesta", response);

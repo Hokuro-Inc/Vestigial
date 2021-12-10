@@ -13,19 +13,9 @@ export class ContactsService {
     //return this.httpClient.post('http://localhost:8080/Vestigial/ShowAgenda', data, { responseType:'text' });
   }
 
-  public getGroups(data: string) {
-    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/GetGroups', data, { responseType:'text' });
-    //return this.httpClient.post('http://localhost:8080/Vestigial/GetGroups', data, { responseType:'text' });
-  }
-
   public addContact(data: string) {
    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/AddContact', data, { responseType:'text' });
    //return this.httpClient.post('http://localhost:8080/Vestigial/AddContact', data, { responseType:'text' });
-  }
-
-  public addGroup(data: string) {
-   return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/AddGroup', data, { responseType:'text' });
-   //return this.httpClient.post('http://localhost:8080/Vestigial/AddGroup', data, { responseType:'text' });
   }
 
   public updateContact(data: string) {
@@ -38,10 +28,29 @@ export class ContactsService {
     //return this.httpClient.post('http://localhost:8080/Vestigial/RemoveContact', data, { responseType:'text' });
   }
 
+  public getGroups(data: string) {
+    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/GetGroups', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/GetGroups', data, { responseType:'text' });
+  }
+
+  public addGroup(data: string) {
+    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/AddGroup', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/AddGroup', data, { responseType:'text' });
+  }
+
+  public updateGroup(data: string) {
+    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/UpdateGroup', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/UpdateGroup', data, { responseType:'text' });
+  }
+
+  public removeGroup(data: string) {
+    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/RemoveGroup', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/RemoveGroup', data, { responseType:'text' });
+  }
+
   public getProfile(data: string) {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/ShowProfile', data, { responseType:'text' });
     //return this.httpClient.post('http://localhost:8080/Vestigial/ShowProfile', data, { responseType:'text' });
-  }
-  
+  }  
 
 }

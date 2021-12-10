@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
 import { AddGroupPage } from '../add-group/add-group.page';
+import { ModifyGroupPage } from '../modify-group/modify-group.page';
 
 @Component({
   selector: 'app-groups',
@@ -11,7 +13,7 @@ export class GroupsPage implements OnInit {
 
   groups: string[];
 
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController, private contactService: ContactsService) { }
 
   ngOnInit() {
     this.sort();
@@ -50,6 +52,47 @@ export class GroupsPage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  async editGroup(group: string) {
+    const modal = await this.modalController.create({
+      component: ModifyGroupPage,
+      componentProps: {
+        oldGroup: group
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        let index = this.groups.indexOf(group);
+        this.groups[index] = data.data.group;
+        this.sort();
+      }
+    });
+    return await modal.present();
+  }
+
+  async deleteGroup(group: string) {
+    console.log("delete");
+    let data = {
+      'user': sessionStorage.getItem("user"),
+      'group': group
+    };
+
+    this.contactService.removeGroup(JSON.stringify(data)).subscribe(
+      (response) => {
+        //console.log(response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje;
+          console.log("Mensaje", data);
+          let index = this.groups.indexOf(group);
+          this.groups.splice(index, 1);
+        }
+      },
+      (error) => console.log(error),
+      () => {
+        console.log("Completed");
+      }
+    );
   }
 
 }

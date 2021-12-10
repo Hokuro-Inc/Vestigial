@@ -129,6 +129,10 @@ const routes: Routes = [
   },  {
     path: 'groups',
     loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
+  },
+  {
+    path: 'modify-group',
+    loadChildren: () => import('./pages/modify-group/modify-group.module').then( m => m.ModifyGroupPageModule)
   }
 
 

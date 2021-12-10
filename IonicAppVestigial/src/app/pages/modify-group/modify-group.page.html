@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{oldGroup}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
+    <ion-item lines="full">
+      <ion-label position="floating">Nombre Del Grupo</ion-label>
+      <ion-input type="text" name="group" formControlName="group" [ngModel]="oldGroup" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Actualizar Grupo</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
