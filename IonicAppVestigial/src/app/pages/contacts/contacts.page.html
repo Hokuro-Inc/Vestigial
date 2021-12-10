@@ -10,7 +10,7 @@
     <ion-content fullscreen>
 
       <ion-list *ngFor="let contact of filteredList; trackBy: track">
-        <ion-item *ngIf="contact.email != contact.owner" button (click)="showContact(contact)">{{contact.fullname}} -> {{contact.alias}}</ion-item>
+        <ion-item *ngIf="contact.email != contact.owner" button (click)="showContact(contact)"><h1 style="font-size:90%">{{contact.fullname}}    </h1><h2 style="font-size:70%">{{contact.alias}}</h2></ion-item>
       </ion-list>
 
     </ion-content>
