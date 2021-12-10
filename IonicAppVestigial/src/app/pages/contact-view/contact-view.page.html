@@ -14,7 +14,15 @@
         <ion-item>Direccion: {{contact.address}}</ion-item>
         <ion-item>Email: {{contact.email}}</ion-item>
         <ion-item>Descripcion: {{contact.description}}</ion-item>
-        <ion-item button (click)="editContact(contact)">Editar</ion-item>
-        <ion-item button (click)="deleteContact(contact)">Eliminar</ion-item>
     </ion-list>
+    <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
+      <ion-fab-button (click)="editContact(contact)">
+        <ion-icon name = "pencil"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical = "bottom"  horizontal = "start" slot = "fixed">
+      <ion-fab-button color ="danger" (click)="deleteContact(contact)">
+        <ion-icon name = "trash"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 </ion-content>
