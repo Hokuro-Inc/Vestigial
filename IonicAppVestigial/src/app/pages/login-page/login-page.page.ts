@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login-service/login.service';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ export class LoginPagePage implements OnInit {
 
   	validations_form: FormGroup;
 
-  	constructor(public modalController: ModalController, private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) { }
+  	constructor(private modalController: ModalController, private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private menuController: MenuController) { }
 
 	ngOnInit(){
 		this.validations_form = this.formBuilder.group({
@@ -55,7 +55,7 @@ export class LoginPagePage implements OnInit {
 			() => {
 				if (res == true) {
 					this.dismiss();
-					
+					this.menuController.enable(true);
 					this.router.navigate(['/calendar']);
 					//alert("Funciona!!!");
 				}

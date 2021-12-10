@@ -16,14 +16,14 @@ import { Contact } from './pages/contacts/contacts.page';
 export class AppComponent {
   
   contact: Contact;
-
-  user : String;
+  user: String;
+  
   constructor(private contactsService: ContactsService, private navController: NavController, private menuController: MenuController){}
+  
   ngOnInit() {
     //console.log(this.contact);
     this.user = sessionStorage.getItem("user");
   };
-  
   
   public appPages = [
     { title: 'Mi Contacto', url: '/show-profile', icon: 'person' },
@@ -41,5 +41,6 @@ export class AppComponent {
     sessionStorage.removeItem("phone");
     this.navController.navigateBack(['/']);
     this.menuController.close();
+    this.menuController.enable(false);
   }
 }
