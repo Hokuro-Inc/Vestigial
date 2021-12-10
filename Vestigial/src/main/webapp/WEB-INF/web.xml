@@ -81,6 +81,15 @@
 </servlet-mapping>
 
 <servlet>
+    <servlet-name>UpdateGroup</servlet-name>
+    <servlet-class>es.uco.ism.servlet.agenda.UpdateGroupController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>UpdateGroup</servlet-name>
+    <url-pattern>/UpdateGroup</url-pattern>
+</servlet-mapping>
+
+<servlet>
     <servlet-name>UpdateContact</servlet-name>
     <servlet-class>es.uco.ism.servlet.agenda.UpdateContactController</servlet-class>
 </servlet>
