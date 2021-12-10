@@ -3,7 +3,14 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Vestigial</ion-list-header>
+
+          <div *ngIf="user == null; else elseBlock">
+            <ion-list-header>Vestigial</ion-list-header>
+          </div>
+          <ng-template #elseBlock>
+            <ion-list-header>{{user}}</ion-list-header>
+          </ng-template>
+
           <ion-note></ion-note>
           
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">

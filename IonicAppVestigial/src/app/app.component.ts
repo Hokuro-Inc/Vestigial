@@ -20,38 +20,9 @@ export class AppComponent {
   constructor(private contactsService: ContactsService, private navController: NavController, private menuController: MenuController){}
   ngOnInit() {
     //console.log(this.contact);
-    let values = {
-      "user": sessionStorage.getItem("user"),
-      "phone": sessionStorage.getItem("phone"),
-
-      };
-      console.log(values);
-    this.contactsService.getProfile(JSON.stringify(values)).subscribe(
-    (response) =>{
-      console.log("RespuestaShow", response)
-      if (response != '') {
-            let data = JSON.parse(response).Profile;
-            console.log("RespuestaData", data)
-              this.contact = new Contact(
-                data[0].address,
-                data[0].alias,
-                data[0].description,
-                data[0].email,
-                data[0].name,
-                data[0].owner,
-                data[0].phone,
-                data[0].prefix,
-                data[0].surname
-              );
-            };
-    },
-    (error) => console.log("Error", error),
-    () => {
-      //alert("Funciona!!!!");
-
-    }
-  );
-  }
+    let user = sessionStorage.getItem("user");
+  };
+  
   
   public appPages = [
     { title: 'Mi Contacto', url: '/show-profile', icon: 'person' },
