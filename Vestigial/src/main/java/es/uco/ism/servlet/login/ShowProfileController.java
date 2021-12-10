@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
-import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.ContactDAO;
 import es.uco.ism.display.ContactBean;
 import es.uco.ism.display.UserBean;
@@ -80,7 +78,6 @@ public class ShowProfileController extends HttpServlet {
 				userEmail = (String) objJson.get("user");
 				userPhone = (String) objJson.get("phone");
 				ContactDTO contacto = contactDAO.QueryByPhone(userPhone,userEmail);
-				System.out.println(contacto);
 								
 				if (contacto == null) {
 					mensajeResultado = "[ERROR] El usuario no existe";

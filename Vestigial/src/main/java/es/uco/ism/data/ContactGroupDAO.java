@@ -79,12 +79,39 @@ public ArrayList<ArrayList<String>> QueryByAll() {
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
-            stmt.setString(2, contact.getGroups()[0]);
+            stmt.setString(2, contact.getGroups().get(0));
             status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
+    
+    public int InsertGroups(ContactDTO contact) {
+        int status = 0;
+
+        try {
+            String statement = sqlProp.getProperty("Insert_Contact_Group");
+        	Connection con = getConnection();
+        	ArrayList<String> grupos = contact.getGroups();
+        	
+        	for (int i = 0 ; i < grupos.size(); i++) {
+            	PreparedStatement stmt = con.prepareStatement(statement);
+                stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
+                stmt.setString(2, contact.getGroups().get(i));
+                status = stmt.executeUpdate();
+                if (stmt != null) {
+                	stmt.close();
+                }
+        	}
+                        
+            
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -101,8 +128,8 @@ public ArrayList<ArrayList<String>> QueryByAll() {
         	Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(2, contact.getPhone()+"-"+contact.getPrefix());
-            stmt.setString(3, contact.getGroups()[0]);
-            stmt.setString(1, contact.getGroups()[1]);
+            stmt.setString(3, contact.getGroups().get(0));
+            stmt.setString(1, contact.getGroups().get(1));
 
             status = stmt.executeUpdate();
             
@@ -126,7 +153,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
-            stmt.setString(2, contact.getGroups()[0]);
+            stmt.setString(2, contact.getGroups().get(0));
             results.add(stmt.executeUpdate());
             status = CheckResults(results);
             

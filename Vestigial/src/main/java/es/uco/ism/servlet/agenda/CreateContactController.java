@@ -3,6 +3,7 @@ package es.uco.ism.servlet.agenda;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -12,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
+import es.uco.ism.data.ContactGroupDAO;
 import es.uco.ism.display.UserBean;
 
 /**
@@ -55,6 +58,7 @@ public class CreateContactController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
+		ContactGroupDAO contactGroupDAO = new ContactGroupDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Agenda/CreateContact.jsp"; 
 		String mensajeNextPage = "";
 		String prefix ;
@@ -85,13 +89,25 @@ public class CreateContactController extends HttpServlet {
 				description = (String) objJson.get("description");
 				address = (String) objJson.get("address");
 				owner = (String) objJson.get("owner");
-//				groups = (String) objJson.get("groups");
-				ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
+				JSONArray groups = objJson.getJSONArray("groups");
+				ArrayList <String> gruposElegidos = new ArrayList<>();
+				for (Object grupo : groups) {
+					String aux = (String) grupo;
+					gruposElegidos.add(aux);
+				}
+
+				ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner,gruposElegidos);
 				if (contactDAO.Insert(newContact) <=0 )  {
 					mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el contacto "  + name; 
 				}
 				else {
-					mensajeResultado = "[OK]Se ha creado correctamente el contacto " + name;
+					
+					if (contactGroupDAO.InsertGroups(newContact) <= 0 ) {
+						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de vincular los grupos al contacto "  + name;
+					}
+					else {
+						mensajeResultado = "[OK]Se ha creado correctamente el contacto " + name;
+					}
 				}
 			}
 			jsonDataEnviar.put("Mensaje", mensajeResultado);

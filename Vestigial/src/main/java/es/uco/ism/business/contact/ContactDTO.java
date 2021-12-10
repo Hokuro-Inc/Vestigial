@@ -1,6 +1,7 @@
 package es.uco.ism.business.contact;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ContactDTO implements Serializable {
 
@@ -14,7 +15,7 @@ public class ContactDTO implements Serializable {
 	private String description;
 	private String address;
 	private String owner;
-	private String[] groups;
+	private ArrayList<String> groups;
 
 	/**
 	 * Constructor completo del contacto 
@@ -28,7 +29,7 @@ public class ContactDTO implements Serializable {
 	 * @param owner Propietario del contacto
 	 */
 	
-	public ContactDTO(String phone, String prefix, String name, String surname, String alias, String email, String description, String address, String owner, String[] groups) {
+	public ContactDTO(String phone, String prefix, String name, String surname, String alias, String email, String description, String address, String owner, ArrayList<String>  groups) {
 		this.phone = phone;
 		this.prefix = prefix;
 		this.name = name;
@@ -215,12 +216,12 @@ public class ContactDTO implements Serializable {
 		this.owner = owner;
 	}
 	
-	public String[] getGroups() {
+	public ArrayList<String>  getGroups() {
 		
 		return groups;
 	}
 	
-	public void setGroups(String[] groups) {
+	public void setGroups(ArrayList<String> groups) {
 		
 		this.groups = groups;
 	}
