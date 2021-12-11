@@ -185,6 +185,24 @@ export class ContactsPage implements OnInit {
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ImportContactPage,
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        let contact = data.data.contact;
+        this.contacts.push(new Contact(
+          contact.address,
+          contact.alias,
+          contact.description,
+          contact.email,
+          contact.name,
+          contact.owner,
+          contact.phone,
+          contact.prefix,
+          contact.surname
+        ));
+        this.sort();
+        this.filteredList = this.contacts;
+      }
     });      
     return await modal.present();
   }

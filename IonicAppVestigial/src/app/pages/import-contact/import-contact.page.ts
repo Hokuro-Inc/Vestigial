@@ -56,11 +56,12 @@ export class ImportContactPage implements OnInit {
               "alias": data.alias,
               "groups" : [""]
             };
+            this.contact = new Contact(data.address,data.alias,data.description,data.email,data.name,sessionStorage.getItem("user"),data.phone,data.prefix,data.surname);
            this.contactService.importContact(JSON.stringify(contact)).subscribe(
               (response) => console.log("Respuesta", response),
               (error) => console.log("Error", error),
               () => {
-                this.dismiss();
+                this.dismiss(this.contact);
                 //alert("Funciona!!!!");
               }
             );
@@ -83,11 +84,12 @@ export class ImportContactPage implements OnInit {
      }
   }
 
-  dismiss() {
+  dismiss(contact: Contact) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'contact': contact
     });
     
   }
