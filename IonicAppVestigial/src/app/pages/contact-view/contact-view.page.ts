@@ -16,7 +16,9 @@ export class ContactViewPage implements OnInit {
 
 	contact: Contact;
 
-  constructor(private contactsService: ContactsService, public modalController: ModalController,private nfc: NFC, private ndef: Ndef,private callNumber: CallNumber) { }
+  constructor(private contactsService: ContactsService, public modalController: ModalController,private nfc: NFC, private ndef: Ndef,private callNumber: CallNumber) { 
+    nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
+  }
 
   ngOnInit() {
     //console.log(this.contact);
@@ -68,13 +70,38 @@ export class ContactViewPage implements OnInit {
   }
 
   async exportContact (contact: Contact) {
-    console.log("Contacto a guardar en el nfc",JSON.stringify(contact));
+    
+    this.nfc.addNdefListener(
+      () => {
+        console.log('successfully attached ndef listener');
+      }, 
+      (err) => {
+        console.log('error attaching ndef listener', err);
+      }).subscribe((event) => {
+        console.log('received ndef message. the tag contains: ', event.tag);
+        console.log('decoded tag id', this.nfc.bytesToHexString(event.tag.id));
+        let message = this.ndef.textRecord('Hello world');
+        this.nfc.write([message]).then(() => {console.log("EXITO")}).catch((error) => {console.log("ERROR", error)});
+    });
+
+    /*console.log("Contacto a guardar en el nfc",JSON.stringify(contact));
     var mensaje = [
       this.ndef.textRecord(JSON.stringify(contact))
+    
     ];
-    console.log("Mensaje que se grabara " , mensaje);
-    this.nfc.write(mensaje);
+    
 
+
+    console.log("Mensaje que se grabara " , mensaje);
+    this.nfc.write(mensaje).then(
+      _ => console.log('Wrote message to tag'),
+      error => console.log('Write failed', error)
+    )
+  */
+    /*var mimeType = "text/pg",
+    payload = "Hello Phongap",
+    record = this.ndef.mimeMediaRecord(mimeType, payload);
+  */
   }
 
   async llamarContacto (contact: Contact) {
@@ -83,9 +110,21 @@ export class ContactViewPage implements OnInit {
     this.callNumber.callNumber(numeroTelefono, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
-   
-        
 
   }  
+
+  onNdefTagScanned(nfcEvent: any) {
+
+    // Create an NDEF text record
+    const record = this.ndef.textRecord(JSON.stringify(this.contact), "en", null);
+    // an NDEF message is an array of NDEF records    
+    const message = [record];
+
+    // write to the tag
+    this.nfc.write(message).then(
+      _ => console.log('Wrote message to tag'),
+      error => console.log('Write failed', error)
+    )
+  }
 
 }
