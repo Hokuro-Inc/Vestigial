@@ -24,6 +24,16 @@
 </servlet-mapping>
 
 <servlet>
+    <servlet-name>RecoverPassword</servlet-name>
+    <servlet-class>es.uco.ism.servlet.login.RecoverController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>RecoverPassword</servlet-name>
+    <url-pattern>/RecoverPassword</url-pattern>
+    <url-pattern>/RecuperarContrasena</url-pattern>
+</servlet-mapping>
+
+<servlet>
     <servlet-name>ShowProfile</servlet-name>
     <servlet-class>es.uco.ism.servlet.login.ShowProfileController</servlet-class>
 </servlet>

@@ -11,6 +11,7 @@ public class UserDTO implements Serializable {
 	private String salt;
 	private String phone;
 	private String prefix;
+	private int code;
 	private ArrayList<String> groups;
 	private ArrayList<String> lists;
  	
@@ -110,7 +111,15 @@ public class UserDTO implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
+	public int getCode() {
+		return code;
+	}
 
+	public void setCode(int code) {
+		this.code = code;
+	}
+	
 	/**
 	 * Devuelve el prefijo del telefono de un usuario
 	 * 

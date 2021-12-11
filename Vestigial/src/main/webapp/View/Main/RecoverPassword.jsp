@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ page import ="es.uco.ism.business.user.UserDTO" %>
 
@@ -8,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Recover Password</title>
 </head>
 <body>
@@ -24,10 +23,10 @@
 			<h1>Recover Password Vestigial</h1>
 			<form method="post" action="RecoverPassword" id="Login">
 				<input id= "email" type="email" name="email" placeholder="correo@gmail.com" required>
-				<input id= "password" type="password" name="new-password" placeholder="Contraseña" required>
-				<input id= "password" type="password" name="confirmation code" placeholder="Code" required>
+				<input id= "password" type="password" name="new-password" placeholder="Nueva ContraseÃ±a" required>
+				<input id= "code" type="password" name="confirmation code" placeholder="Code" required>
 
-				<input class="submit" type="submit" id="submitButton" value="Recuperar contraseña">
+				<input class="submit" type="submit" id="submitButton" value="Recuperar contraseÃ±a">
 
 
 			</form>
