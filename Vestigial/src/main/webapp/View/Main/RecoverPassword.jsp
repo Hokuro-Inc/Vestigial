@@ -23,8 +23,8 @@
 			<h1>Recover Password Vestigial</h1>
 			<form method="post" action="RecoverPassword" id="Login">
 				<input id= "email" type="email" name="email" placeholder="correo@gmail.com" required>
-				<input id= "password" type="password" name="new-password" placeholder="Nueva Contraseña" required>
-				<input id= "code" type="password" name="confirmation code" placeholder="Code" required>
+				<input id= "password" type="password" name="password" placeholder="Nueva Contraseña" required>
+				<input id= "code" type="password" name="code" placeholder="Code" required>
 
 				<input class="submit" type="submit" id="submitButton" value="Recuperar contraseña">
 

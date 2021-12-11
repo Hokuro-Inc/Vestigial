@@ -27,7 +27,7 @@
     %>
             <h1>Editar Evento Vestigial</h1>
             <h2><%= menssageNextPage %></h2>
-                <form method="post" action="UpdateTask id="UpdateTaskForm">
+                <form method="post" action="UpdateTask" id="UpdateTaskForm">
                     <input id= "idTask" type="hidden" name="idTask" value ="<%=TaskToUpdate.getId()%>" >
                     <input id= "nameEvent" type="text" name="nameEvent" placeholder="nameEvent" value ="<%=TaskToUpdate.getName()%>" required>
                     <input id= "descriptionEvent" type="text" name="descriptionEvent" placeholder="DescriptionEvent" value ="<%=TaskToUpdate.getDescription()%>" required>

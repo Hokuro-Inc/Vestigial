@@ -8,8 +8,9 @@ import java.util.Properties;
 import java.util.Random;
 
 import es.uco.ism.data.db.impl.*;
-import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.utils.Mail;
+import es.uco.ism.business.user.UserDTO;
+
 
 public class UserDAO extends DBConnectImpl {
 
@@ -120,8 +121,8 @@ public class UserDAO extends DBConnectImpl {
             	stmt.close();
             }
             
-            Mail correo = new Mail(user.getEmail(), "Vestigial", "<h1>Se bienvenido a nuestra aplicación, esperamos que tu estancia sea agradable.</h1>"
-            		+ "<h2>Tu codigo de recuperación de la contraseña es: " + code + "</h2>");
+            Mail correo = new Mail(user.getEmail(), "Vestigial", "<h1>Se bienvenido a nuestra aplicaciï¿½n, esperamos que tu estancia sea agradable.</h1>"
+            		+ "<h2>Tu codigo de recuperaciï¿½n de la contraseï¿½a es: " + code + "</h2>");
             
             correo.sendEmail();
             

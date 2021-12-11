@@ -32,7 +32,7 @@ public class Mail {
 	public void sendEmail() throws UnsupportedEncodingException, MessagingException, IOException{
  
 		Properties propertiesBD = new Properties();
-		FileReader fileReaderBD = new FileReader("WebContent/server.properties");
+		FileReader fileReaderBD = new FileReader("/src/main/webapp/WEB-INF/server.properties");
 		propertiesBD.load(fileReaderBD);
 		
 		// Create a Properties object to contain connection configuration information.
