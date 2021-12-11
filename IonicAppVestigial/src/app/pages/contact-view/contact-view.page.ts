@@ -18,11 +18,11 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 export class ContactViewPage implements OnInit {
 
 	contact: Contact;
+  listener;
 
   constructor(private contactsService: ContactsService, public modalController: ModalController,
               private nfc: NFC, private ndef: Ndef,
               private callNumber: CallNumber,private bluetoothSerial: BluetoothSerial) { 
-   
   }
 
   ngOnInit() {
@@ -74,43 +74,6 @@ export class ContactViewPage implements OnInit {
     ); 
   }
 
-  async exportContactNFC (contact: Contact) {
-    
-  this.nfc.enabled().then(value => console.log(value), reason => console.log(reason))
-
-    this.nfc.addTagDiscoveredListener(
-      () => {
-        console.log('successfully attached ndef listener NFC');
-      }, 
-      (err) => {
-        console.log('error attaching ndef listener NFC', err);
-      }).subscribe((event) => {
-        console.log('received ndef message. the tag contains: NFC', event.tag);
-        console.log('decoded tag id NFC', this.nfc.bytesToHexString(event.tag.id));
-        let message = this.ndef.textRecord('Hello world');
-        this.nfc.write([message]).then(() => {console.log("EXITO NFC")}).catch((error) => {console.log("ERROR", error)});
-    });
-
-    /*console.log("Contacto a guardar en el nfc",JSON.stringify(contact));
-    var mensaje = [
-      this.ndef.textRecord(JSON.stringify(contact))
-    
-    ];
-    
-
-
-    console.log("Mensaje que se grabara " , mensaje);
-    this.nfc.write(mensaje).then(
-      _ => console.log('Wrote message to tag'),
-      error => console.log('Write failed', error)
-    )
-  */
-    /*var mimeType = "text/pg",
-    payload = "Hello Phongap",
-    record = this.ndef.mimeMediaRecord(mimeType, payload);
-  */
-  }
-
   async llamarContacto (contact: Contact) {
     let numeroTelefono = "+" + contact.prefix + contact.phone;
     console.log("Vamos a llamar al contacto",numeroTelefono);
@@ -120,6 +83,7 @@ export class ContactViewPage implements OnInit {
 
   }  
 
+/*
   async exportContactBluetooth (contact: Contact) {
     
         this.nfc.enabled().then(value => console.log(value), reason => console.log(reason))
@@ -138,23 +102,28 @@ export class ContactViewPage implements OnInit {
     });
 
   }
-
-  async exportListener() {
-     this.nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
+*/
+  async exportContactNFC() {
+     this.listener = this.nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
   }
+  
   onNdefTagScanned(nfcEvent: any) {
 
     // Create an NDEF text record
-    console.log("HOLA HE LEIDO UNA TARJETA")
     const record = this.ndef.textRecord(JSON.stringify(this.contact), "en", null);
     // an NDEF message is an array of NDEF records    
     const message = [record];
 
     // write to the tag
     this.nfc.write(message).then(
-      _ => console.log('Wrote message to tag LISTENER'),
+      _ => {
+        console.log('Wrote message to tag LISTENER')
+        this.listener.unsubscribe();       
+      },
       error => console.log('Write failed LISTENER', error)
     )
+
+
   }
 
 }
