@@ -9,6 +9,9 @@ import { ContactsPageRoutingModule } from './contacts-routing.module';
 import { ContactsPage } from './contacts.page';
 
 import { NFC,Ndef} from '@awesome-cordova-plugins/nfc/ngx';
+
+import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +20,6 @@ import { NFC,Ndef} from '@awesome-cordova-plugins/nfc/ngx';
     ContactsPageRoutingModule
   ],
   declarations: [ContactsPage],
-  providers: [NFC,Ndef]
+  providers: [NFC,Ndef,CallNumber]
 })
 export class ContactsPageModule {}

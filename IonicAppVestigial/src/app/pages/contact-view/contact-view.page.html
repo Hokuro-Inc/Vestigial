@@ -10,7 +10,7 @@
 <ion-content>
 	<ion-list >
         <ion-item>Alias: {{contact.alias}}</ion-item>
-        <ion-item>Contacto: +{{contact.prefix}} {{contact.phone}}</ion-item>
+        <ion-item button (click)="llamarContacto(contact)">Contacto: +{{contact.prefix}} {{contact.phone}}</ion-item>
         <ion-item>Direccion: {{contact.address}}</ion-item>
         <ion-item>Email: {{contact.email}}</ion-item>
         <ion-item>Descripcion: {{contact.description}}</ion-item>

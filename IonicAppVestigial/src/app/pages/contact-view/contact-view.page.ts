@@ -5,6 +5,7 @@ import { Contact } from '../contacts/contacts.page'
 import { ModifyContactPage } from '../modify-contact/modify-contact.page'
 
 import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
+import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 
 @Component({
   selector: 'app-contact-view',
@@ -15,7 +16,7 @@ export class ContactViewPage implements OnInit {
 
 	contact: Contact;
 
-  constructor(private contactsService: ContactsService, public modalController: ModalController,private nfc: NFC, private ndef: Ndef) { }
+  constructor(private contactsService: ContactsService, public modalController: ModalController,private nfc: NFC, private ndef: Ndef,private callNumber: CallNumber) { }
 
   ngOnInit() {
     //console.log(this.contact);
@@ -75,5 +76,16 @@ export class ContactViewPage implements OnInit {
     this.nfc.write(mensaje);
 
   }
+
+  async llamarContacto (contact: Contact) {
+    let numeroTelefono = "+" + contact.prefix + contact.phone;
+    console.log("Vamos a llamar al contacto",numeroTelefono);
+    this.callNumber.callNumber(numeroTelefono, true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
+   
+        
+
+  }  
 
 }
