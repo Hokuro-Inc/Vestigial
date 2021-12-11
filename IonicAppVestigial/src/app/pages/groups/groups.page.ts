@@ -62,7 +62,7 @@ export class GroupsPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.group != undefined) {
         let index = this.groups.indexOf(group);
         this.groups[index] = data.data.group;
         this.sort();

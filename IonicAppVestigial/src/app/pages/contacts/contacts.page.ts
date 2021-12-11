@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
 import { ModalController } from '@ionic/angular';
 import { ContactViewPage } from '../contact-view/contact-view.page'
@@ -14,10 +14,9 @@ export class ContactsPage implements OnInit {
 
   contacts: Contact[];
   filteredList: Contact[];
-
   groups: String[];
 
-  constructor(private contactsService: ContactsService, private modalController: ModalController, private changeDetector: ChangeDetectorRef) { }
+  constructor(private contactsService: ContactsService, private modalController: ModalController) { }
 
   ngOnInit() {
     this.getContacts();
@@ -119,7 +118,8 @@ export class ContactsPage implements OnInit {
   }
 
   async showContact(contact: Contact) {
-    //console.log(contact);
+    let index = this.contacts.indexOf(contact);
+
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ContactViewPage,
@@ -129,11 +129,28 @@ export class ContactsPage implements OnInit {
     });
     modal.onDidDismiss().then(data => {
       if (data.data != undefined) {
+        let contact = data.data.contact;
+        console.log(contact);
+
         if (data.data.deleted == true) {
-          let contact = data.data.contact;
           let index = this.contacts.indexOf(contact);
           this.contacts.splice(index, 1);
           this.filteredList = this.contacts;
+        }
+        else {
+          this.contacts[index] = new Contact(
+            contact.address,
+            contact.alias,
+            contact.description,
+            contact.email,
+            contact.name,
+            contact.owner,
+            contact.phone,
+            contact.prefix,
+            contact.surname
+          );
+          console.log(this.contacts[index]);
+          this.sort();
         }
       }
     });

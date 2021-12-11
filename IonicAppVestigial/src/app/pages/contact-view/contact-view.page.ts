@@ -13,7 +13,7 @@ export class ContactViewPage implements OnInit {
 
 	contact: Contact;
 
-  constructor(private contactsService: ContactsService, public modalController: ModalController) { }
+  constructor(private contactsService: ContactsService, private modalController: ModalController) { }
 
   ngOnInit() {
     //console.log(this.contact);
@@ -30,12 +30,17 @@ export class ContactViewPage implements OnInit {
   }
 
   async editContact(contact: Contact) {
-    //console.log(contact);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ModifyContactPage,
       componentProps: {
         contact: contact,
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined && data.data.modified == true) {
+        this.contact = data.data.contact;
+        contact = data.data.contact;
       }
     });
     return await modal.present();

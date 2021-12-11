@@ -69,7 +69,7 @@ export class LoginPagePage implements OnInit {
 						message: "Error en inicio de sesion",
 						translucent: true
 					});
-					await toast.present();
+					return await toast.present();
 					//alert("Error en inicio de sesion");
 				}
 			}	

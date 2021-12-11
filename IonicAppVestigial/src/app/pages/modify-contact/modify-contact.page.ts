@@ -32,15 +32,17 @@ export class ModifyContactPage implements OnInit {
     })
   }
 
-  dismiss() {
+  dismiss(contact: Contact, modified: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'contact': contact,
+      'modified': modified
     });
   }
 
-  onSubmit(contact: any){
+  onSubmit(contact: any) {
     let data = {
       "user": sessionStorage.getItem("user"),
       "name": contact.name,
@@ -56,7 +58,7 @@ export class ModifyContactPage implements OnInit {
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
-        this.dismiss();
+        this.dismiss(contact, true);
         //alert("Funciona!!!!");
       }
     );
