@@ -42,6 +42,11 @@ export class ContactsService {
     return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/ShowProfile', data, { responseType:'text' });
     //return this.httpClient.post('http://localhost:8080/Vestigial/ShowProfile', data, { responseType:'text' });
   }
+
+  public importContact(data: string) {
+    return this.httpClient.post('https://proxyhokuro.herokuapp.com/https://hokuro.xyz/Vestigial/ImportContact', data, { responseType:'text' });
+    //return this.httpClient.post('http://localhost:8080/Vestigial/ImportContact', data, { responseType:'text' });
+  }
   
 
 }

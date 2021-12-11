@@ -50,7 +50,8 @@ export class ModifyContactPage implements OnInit {
       "address": contact.address,
       "email": contact.email,
       "description": contact.description,
-      "alias": contact.alias
+      "alias": contact.alias,
+      "groups" : "[]"
     };
     this.contactService.updateContact(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),

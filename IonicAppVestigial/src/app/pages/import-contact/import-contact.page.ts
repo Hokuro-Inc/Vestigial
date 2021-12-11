@@ -44,18 +44,19 @@ export class ImportContactPage implements OnInit {
 
 
            console.log(data.owner);
-           this.contact = new Contact (
-             data.address,
-                data.alias,
-                data.description,
-                data.email,
-                data.name,
-                sessionStorage.getItem("user"),
-                data.phone,
-                data.prefix,
-                data.surname
-              );
-           this.contactService.addContact(JSON.stringify(this.contact)).subscribe(
+           let contact = {
+              "owner": sessionStorage.getItem("user"),
+              "name": data.name,
+              "surname": data.surname,
+              "prefix": data.prefix,
+              "phone": data.phone,
+              "address": data.address,
+              "email": data.email,
+              "description": data.description,
+              "alias": data.alias,
+              "groups" : [""]
+            };
+           this.contactService.importContact(JSON.stringify(contact)).subscribe(
               (response) => console.log("Respuesta", response),
               (error) => console.log("Error", error),
               () => {
