@@ -3,8 +3,11 @@ package es.uco.ism.servlet.login;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,6 +21,7 @@ import org.json.JSONObject;
 import es.uco.ism.business.user.UserDTO;
 import es.uco.ism.data.UserDAO;
 import es.uco.ism.display.UserBean;
+import es.uco.ism.utils.Mail;
 import es.uco.ism.utils.PasswordHashing;
 /**
  * Servlet implementation class LoginController
@@ -126,6 +130,21 @@ public class RecoverController extends HttpServlet {
 							userDTO.setSalt(Salt);
 							
 							userDAO.UpdatePassword(userDTO);
+							
+							SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+							Date date = new Date(System.currentTimeMillis());
+							System.out.println(formatter.format(date));
+							
+							Mail correo = new Mail(UserEmail, "Vestigial", "<h1>Alerta de seguridad.</h1>"
+				            		+ "<h2>Su contraseña ha sido cambiada con fecha: "+ date +"</h2> + "
+				            				+ "<h3>Si sospecha que no ha sido usted quien la ha cambiado contacte con nosotros </h3>");
+							
+							try {
+								correo.sendEmail();
+							} catch (MessagingException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						else {
 							nextPage = "View/Main/RecoverPassword.jsp";
