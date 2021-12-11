@@ -70,13 +70,9 @@ export class ContactViewPage implements OnInit {
     console.log("Contacto a guardar en el nfc",JSON.stringify(contact));
     var mensaje = [
       this.ndef.textRecord(JSON.stringify(contact))
-    ]
+    ];
     console.log("Mensaje que se grabara " , mensaje);
-    this.nfc.write(
-        mensaje,
-        success => console.log('wrote data to tag'),
-        error => console.log(error)
-    );
+    this.nfc.write(mensaje);
 
   }
 
