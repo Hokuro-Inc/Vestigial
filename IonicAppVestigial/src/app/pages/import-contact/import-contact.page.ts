@@ -26,47 +26,41 @@ export class ImportContactPage implements OnInit {
   constructor(private modalController: ModalController, private nfc: NFC, private ndef: Ndef, private contactService: ContactsService, private navController: NavController) { }
   
   async ngOnInit() {
+     let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
+     this.readerModePage = this.nfc.readerMode(flags).subscribe(
+         tag => {
+           console.log(JSON.stringify(tag));
+           let dataNFC = tag.ndefMessage;
+        
+           let aux = this.nfc.bytesToString(dataNFC[0].payload);
 
+           console.log("MENSAJE TARJETA " , aux);
+         },
+         err => console.log('Error reading tag', err)
+     );
 
-    let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
-    this.readerModePage = this.readerModePage(flags).subscribe(
-      tag => console.log(JSON.stringify(tag)),
-      err => console.log(JSON.stringify(err)),
-      
-      )
-/*
-    if (this.agente == "iOS") {
-    		try {
-				    let tag = await this.nfc.scanNdef();
-				    console.log(JSON.stringify(tag));
-				 } catch (err) {
-				     console.log('Error reading tag', err);
-				 }
-    }
-    else {
-      let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
-      this.readerModePage = this.nfc.readerMode(flags).subscribe(
-      	tag => console.log(JSON.stringify(tag)),
-      	err => console.log('Error reading tag', err)
-      );         
-    }
+    // Read NFC Tag - iOS
+    // On iOS, a NFC reader session takes control from your app while scanning tags then returns a tag
+    try {
+        let tag = await this.nfc.scanNdef();
+        console.log(JSON.stringify(tag));
+        let dataNFC = tag.ndefMessage;
+        
+        let aux = this.nfc.bytesToString(dataNFC[0].payload);
 
+        console.log("MENSAJE TARJETA " , aux);
+     } catch (err) {
+         console.log('Error reading tag', err);
+     }
   }
 
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    if (this.agente != "iOS") {
-    		this.nfc.disableReaderMode().subscribe(
-      	tag => console.log(JSON.stringify(tag)),
-      	err => console.log('Error reading tag', err)
-      );         
-    }
-
     this.modalController.dismiss({
       'dismissed': true
     });
-    */
+    
   }
 
 }

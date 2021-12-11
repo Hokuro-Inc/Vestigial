@@ -8,6 +8,7 @@ import { ContactsPageRoutingModule } from './contacts-routing.module';
 
 import { ContactsPage } from './contacts.page';
 
+import { NFC,Ndef} from '@awesome-cordova-plugins/nfc/ngx';
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +16,7 @@ import { ContactsPage } from './contacts.page';
     IonicModule,
     ContactsPageRoutingModule
   ],
-  declarations: [ContactsPage]
+  declarations: [ContactsPage],
+  providers: [NFC,Ndef]
 })
 export class ContactsPageModule {}

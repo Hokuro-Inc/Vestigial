@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { Contact } from '../contacts/contacts.page'
 import { ModifyContactPage } from '../modify-contact/modify-contact.page'
 
+import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
+
 @Component({
   selector: 'app-contact-view',
   templateUrl: './contact-view.page.html',
@@ -13,7 +15,7 @@ export class ContactViewPage implements OnInit {
 
 	contact: Contact;
 
-  constructor(private contactsService: ContactsService, public modalController: ModalController) { }
+  constructor(private contactsService: ContactsService, public modalController: ModalController,private nfc: NFC, private ndef: Ndef) { }
 
   ngOnInit() {
     //console.log(this.contact);
@@ -62,6 +64,20 @@ export class ContactViewPage implements OnInit {
         this.dismiss(contact, true);
       }
     ); 
+  }
+
+  async exportContact (contact: Contact) {
+    console.log("Contacto a guardar en el nfc",JSON.stringify(contact));
+    var mensaje = [
+      this.ndef.textRecord(JSON.stringify(contact))
+    ]
+    console.log("Mensaje que se grabara " , mensaje);
+    this.nfc.write(
+        mensaje,
+        success => console.log('wrote data to tag'),
+        error => console.log(error)
+    );
+
   }
 
 }
