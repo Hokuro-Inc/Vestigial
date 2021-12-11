@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MenuController, ModalController } from '@ionic/angular';
+import { MenuController, ModalController, ToastController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login-service/login.service';
 import { Router } from '@angular/router';
+import { duration } from 'moment';
 
 @Component({
   selector: 'app-login-page',
@@ -13,7 +14,7 @@ export class LoginPagePage implements OnInit {
 
   	validations_form: FormGroup;
 
-  	constructor(private modalController: ModalController, private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private menuController: MenuController) { }
+  	constructor(private modalController: ModalController, private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private menuController: MenuController, private toastController: ToastController) { }
 
 	ngOnInit(){
 		this.validations_form = this.formBuilder.group({
@@ -40,26 +41,36 @@ export class LoginPagePage implements OnInit {
 	onSubmit(values: any) {
 		//console.log("Page", values);
 		let res = false;
+		let user: any;
 
 		this.loginService.getData(values).subscribe(
 			(response) => {
 				console.log("Respuesta", response);
 				let data = JSON.parse(response);
-				sessionStorage.setItem("user", values.email);
-				sessionStorage.setItem("phone", data.user[0].phone + "-" + data.user[0].prefix);
-				//sessionStorage.setItem("groups", data.user[0].groups);
-				if (data.Mensaje.includes("OK")) res = true;
+				if (data.Mensaje.includes("OK")) {
+					res = true;
+					user = data.user[0];
+				}
 			},
 			(error) => console.log("Error", error),
-			() => {
+			async () => {
 				if (res == true) {
 					this.dismiss();
 					this.menuController.enable(true);
 					this.router.navigate(['/calendar']);
+					sessionStorage.setItem("user", values.email);
+					sessionStorage.setItem("phone", user.phone + "-" + user.prefix);
 					//alert("Funciona!!!");
 				}
 				else {
-					alert("Error en inicio de sesion");
+					const toast = await this.toastController.create({
+						color: "primary",
+						duration: 2000,
+						message: "Error en inicio de sesion",
+						translucent: true
+					});
+					await toast.present();
+					//alert("Error en inicio de sesion");
 				}
 			}	
 		);
