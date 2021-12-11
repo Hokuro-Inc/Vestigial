@@ -7,6 +7,9 @@ import { ModifyContactPage } from '../modify-contact/modify-contact.page'
 import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 
+import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
+
+
 @Component({
   selector: 'app-contact-view',
   templateUrl: './contact-view.page.html',
@@ -16,8 +19,10 @@ export class ContactViewPage implements OnInit {
 
 	contact: Contact;
 
-  constructor(private contactsService: ContactsService, public modalController: ModalController,private nfc: NFC, private ndef: Ndef,private callNumber: CallNumber) { 
-    nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
+  constructor(private contactsService: ContactsService, public modalController: ModalController,
+              private nfc: NFC, private ndef: Ndef,
+              private callNumber: CallNumber,private bluetoothSerial: BluetoothSerial) { 
+   
   }
 
   ngOnInit() {
@@ -69,19 +74,21 @@ export class ContactViewPage implements OnInit {
     ); 
   }
 
-  async exportContact (contact: Contact) {
+  async exportContactNFC (contact: Contact) {
     
-    this.nfc.addNdefListener(
+  this.nfc.enabled().then(value => console.log(value), reason => console.log(reason))
+
+    this.nfc.addTagDiscoveredListener(
       () => {
-        console.log('successfully attached ndef listener');
+        console.log('successfully attached ndef listener NFC');
       }, 
       (err) => {
-        console.log('error attaching ndef listener', err);
+        console.log('error attaching ndef listener NFC', err);
       }).subscribe((event) => {
-        console.log('received ndef message. the tag contains: ', event.tag);
-        console.log('decoded tag id', this.nfc.bytesToHexString(event.tag.id));
+        console.log('received ndef message. the tag contains: NFC', event.tag);
+        console.log('decoded tag id NFC', this.nfc.bytesToHexString(event.tag.id));
         let message = this.ndef.textRecord('Hello world');
-        this.nfc.write([message]).then(() => {console.log("EXITO")}).catch((error) => {console.log("ERROR", error)});
+        this.nfc.write([message]).then(() => {console.log("EXITO NFC")}).catch((error) => {console.log("ERROR", error)});
     });
 
     /*console.log("Contacto a guardar en el nfc",JSON.stringify(contact));
@@ -113,17 +120,40 @@ export class ContactViewPage implements OnInit {
 
   }  
 
+  async exportContactBluetooth (contact: Contact) {
+    
+        this.nfc.enabled().then(value => console.log(value), reason => console.log(reason))
+
+    this.nfc.addNdefFormatableListener(
+      () => {
+        console.log('successfully attached ndef listener BLUE');
+      }, 
+      (err) => {
+        console.log('error attaching ndef listener BLUIE', err);
+      }).subscribe((event) => {
+        console.log('received ndef message. the tag contains BLUIE: ', event.tag);
+        console.log('decoded tag id BLUE', this.nfc.bytesToHexString(event.tag.id));
+        let message = this.ndef.textRecord('Hello world');
+        this.nfc.write([message]).then(() => {console.log("EXITO BLUETOH")}).catch((error) => {console.log("ERROR", error)});
+    });
+
+  }
+
+  async exportListener() {
+     this.nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
+  }
   onNdefTagScanned(nfcEvent: any) {
 
     // Create an NDEF text record
+    console.log("HOLA HE LEIDO UNA TARJETA")
     const record = this.ndef.textRecord(JSON.stringify(this.contact), "en", null);
     // an NDEF message is an array of NDEF records    
     const message = [record];
 
     // write to the tag
     this.nfc.write(message).then(
-      _ => console.log('Wrote message to tag'),
-      error => console.log('Write failed', error)
+      _ => console.log('Wrote message to tag LISTENER'),
+      error => console.log('Write failed LISTENER', error)
     )
   }
 

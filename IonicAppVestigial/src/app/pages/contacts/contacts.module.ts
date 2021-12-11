@@ -12,6 +12,8 @@ import { NFC,Ndef} from '@awesome-cordova-plugins/nfc/ngx';
 
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 
+import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +22,6 @@ import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
     ContactsPageRoutingModule
   ],
   declarations: [ContactsPage],
-  providers: [NFC,Ndef,CallNumber]
+  providers: [NFC,Ndef,CallNumber,BluetoothSerial]
 })
 export class ContactsPageModule {}
