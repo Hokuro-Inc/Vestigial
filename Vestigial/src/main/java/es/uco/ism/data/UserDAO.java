@@ -119,7 +119,9 @@ public class UserDAO extends DBConnectImpl {
             	stmt.close();
             }
             
-            Mail correo = new Mail(user.getEmail(), "Vestigial", "<h1>Se bienvenido a nuestra aplicación, esperamos que tu estancia sea agradable.</h1>");
+            Mail correo = new Mail(user.getEmail(), "Vestigial", "<h1>Se bienvenido a nuestra aplicación, esperamos que tu estancia sea agradable.</h1>"
+            		+ "<h2>Tu codigo de recuperación de la contraseña es: " + code + "</h2>");
+            
             correo.sendEmail();
             
         }
