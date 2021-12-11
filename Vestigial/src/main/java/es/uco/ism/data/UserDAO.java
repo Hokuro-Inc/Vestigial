@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 
 import es.uco.ism.data.db.impl.*;
 import es.uco.ism.business.user.UserDTO;
+import es.uco.ism.utils.Mail;
 
 public class UserDAO extends DBConnectImpl {
 
@@ -106,11 +108,20 @@ public class UserDAO extends DBConnectImpl {
             stmt.setString(2, user.getPwd());
             stmt.setString(3, user.getSalt());
             stmt.setString(4, user.getPhone()+"-"+user.getPrefix());           
+            
+            Random r = new Random();
+    		int code =  r.nextInt(1000000);
+    		
+            stmt.setInt(5, code);
             status = stmt.executeUpdate();
                         
             if (stmt != null) {
             	stmt.close();
             }
+            
+            Mail correo = new Mail(user.getEmail(), "Vestigial", "<h1>Se bienvenido a nuestra aplicación, esperamos que tu estancia sea agradable.</h1>");
+            correo.sendEmail();
+            
         }
         catch (Exception e) {
             e.printStackTrace();
