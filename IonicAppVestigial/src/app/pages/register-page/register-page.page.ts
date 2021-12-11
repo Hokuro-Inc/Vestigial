@@ -67,6 +67,7 @@ export class RegisterPagePage implements OnInit {
         "address": "",
         "description": "",
         "alias": "",
+        "groups": [""],
         "owner": values.email,
       };
 
