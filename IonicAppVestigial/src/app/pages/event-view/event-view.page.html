@@ -13,7 +13,15 @@
     <ion-item>Descripcion: {{event.description}}</ion-item>
     <ion-item>Inicio: {{event.start}}</ion-item>
     <ion-item>Fin: {{event.end}}</ion-item>
-    <ion-item button (click)="editEvent(event)">Editar</ion-item>
-    <ion-item button (click)="deleteEvent(event)">Eliminar</ion-item>
 </ion-list>
+  <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
+      <ion-fab-button (click)="editEvent(event)">
+        <ion-icon name = "pencil"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical = "bottom"  horizontal = "start" slot = "fixed">
+      <ion-fab-button color ="danger" (click)="deleteEvent(event)">
+        <ion-icon name = "trash"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
 </ion-content>
