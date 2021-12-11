@@ -126,17 +126,19 @@ const routes: Routes = [
   {
     path: 'add-group',
     loadChildren: () => import('./pages/add-group/add-group.module').then( m => m.AddGroupPageModule)
-  },  {
+  },
+  {
     path: 'groups',
     loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
   },
   {
     path: 'modify-group',
     loadChildren: () => import('./pages/modify-group/modify-group.module').then( m => m.ModifyGroupPageModule)
+  },
+  {
+    path: 'export-contact-bluetooth',
+    loadChildren: () => import('./pages/export-contact-bluetooth/export-contact-bluetooth.module').then( m => m.ExportContactBluetoothPageModule)
   }
-
-
-
 ];
 
 @NgModule({

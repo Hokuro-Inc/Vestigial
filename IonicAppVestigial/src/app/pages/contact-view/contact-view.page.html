@@ -10,10 +10,14 @@
 <ion-content>
 	<ion-list >
         <ion-item>Alias: {{contact.alias}}</ion-item>
-        <ion-item>Contacto: +{{contact.prefix}} {{contact.phone}}</ion-item>
+        <ion-item button (click)="llamarContacto(contact)">Contacto: +{{contact.prefix}} {{contact.phone}}</ion-item>
         <ion-item>Direccion: {{contact.address}}</ion-item>
         <ion-item>Email: {{contact.email}}</ion-item>
         <ion-item>Descripcion: {{contact.description}}</ion-item>
+        <ion-item button (click)="editContact(contact)">Editar</ion-item>
+        <ion-item button (click)="deleteContact(contact)">Eliminar</ion-item>
+        <ion-item button (click)="exportContactNFC(contact)">Exportar mediante NFC</ion-item>
+        <ion-item button (click)="exportContactBluetooth(contact)">Exportar mediante Bluetooth</ion-item>
     </ion-list>
     <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
       <ion-fab-button (click)="editContact(contact)">

@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Exportar Contacto por Bluetooth</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <button (click) = "ActivarBluetooth()" >Buscar dispositivos</button>
+
+  <div *ngFor = "let data of Dispositivos">
+    <p>Nombre: {{data.name}} </p>    
+    <p>Nombre: {{data.name}} </p>    
+
+    <button (click) = "ConectarBluetooth(data.address)" >Buscar dispositivos</button>
+  </div>
+</ion-content>
