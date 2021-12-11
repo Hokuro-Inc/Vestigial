@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs'
+import { Contact } from '../contacts/contacts.page'
 
 import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
 
@@ -17,10 +18,7 @@ export class ImportContactPage implements OnInit {
   agente : String;
   readerModePage : any;
 
-  readingTag:   boolean   = false;
-  writingTag:   boolean   = false;
-  isWriting:    boolean   = false;
-  ndefMsg:      string    = '';
+  contact : Contact = new Contact("","","","","","","","","");
 
 
   constructor(private modalController: ModalController, private nfc: NFC, private ndef: Ndef, private contactService: ContactsService, private navController: NavController) { }
@@ -35,6 +33,36 @@ export class ImportContactPage implements OnInit {
            let aux = this.nfc.bytesToString(dataNFC[0].payload);
 
            console.log("MENSAJE TARJETA " , aux);
+
+           aux = aux.split("{")[1];
+    
+           console.log("Spliteado " , aux);
+
+           aux = "{"+aux;
+
+           let data = JSON.parse(aux);
+
+
+           console.log(data.owner);
+           this.contact = new Contact (
+             data.address,
+                data.alias,
+                data.description,
+                data.email,
+                data.name,
+                sessionStorage.getItem("user"),
+                data.phone,
+                data.prefix,
+                data.surname
+              );
+           this.contactService.addContact(JSON.stringify(this.contact)).subscribe(
+              (response) => console.log("Respuesta", response),
+              (error) => console.log("Error", error),
+              () => {
+                this.dismiss();
+                //alert("Funciona!!!!");
+              }
+            );
          },
          err => console.log('Error reading tag', err)
      );

@@ -3,6 +3,7 @@ import { ContactsService } from 'src/app/services/contacts-service/contacts.serv
 import { ModalController } from '@ionic/angular';
 import { Contact } from '../contacts/contacts.page'
 import { ModifyContactPage } from '../modify-contact/modify-contact.page'
+import { ExportContactBluetoothPage } from '../export-contact-bluetooth/export-contact-bluetooth.page'
 
 import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
@@ -83,26 +84,18 @@ export class ContactViewPage implements OnInit {
 
   }  
 
-/*
+
   async exportContactBluetooth (contact: Contact) {
-    
-        this.nfc.enabled().then(value => console.log(value), reason => console.log(reason))
-
-    this.nfc.addNdefFormatableListener(
-      () => {
-        console.log('successfully attached ndef listener BLUE');
-      }, 
-      (err) => {
-        console.log('error attaching ndef listener BLUIE', err);
-      }).subscribe((event) => {
-        console.log('received ndef message. the tag contains BLUIE: ', event.tag);
-        console.log('decoded tag id BLUE', this.nfc.bytesToHexString(event.tag.id));
-        let message = this.ndef.textRecord('Hello world');
-        this.nfc.write([message]).then(() => {console.log("EXITO BLUETOH")}).catch((error) => {console.log("ERROR", error)});
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ExportContactBluetoothPage,
+      componentProps: {
+        contact: contact,
+      }
     });
-
+    return await modal.present();
   }
-*/
+
   async exportContactNFC() {
      this.listener = this.nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
   }

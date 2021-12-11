@@ -129,6 +129,10 @@ const routes: Routes = [
   },  {
     path: 'groups',
     loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
+  },
+  {
+    path: 'export-contact-bluetooth',
+    loadChildren: () => import('./pages/export-contact-bluetooth/export-contact-bluetooth.module').then( m => m.ExportContactBluetoothPageModule)
   }
 
 
