@@ -20,7 +20,7 @@
   <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="date" let-noEventsLabel="noEventsLabel">
     <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
       <ion-item button *ngFor="let event of filteredEvents" (click)="showEvent(event)">
-        <div>{{event.name}} -> {{event.description}}</div>
+        <div>{{event.name}}</div>
       </ion-item>
       <ion-item *ngIf="filteredEvents.length==0">
         <div class="no-events-label">{{noEventsLabel}}</div>
