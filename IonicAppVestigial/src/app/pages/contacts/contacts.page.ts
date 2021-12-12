@@ -129,7 +129,7 @@ export class ContactsPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined  && data.data.contact != undefined) {
         let contact = data.data.contact;
 
         if (data.data.deleted == true) {
@@ -177,7 +177,7 @@ export class ContactsPage implements OnInit {
       }
     });      
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.contact != undefined) {
         let contact = data.data.contact;
         this.contacts.push(new Contact(
           contact.address,
