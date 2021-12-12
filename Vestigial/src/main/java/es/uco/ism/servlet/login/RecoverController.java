@@ -37,6 +37,8 @@ public class RecoverController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String url_bd = request.getServletContext().getInitParameter("URL");
+		String emailMAIL = request.getServletContext().getInitParameter("MAIL");
+		String passwordMAIL = request.getServletContext().getInitParameter("PWD");
 		String username_bd = request.getServletContext().getInitParameter("USER");
 		String password_bd = request.getServletContext().getInitParameter("PASSWORD");
 		String sql = request.getServletContext().getInitParameter("sql");
@@ -89,7 +91,7 @@ public class RecoverController extends HttpServlet {
 				            				+ "<h3>Si sospecha que no ha sido usted quien la ha cambiado contacte con nosotros </h3>");
 							
 							try {
-								correo.sendEmail();
+								correo.sendEmail(emailMAIL,passwordMAIL);
 							} catch (MessagingException | IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

@@ -15,7 +15,9 @@ public class TestMailImpl {
 		Mail mail = new Mail("pedropgarciap@gmail.com", "hola", "pito");
 		
 		System.out.println("PRUEBA CLASE MAIL");
-		
-		mail.sendEmail();
+
+		String MAIL = "hokuroincorporated@gmail.com";
+		String PWD = "adaylachupa";
+		mail.sendEmail(MAIL,PWD);
 	}
 }
