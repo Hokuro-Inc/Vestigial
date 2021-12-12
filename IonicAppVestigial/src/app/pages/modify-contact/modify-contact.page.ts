@@ -32,13 +32,12 @@ export class ModifyContactPage implements OnInit {
     })
   }
 
-  dismiss(contact: Contact, modified: boolean = false) {
+  dismiss(contact: Contact) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
       'dismissed': true,
       'contact': contact,
-      'modified': modified
     });
   }
 
@@ -59,7 +58,7 @@ export class ModifyContactPage implements OnInit {
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
-        this.dismiss(contact, true);
+        this.dismiss(contact);
         //alert("Funciona!!!!");
       }
     );

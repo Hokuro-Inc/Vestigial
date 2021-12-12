@@ -13,50 +13,66 @@ export class ShowProfilePage implements OnInit {
 
 	contact: Contact  = new Contact("","","","","","","","","");
 
-  	constructor(private contactsService: ContactsService, public modalController: ModalController) { }
+  constructor(private contactsService: ContactsService, public modalController: ModalController) { }
 
-  	ngOnInit() {
-  		//console.log(this.contact);
-  		let values = {
-        	"user": sessionStorage.getItem("user"),
-        	"phone": sessionStorage.getItem("phone"),
-      	};
-  		this.contactsService.getProfile(JSON.stringify(values)).subscribe(
-			(response) =>{
-				//console.log("RespuestaShow", response)
-				if (response != '') {
-		        	let data = JSON.parse(response).Profile;
-		            this.contact = new Contact(
-						data[0].address,
-						data[0].alias,
-						data[0].description,
-						data[0].email,
-						data[0].name,
-						data[0].owner,
-						data[0].phone,
-						data[0].prefix,
-						data[0].surname
-		            );
-		        };
-			},
-			(error) => console.log("Error", error),
-			() => {
-				console.log("Completed");
-				//alert("Funciona!!!!");
-			}
-		);
-  	}
+  ngOnInit() {
+    //console.log(this.contact);
+    let values = {
+       "user": sessionStorage.getItem("user"),
+       "phone": sessionStorage.getItem("phone"),
+    };
+    this.contactsService.getProfile(JSON.stringify(values)).subscribe(
+      (response) =>{
+        //console.log("RespuestaShow", response)
+        if (response != '') {
+          let profile = JSON.parse(response).Profile[0];
+          this.contact = new Contact(
+            profile.address,
+            profile.alias,
+            profile.description,
+            profile.email,
+            profile.name,
+            profile.owner,
+            profile.phone,
+            profile.prefix,
+            profile.surname
+          );
+        };
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        //alert("Funciona!!!!");
+      }
+    );
+  }
 
 	async editContact(contact: Contact) {
-	    //console.log(contact);
-	    const modal = await this.modalController.create({
-			// Data passed in by componentProps
-			component: ModifyContactPage,
-			componentProps: {
-				contact: contact,
-			}
-	    });
-	    return await modal.present();
-	}
+    //console.log(contact);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ModifyContactPage,
+      componentProps: {
+        contact: contact,
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined && data.data.contact != undefined) {
+        let profile = data.data.contact;
+        this.contact = new Contact(
+          profile.address,
+          profile.alias,
+          profile.description,
+          profile.email,
+          profile.name,
+          profile.owner,
+          profile.phone,
+          profile.prefix,
+          profile.surname
+        );
+      }
+    });
+    return await modal.present();
+  }
 
 }
