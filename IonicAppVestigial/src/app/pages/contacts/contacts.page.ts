@@ -203,7 +203,7 @@ export class ContactsPage implements OnInit {
       component: ImportContactPage,
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.contact != undefined) {
         let contact = data.data.contact;
         this.contacts.push(new Contact(
           contact.address,

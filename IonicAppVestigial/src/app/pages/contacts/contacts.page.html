@@ -13,10 +13,11 @@
         <ion-item *ngIf="contact.email != contact.owner" button (click)="showContact(contact)">
             <ion-label>
               <h2>{{contact.fullname}}</h2>
-            </ion-label>
-            <ion-label text-rigth>
               <p>{{contact.alias}}</p>
             </ion-label>
+            <!--<ion-label text-rigth>
+              <p>{{contact.alias}}</p>
+            </ion-label>-->
           </ion-item>
         </ion-list>
 
