@@ -21,12 +21,12 @@
 
     <ion-item>
       <ion-label position="floating">Fecha de Inicio</ion-label>
-      <ion-datetime displayFormat="D MMM YYYY H:mm" name="start" formControlName="start" ></ion-datetime>
+      <ion-datetime monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" cancelText="Cancelar" doneText="Ok" displayFormat="D MMM YYYY H:mm" name="start" formControlName="start" min="{{minDate}}" max="{{maxDate}}"></ion-datetime>
     </ion-item> 
     
     <ion-item>
       <ion-label position="floating">Fecha de Fin</ion-label>
-      <ion-datetime displayFormat="D MMM YYYY H:mm" name="end" formControlName="end" ></ion-datetime>
+      <ion-datetime monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" cancelText="Cancelar" doneText="Ok" displayFormat="D MMM YYYY H:mm" name="end" formControlName="end" min="{{minDate}}" max="{{maxDate}}"></ion-datetime>
     </ion-item>
 
     <ion-row>
