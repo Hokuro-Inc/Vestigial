@@ -9,8 +9,8 @@
     </ion-header>
     <ion-content fullscreen>
 
-      <ion-list *ngFor="let contact of filteredList; trackBy: track">
-        <ion-item *ngIf="contact.email != contact.owner" button (click)="showContact(contact)">
+      <ion-list>
+        <ion-item *ngFor="let contact of filteredList; trackBy: track"  [hidden]="contact.email == contact.owner" button (click)="showContact(contact)">
             <ion-label>
               <h2>{{contact.fullname}}</h2>
               <p>{{contact.alias}}</p>
