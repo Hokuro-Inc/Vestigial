@@ -4,12 +4,12 @@
       <ion-buttons slot="start">
         <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
       </ion-buttons>
-       <ion-title>Nota {{notepad.name}} </ion-title>
+       <ion-title>Nota: {{notepad.name}} </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
 
-<h2>{{ notepad.name }}</h2>   
+<h2><u>{{ notepad.name }}</u></h2>   
 <p>{{ notepad.text }}</p>
 
 <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
