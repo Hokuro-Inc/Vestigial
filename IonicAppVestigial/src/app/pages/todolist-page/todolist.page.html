@@ -10,8 +10,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content fullscreen>
-      <ion-list *ngFor="let task of todolist; let i = index">
-        <ion-item button (click)="showTask(todolist[i])">{{todolist[i].id}} -> {{todolist[i].name}}</ion-item>
+      <ion-list>
+        <ion-item *ngFor="let task of todolist" button (click)="showTask(task)">{{task.id}} -> {{task.name}}</ion-item>
       </ion-list>
   
       <ion-col>
@@ -22,25 +22,5 @@
       </ion-col>
     </ion-content>
 
-    
-    
-
   </ion-app>
-
-  <script>
-    const searchbar = document.querySelector('ion-searchbar');
-    const items = Array.from(document.querySelector('ion-list').children);
-
-    searchbar.addEventListener('ionInput', handleInput);
-
-    function handleInput(event) {
-      const query = event.target.value.toLowerCase();
-      requestAnimationFrame(() => {
-        items.forEach(item => {
-          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
-          item.style.display = shouldShow ? 'block' : 'none';
-        });
-      });
-    }
-  </script>
 </body>

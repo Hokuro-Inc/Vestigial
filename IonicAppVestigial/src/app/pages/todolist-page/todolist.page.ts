@@ -50,6 +50,16 @@ export class TodolistPage implements OnInit {
     );
   }
 
+  dismiss(list: List, deleted: boolean = false) {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      'dismissed': true,
+      'list': list,
+      'deleted': deleted
+    });
+  }
+
   async showTask(task: Task) {
     //console.log(task);
     const modal = await this.modalController.create({
@@ -82,7 +92,7 @@ export class TodolistPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.task) {
         let task = data.data.task;
         this.todolist.push(new Task(
           data.data.id,
@@ -98,34 +108,26 @@ export class TodolistPage implements OnInit {
   }
 
   async deleteList() {
-    //console.log(listaElegida);
-    let datas = {
-        "user": sessionStorage.getItem("user"),
-        "idLista" :this.lista
-      };
-      this.todolistService.removeToDoList(JSON.stringify(datas)).subscribe(
-        (response) => { 
-          //console.log("Respuesta", response);
-          if (response != '') {
-            let data = JSON.parse(response).Mensaje
-            console.log("Mensaje",data)
-          }
-        },
-        (error) => console.log("Error", error),
-        () => {
-          console.log("Completed");
-          this.dismiss();
+    //console.log(this.lista);
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "idLista": this.lista.name
+    };
+
+    this.todolistService.removeToDoList(JSON.stringify(data)).subscribe(
+      (response) => { 
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje
+          console.log("Mensaje",data)
         }
-
-      ); 
-  }
-
-  dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-      'dismissed': true
-    });
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        this.dismiss(this.lista, true);
+      }
+    );
   }
 
 }

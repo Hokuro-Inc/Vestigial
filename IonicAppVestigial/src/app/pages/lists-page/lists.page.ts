@@ -51,6 +51,14 @@ export class ListsPage implements OnInit {
         lista: listaElegida,
       }
     });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        if (data.data.deleted) {
+          let index = this.lists.indexOf(listaElegida);
+          this.lists.splice(index, 1);
+        }
+      }
+    });
     return await modal.present();
   }
 
@@ -61,7 +69,7 @@ export class ListsPage implements OnInit {
       component: AddTodolistPage,
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.list != undefined) {
         let list = data.data.list;
         this.lists.push(list);
       }
