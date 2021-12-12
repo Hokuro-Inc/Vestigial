@@ -72,12 +72,21 @@ export class NotepadsPage implements OnInit {
   }
 
   async showNotePad(note: Notepad) {
-    //console.log(contact);
+    //console.log(note);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: NotepadPage,
       componentProps: {
-        note: note,
+        notepad: note,
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        if (data.data.deleted) {
+          let notepad = data.data.notepad;
+          let index = this.notepads.indexOf(notepad);
+          this.notepads.splice(index, 1);
+        }
       }
     });
     return await modal.present();

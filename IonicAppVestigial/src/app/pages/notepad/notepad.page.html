@@ -4,21 +4,21 @@
       <ion-buttons slot="start">
         <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
       </ion-buttons>
-       <ion-title>Nota {{note.name}} </ion-title>
+       <ion-title>Nota {{notepad.name}} </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
 
-<h2>{{ note.name }}</h2>   
-<p>{{ note.text }}</p>
+<h2>{{ notepad.name }}</h2>   
+<p>{{ notepad.text }}</p>
 
 <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
-    <ion-fab-button (click)="editNotePad(note)">
+    <ion-fab-button (click)="editNotePad(notepad)">
       <ion-icon name = "pencil"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical = "bottom"  horizontal = "start" slot = "fixed">
-    <ion-fab-button color ="danger" (click)="deleteNotePad(note)">
+    <ion-fab-button color ="danger" (click)="deleteNotePad(notepad)">
       <ion-icon name = "trash"></ion-icon>
     </ion-fab-button>
 </ion-fab>

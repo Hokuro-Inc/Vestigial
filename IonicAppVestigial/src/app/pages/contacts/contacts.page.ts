@@ -131,7 +131,6 @@ export class ContactsPage implements OnInit {
     modal.onDidDismiss().then(data => {
       if (data.data != undefined) {
         let contact = data.data.contact;
-        console.log(contact);
 
         if (data.data.deleted == true) {
           let index = this.contacts.indexOf(contact);
@@ -150,7 +149,7 @@ export class ContactsPage implements OnInit {
             contact.prefix,
             contact.surname
           );
-          console.log(this.contacts[index]);
+
           this.sort();
         }
       }

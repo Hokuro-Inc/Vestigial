@@ -16,18 +16,21 @@ export class NotepadPage implements OnInit {
   constructor(private notepadService: NotepadService, private modalController: ModalController) { }
 
   ngOnInit() {
-    //console.log(this.note);
+    //console.log(this.notepad);
   }
-  dismiss() {
+
+  dismiss(notepad: Notepad, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'notepad': notepad,
+      'deleted': deleted
     });
   }
 
   async editNotePad(notepad: Notepad) {
-    //console.log(contact);
+    //console.log(notepad);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ModifyNotePage,
@@ -39,11 +42,12 @@ export class NotepadPage implements OnInit {
   }
 
   async deleteNotePad(notepad: Notepad) {
-    let datas = {
+    //console.log(notepad)
+    let data = {
       "user": sessionStorage.getItem("user"),
       "name": notepad.name
     };
-    this.notepadService.removeNotePad(JSON.stringify(datas)).subscribe(
+    this.notepadService.removeNotePad(JSON.stringify(data)).subscribe(
       (response) => { 
         //console.log("Respuesta", response);
         if (response != '') {
@@ -54,6 +58,7 @@ export class NotepadPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         console.log("Completed");
+        this.dismiss(notepad, true);
       }
     );
   }
