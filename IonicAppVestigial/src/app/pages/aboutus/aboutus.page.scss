@@ -10,6 +10,10 @@ body {
   *, *:before, *:after {
     box-sizing: inherit;
   }
+
+  ion-menu-button {
+    color: var(--ion-color-primary);
+  }
   
   .column {
     float: left;
@@ -52,7 +56,7 @@ body {
     color: grey;
   }
   
-  .button {
+  .contactButton {
     border: none;
     outline: 0;
     display: inline-block;
