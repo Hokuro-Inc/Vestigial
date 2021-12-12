@@ -11,15 +11,20 @@
     </ion-header>
     <ion-content fullscreen>
       <ion-list>
-        <ion-item *ngFor="let task of todolist" button (click)="showTask(task)">{{task.id}} -> {{task.name}}</ion-item>
+        <ion-item *ngFor="let task of todolist" button (click)="showTask(task)"> {{task.name}}</ion-item>
       </ion-list>
   
-      <ion-col>
-        <ion-item button (click)="addTask()">Crear una nueva tarea</ion-item>
-      </ion-col>
-      <ion-col>
-        <ion-item button (click)="deleteList()">Borrar la lista {{lista.name}}</ion-item>
-      </ion-col>
+      
+      <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
+          <ion-fab-button (click)="addTask()">
+            <ion-icon name = "add"></ion-icon>
+          </ion-fab-button>
+      </ion-fab>
+      <ion-fab vertical = "bottom"  horizontal = "start" slot = "fixed">
+          <ion-fab-button color ="danger" (click)="deleteList()">
+            <ion-icon name = "trash"></ion-icon>
+          </ion-fab-button>
+      </ion-fab>
     </ion-content>
 
   </ion-app>
