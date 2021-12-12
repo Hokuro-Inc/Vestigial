@@ -14,8 +14,9 @@ export class CalendarPage implements OnInit {
 	events: Event[] = [];
 	filteredEvents: Event[] = [];
 	date: string;
-  	viewTitle: string;
-  	selectedDate: string;
+  viewTitle: string;
+  selectedDate: string;
+  eventSource: any[] = [];
  
 	calendar = {
 		mode: 'month',
@@ -45,17 +46,18 @@ export class CalendarPage implements OnInit {
 
 					if (data != '[]') {
 						data.forEach((element: any) => {
-						this.events.push(new Event(
-							element.id,
-							element.owner,
-							element.name,
-							element.description,
-							element.start,
-							element.end
-						));
+              this.events.push(new Event(
+                element.id,
+                element.owner,
+                element.name,
+                element.description,
+                element.start,
+                element.end
+              ));
 						});
-			
+
 						this.filter(this.selectedDate);
+            this.eventSource = this.createCalendarEvents();
 					}
 				}
 			},
@@ -65,6 +67,21 @@ export class CalendarPage implements OnInit {
 			}
 		);
 	}
+
+  createCalendarEvents() {
+    let events = [];
+
+    for (let i = 0; i < this.events.length; i += 1) {
+      events.push({
+          title: this.events[i].name,
+          startTime: new Date(this.getDate(this.events[i].start)),
+          endTime: new Date(this.getDate(this.events[i].start)),
+          allDay: true
+      });
+    }
+
+    return events;
+  }
 	
 	// Selected date reange and hence title changed
 	onViewTitleChanged(title: string) {
@@ -84,6 +101,7 @@ export class CalendarPage implements OnInit {
 					let event = data.data.event;
 					let index = this.events.indexOf(event);
 					this.events.splice(index, 1);
+          this.eventSource = this.createCalendarEvents();
 					this.filter(this.selectedDate);
 				}
 			}
@@ -99,13 +117,14 @@ export class CalendarPage implements OnInit {
 			if (data.data != undefined && data.data.event != undefined) {
 				let event = data.data.event;
 				this.events.push(new Event(
-				data.data.id,
-				event.owner,
-				event.name,
-				event.description,
-				event.start,
-				event.end
+          data.data.id,
+          event.owner,
+          event.name,
+          event.description,
+          event.start,
+          event.end
 				));
+        this.eventSource = this.createCalendarEvents();
 				this.filter(this.selectedDate);
 			}
 		});
@@ -124,13 +143,13 @@ export class CalendarPage implements OnInit {
 
 	filter(date: string) {
 		this.filteredEvents = this.events.filter(item => {
-			let dateStr = this.getDate(item.start.replace(' CET', ''));
+			let dateStr = this.getDate(item.start);
 			return date.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
 		});
 	}
 
 	getDate(dateStr: string) {
-		let date = new Date(dateStr);
+		let date = new Date(String(dateStr).replace(' CET', ''));
 		let day = String(date.getDate()).padStart(2, '0');
 		let month = String(date.getMonth() + 1).padStart(2, '0');
 		let year = date.getFullYear();
