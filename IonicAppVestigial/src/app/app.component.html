@@ -3,12 +3,12 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Vestigial</ion-list-header>
+          <ion-list-header><img src="assets/icon/logo_vestigial.png" width="41" height="31" class="imagen"><span class="letra"> &nbsp; Vestigial</span></ion-list-header>
           <div *ngIf="user == null; else elseBlock">
 
           </div>
           <ng-template #elseBlock>
-            <ion-note>{{user}}</ion-note>
+            <ion-note class="usuario">{{user}}</ion-note>
 
           </ng-template>
 
@@ -22,22 +22,6 @@
           </ion-menu-toggle>
 
         </ion-list>
-
-
-
-
-        
-
-        <!--
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
-      -->
 
       </ion-content>
       <ion-footer>
