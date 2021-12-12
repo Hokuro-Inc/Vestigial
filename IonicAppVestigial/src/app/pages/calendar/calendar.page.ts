@@ -43,20 +43,20 @@ export class CalendarPage implements OnInit {
 					let data = JSON.parse(response).Calendar;
 					this.events = [];
 
-          if (data != '[]') {
-            data.forEach((element: any) => {
-              this.events.push(new Event(
-                element.id,
-                element.owner,
-                element.name,
-                element.description,
-                element.start,
-                element.end
-              ));
-            });
-  
-            this.filter(this.selectedDate);
-          }					
+					if (data != '[]') {
+						data.forEach((element: any) => {
+						this.events.push(new Event(
+							element.id,
+							element.owner,
+							element.name,
+							element.description,
+							element.start,
+							element.end
+						));
+						});
+			
+						this.filter(this.selectedDate);
+					}
 				}
 			},
 			(error) => console.log("Error", error),
@@ -78,16 +78,16 @@ export class CalendarPage implements OnInit {
 				event: event
 			}
 		});
-    modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
-        if (data.data.deleted) {
-          let event = data.data.event;
-          let index = this.events.indexOf(event);
-          this.events.splice(index, 1);
-          this.filter(this.selectedDate);
-        }
-      }
-    });
+		modal.onDidDismiss().then(data => {
+			if (data.data != undefined) {
+				if (data.data.deleted) {
+					let event = data.data.event;
+					let index = this.events.indexOf(event);
+					this.events.splice(index, 1);
+					this.filter(this.selectedDate);
+				}
+			}
+		});
 		return await modal.present();
 	}
 
@@ -124,9 +124,9 @@ export class CalendarPage implements OnInit {
 
 	filter(date: string) {
 		this.filteredEvents = this.events.filter(item => {
-				let dateStr = this.getDate(item.start.replace(' CET', ''));
-				return date.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
-			});
+			let dateStr = this.getDate(item.start.replace(' CET', ''));
+			return date.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
+		});
 	}
 
 	getDate(dateStr: string) {
@@ -157,4 +157,5 @@ export class Event {
 		this.start = start;
 		this.end = end;
 	}
+
 }

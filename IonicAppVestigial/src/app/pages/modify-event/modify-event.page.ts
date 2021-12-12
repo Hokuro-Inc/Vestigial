@@ -13,8 +13,9 @@ import { NavController } from '@ionic/angular';
 export class ModifyEventPage implements OnInit {
 
   validations_form: FormGroup;
-
   event: Event;
+  minDate: string;
+  maxDate: string;
 
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private calendarService: CalendarService, private navController: NavController) { }
 
@@ -24,7 +25,22 @@ export class ModifyEventPage implements OnInit {
       description: new FormControl('', Validators.required),
       start: new FormControl('', Validators.required),
       end: new FormControl('', Validators.required)
-    })
+    }, { validator: this.dateLessThan('start', 'end') });
+    this.getMinDate();
+    this.getMaxDate();
+  }
+
+  dateLessThan(start: string, end: string) {
+    return (group: FormGroup): {[key: string]: any} => {
+      let f = group.controls[start];
+      let t = group.controls[end];
+      if (f.value >= t.value) {
+        return {
+          dates: "La fecha de inicio debe de ser menor que la de final"
+        };
+      }
+      return {};
+    }
   }
 
   dismiss() {
@@ -74,6 +90,20 @@ export class ModifyEventPage implements OnInit {
     let hour = String(date.getHours()).padStart(2, '0');
     let minute = String(date.getMinutes()).padStart(2, '0');
 		return month + " " + day + " " + year + " " + hour + ":" + minute;
+  }
+
+  getMinDate() {
+    let date = new Date();
+    let day = String(date.getDate()).padStart(2, '0');
+		let month = String(date.getMonth() + 1).padStart(2, '0');
+		let year = date.getFullYear();
+    this.minDate = year + '-' + month + '-' + day
+  }
+
+  getMaxDate() {
+    let date = new Date();
+    let year = date.getFullYear() + 100;
+    this.maxDate = String(year);
   }
 
 }
