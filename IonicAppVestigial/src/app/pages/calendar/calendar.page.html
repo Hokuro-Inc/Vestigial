@@ -1,34 +1,31 @@
 <ion-header translucent>
   <ion-toolbar>
-       <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
-       <ion-title>Calendar</ion-title>
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Calendar</ion-title>
   </ion-toolbar>
 </ion-header>
-
-  
-
  
 <ion-content>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addEvent()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-    <ion-col size="8" class="ion-text-center">
-      <h2>{{ viewTitle }}</h2>
-    </ion-col>
-    
-    <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="date" let-noEventsLabel="noEventsLabel">
-      <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
-          <ion-item button *ngFor="let event of filteredEvents" (click)="showEvent(event)">
-            <div>{{event.name}} -> {{event.description}}</div>
-          </ion-item>
-          <ion-item *ngIf="filteredEvents.length==0">
-            <div class="no-events-label">{{noEventsLabel}}</div>
-          </ion-item>
-      </ion-list>
+  <ion-col size="8" class="ion-text-center">
+    <h2>{{ viewTitle }}</h2>
+  </ion-col>
+  
+  <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="date" let-noEventsLabel="noEventsLabel">
+    <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+      <ion-item button *ngFor="let event of filteredEvents" (click)="showEvent(event)">
+        <div>{{event.name}} -> {{event.description}}</div>
+      </ion-item>
+      <ion-item *ngIf="filteredEvents.length==0">
+        <div class="no-events-label">{{noEventsLabel}}</div>
+      </ion-item>
+    </ion-list>
   </ng-template>
  
   <calendar
@@ -39,15 +36,11 @@
     (onEventSelected)="onEventSelected($event)"
     (onTitleChanged)="onViewTitleChanged($event)"
     (onTimeSelected)="onTimeSelected($event)"
-    startHour="6"
-    endHour="20"
-    step="30"
     startingDayWeek="1"
     showEventDetail="false"
     autoSelect="false"
     noEventsLabel="No hay eventos"
   >
   </calendar>
-
 
 </ion-content>

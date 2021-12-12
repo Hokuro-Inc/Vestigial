@@ -14,8 +14,8 @@ export class CalendarPage implements OnInit {
 	events: Event[] = [];
 	filteredEvents: Event[] = [];
 	date: string;
-  viewTitle: string;
-  selectedDate: string;
+  	viewTitle: string;
+  	selectedDate: string;
  
 	calendar = {
 		mode: 'month',
@@ -95,20 +95,20 @@ export class CalendarPage implements OnInit {
 		const modal = await this.modalController.create({
 			component: AddEventPage,
 		});
-    modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
-        let event = data.data.event;
-        this.events.push(new Event(
-          data.data.id,
-          event.owner,
-          event.name,
-          event.description,
-          event.start,
-          event.end
-        ));
-        this.filter(this.selectedDate);
-      }
-    });
+		modal.onDidDismiss().then(data => {
+			if (data.data != undefined && data.data.event != undefined) {
+				let event = data.data.event;
+				this.events.push(new Event(
+				data.data.id,
+				event.owner,
+				event.name,
+				event.description,
+				event.start,
+				event.end
+				));
+				this.filter(this.selectedDate);
+			}
+		});
 		return await modal.present();
 	}
 
@@ -119,15 +119,15 @@ export class CalendarPage implements OnInit {
 		let year = curDate.getFullYear();
 		this.date = year + '-' + month + '-' + day;*/
 		this.selectedDate = this.getDate(event.selectedTime);
-    this.filter(this.selectedDate);		
-  }
+		this.filter(this.selectedDate);		
+	}
 
-  filter(date: string) {
-    this.filteredEvents = this.events.filter(item => {
-			let dateStr = this.getDate(item.start.replace(' CET', ''));
-			return date.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
-		});
-  }
+	filter(date: string) {
+		this.filteredEvents = this.events.filter(item => {
+				let dateStr = this.getDate(item.start.replace(' CET', ''));
+				return date.indexOf(dateStr.substr(0, dateStr.indexOf(' '))) > -1;
+			});
+	}
 
 	getDate(dateStr: string) {
 		let date = new Date(dateStr);
