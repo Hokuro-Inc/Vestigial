@@ -45,32 +45,6 @@ export class NotepadsPage implements OnInit {
     );
   }
 
-  doRefresh (event : any ) {
-    let user = {
-      "user": sessionStorage.getItem("user"),
-    };
-
-    this.notepadService.getNotePads(JSON.stringify(user)).subscribe(
-      (response) => {
-        if (response != '') {
-          let data = JSON.parse(response).Blocs;
-          this.notepads = [];
-          data.forEach((element: any) => {
-            this.notepads.push(new Notepad(
-              element.name,
-              element.text
-            ));
-          });
-        }
-      },
-      (error) => console.log("Error", error),
-      () => {
-        event.target.complete();
-        console.log("Completed");
-      }
-    );
-  }
-
   async showNotePad(note: Notepad) {
     //console.log(note);
     const modal = await this.modalController.create({
@@ -98,7 +72,7 @@ export class NotepadsPage implements OnInit {
       component: AddNotePage,
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.notepad) {
         let notepad = data.data.notepad;
         this.notepads.push(new Notepad(
           notepad.name,
