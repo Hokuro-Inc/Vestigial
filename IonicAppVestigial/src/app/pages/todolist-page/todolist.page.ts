@@ -4,6 +4,7 @@ import { TodolistService } from 'src/app/services/todolist-service/todolist.serv
 import { TaskPage } from '../task-page/task.page'
 import { List } from '../lists-page/lists.page'
 import { AddTaskPage } from '../add-task/add-task.page';
+import { ModifyTaskPage } from '../modify-task/modify-task.page';
 
 @Component({
   selector: 'app-todolist',
@@ -48,14 +49,6 @@ export class TodolistPage implements OnInit {
         console.log("Completed");
       }
     );
-  }
-  
-  dismisss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-      'dismissed': true
-    });
   }
 
   dismiss(list: List, deleted: boolean = false) {
@@ -110,6 +103,18 @@ export class TodolistPage implements OnInit {
           "ToDo",
           task.lista
         ));
+      }
+    });
+    return await modal.present();
+  }
+
+  async editTask(task: Task) {
+    //console.log(contact);
+    const modal = await this.modalController.create({
+      // Data passed in by componentProps
+      component: ModifyTaskPage,
+      componentProps: {
+        task: task,
       }
     });
     return await modal.present();
@@ -178,7 +183,6 @@ export class TodolistPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         console.log("Completed");
-        //this.dismisss();
         //alert("Funciona!!!!");
       }
     );

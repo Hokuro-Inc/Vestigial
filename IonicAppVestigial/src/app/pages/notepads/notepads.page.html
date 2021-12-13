@@ -13,7 +13,10 @@
       <ion-item button (click) = "showNotePad(note)"> {{ note.name }} </ion-item>
 
       <ion-item-options side="start">
-        <ion-item-option color ="primary" (click)="editNotePad(note)">Editar</ion-item-option>
+        <ion-item-option color ="primary" (click)="editNotePad(note)">
+          <ion-icon slot = "icon-only" name ="pencil"></ion-icon>
+          Editar
+        </ion-item-option>
       </ion-item-options>
   
       <ion-item-options side="end">

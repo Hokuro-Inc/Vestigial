@@ -20,7 +20,6 @@ export class ModifyTaskPage implements OnInit {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      status: new FormControl('', Validators.required),
     });
   }
 
@@ -32,12 +31,12 @@ export class ModifyTaskPage implements OnInit {
     });
   }
 
-  onSubmit(task: any){
+  onSubmit(task: Task){
     let data = {
       "user": sessionStorage.getItem("user"),
       "nameTask": task.name,
-      "descriptionTask" : task.description,
-      "statusTask" : task.status,
+      "descriptionTask": task.description,
+      "statusTask" : this.task.status,
       "idLista" : this.task.list,
       "idTask" : this.task.id  
     };
