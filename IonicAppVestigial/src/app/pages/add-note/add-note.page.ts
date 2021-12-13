@@ -12,14 +12,32 @@ import { Notepad } from '../notepads/notepads.page';
 export class AddNotePage implements OnInit {
 
   validations_form: FormGroup;
-  note : Notepad;
+  note: Notepad;
+  notepads: Notepad[];
+
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private notepadService: NotepadService) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       text: new FormControl('', Validators.required),
-    })
+    }, { validator: this.notepadAlredyExists('name') });
+  }
+
+  notepadAlredyExists(notepad: string) {
+    return (formGroup: FormGroup): {[key: string]: any} => {
+      let n = formGroup.controls[notepad];
+
+      for (let i = 0; i < this.notepads.length; i += 1) {
+        if (String(n.value).indexOf(this.notepads[i].name) > -1 && String(n.value).trim() == this.notepads[i].name) {
+          return {
+            notepad: "El bloc de notas ya existe"
+          }
+        }
+      }
+  
+      return {};
+    }
   }
 
   dismiss(notepad: Notepad) {

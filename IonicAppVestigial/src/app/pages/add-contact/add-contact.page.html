@@ -46,7 +46,7 @@
 
     <ion-item>
         <ion-label>Grupos</ion-label>
-        <ion-select multiple="true" name="groups" formControlName="groups" >
+        <ion-select multiple="true" name="groups" formControlName="groups" cancelText="Cancelar" okText = "Ok">
           <ion-select-option *ngFor="let group of groups; let i = index" value="{{groups[i]}}">{{groups[i]}}</ion-select-option>
         </ion-select>
     </ion-item>

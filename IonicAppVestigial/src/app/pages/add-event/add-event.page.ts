@@ -29,14 +29,16 @@ export class AddEventPage implements OnInit {
   }
 
   dateLessThan(start: string, end: string) {
-    return (group: FormGroup): {[key: string]: any} => {
-      let f = group.controls[start];
-      let t = group.controls[end];
+    return (formGroup: FormGroup): {[key: string]: any} => {
+      let f = formGroup.controls[start];
+      let t = formGroup.controls[end];
+
       if (f.value >= t.value) {
         return {
           dates: "La fecha de inicio debe de ser menor que la de final"
         };
       }
+
       return {};
     }
   }

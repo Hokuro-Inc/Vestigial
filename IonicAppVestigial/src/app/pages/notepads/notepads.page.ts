@@ -70,6 +70,9 @@ export class NotepadsPage implements OnInit {
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: AddNotePage,
+      componentProps: {
+        notepads: this.notepads
+      }
     });
     modal.onDidDismiss().then(data => {
       if (data.data != undefined && data.data.notepad) {

@@ -12,13 +12,28 @@ export class ModifyGroupPage implements OnInit {
 
   validations_form: FormGroup;
   oldGroup: string;
+  groups: string[];
 
   constructor(private modalController: ModalController, private contactsService: ContactsService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       group: new FormControl('', Validators.required),
-    })
+    }, { validator: this.groupAlredyExists('group') });
+  }
+
+  groupAlredyExists(group: string) {
+    return (formGroup: FormGroup): {[key: string]: any} => {
+      let g = formGroup.controls[group];
+
+      if (this.groups.indexOf(g.value) > -1) {
+        return {
+          groups: "El grupo ya existe"
+        };
+      }
+  
+      return {};
+    }
   }
 
   dismiss(group: string) {
