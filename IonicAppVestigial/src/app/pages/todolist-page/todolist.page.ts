@@ -14,9 +14,11 @@ export class TodolistPage implements OnInit {
 
   todolist: Task[];
   lista: List;
+  task : Task;
 
   constructor(private todolistService: TodolistService, private modalController: ModalController) { }
 
+  
   ngOnInit() {
     //console.log(this.lista);
     let data = {
@@ -49,7 +51,13 @@ export class TodolistPage implements OnInit {
       }
     );
   }
-
+  dismisss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      'dismissed': true
+    });
+  }
   dismiss(list: List, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -126,6 +134,51 @@ export class TodolistPage implements OnInit {
       () => {
         console.log("Completed");
         this.dismiss(this.lista, true);
+      }
+    );
+  }
+
+
+
+  async deleteTask(task: Task) {
+    //console.log(contact);
+    let datas = {
+      "user": sessionStorage.getItem("user"),
+      "idTask" : task.id,
+    };
+    this.todolistService.removeTask(JSON.stringify(datas)).subscribe(
+      (response) => { 
+        //console.log("Respuesta", response);
+        if (response != '') {
+          let data = JSON.parse(response).Mensaje
+          console.log("Mensaje",data)
+        }
+      },
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        this.dismiss(task, true);
+      }
+    ); 
+  }
+
+
+  async changeCheckState(task: Task){
+
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "nameTask": task.name,
+      "descriptionTask" : task.description,
+      "statusTask" : task.status
+    };
+
+
+    this.todolistService.updateTask(JSON.stringify(data)).subscribe(
+      (response) => console.log("Respuesta", response),
+      (error) => console.log("Error", error),
+      () => {
+        this.dismisss();
+        //alert("Funciona!!!!");
       }
     );
   }

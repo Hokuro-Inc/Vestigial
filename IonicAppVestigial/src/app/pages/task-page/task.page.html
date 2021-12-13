@@ -13,7 +13,22 @@
         <ion-item>Descripcion: {{task.description}}</ion-item>
         <ion-item>Estado: {{task.status}}</ion-item>
         <ion-item>Pertenece a la lista: {{task.list}}</ion-item>
-        <ion-item button (click)="editTask(task)">Editar</ion-item>
-        <ion-item button (click)="deleteTask(task)">Eliminar</ion-item>
+       <!--- <ion-item button (click)="editTask(task)">Editar</ion-item>
+        <ion-item button (click)="deleteTask(task)">Eliminar</ion-item>-->
+
+
     </ion-list>
+
+
+
+    <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
+      <ion-fab-button (click)="editTask(task)">
+        <ion-icon name = "pencil"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical = "bottom"  horizontal = "start" slot = "fixed">
+      <ion-fab-button color ="danger" (click)="deleteTask(task)">
+        <ion-icon name = "trash"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
 </ion-content>
