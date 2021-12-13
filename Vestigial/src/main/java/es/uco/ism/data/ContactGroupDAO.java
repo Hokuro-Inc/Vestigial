@@ -186,6 +186,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             	PreparedStatement stmt = con.prepareStatement(statement);
                 stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
                 stmt.setString(2, contact.getGroups().get(i));
+                stmt.setString(3, contact.getOwner());
                 status = stmt.executeUpdate();
                 if (stmt != null) {
                 	stmt.close();
