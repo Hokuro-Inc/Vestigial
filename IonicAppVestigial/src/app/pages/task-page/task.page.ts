@@ -12,6 +12,7 @@ import { ModifyTaskPage } from '../modify-task/modify-task.page'
 export class TaskPage implements OnInit {
 
   task: Task;
+  
   constructor(private todolistService: TodolistService, public modalController: ModalController) { }
 
   ngOnInit() {
@@ -41,14 +42,13 @@ export class TaskPage implements OnInit {
   }
 
   async deleteTask(task: Task) {
-    //console.log(contact);
-    let datas = {
+    let data = {
       "user": sessionStorage.getItem("user"),
       "idTask" : task.id,
     };
-    this.todolistService.removeTask(JSON.stringify(datas)).subscribe(
+    this.todolistService.removeTask(JSON.stringify(data)).subscribe(
       (response) => { 
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           let data = JSON.parse(response).Mensaje
           console.log("Mensaje",data)

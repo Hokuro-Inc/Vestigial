@@ -12,16 +12,16 @@ import { Task } from '../todolist-page/todolist.page';
 export class ModifyTaskPage implements OnInit {
 
   validations_form: FormGroup;
-
-  task : Task;
+  task: Task;
   
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService) { }
+  
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
-    })
+    });
   }
 
   dismiss() {
@@ -46,9 +46,11 @@ export class ModifyTaskPage implements OnInit {
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
+        console.log("Completed");
         this.dismiss();
         //alert("Funciona!!!!");
       }
     );
   }
+  
 }

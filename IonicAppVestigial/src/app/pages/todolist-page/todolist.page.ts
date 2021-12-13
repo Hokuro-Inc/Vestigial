@@ -16,7 +16,6 @@ export class TodolistPage implements OnInit {
   lista: List;
 
   constructor(private todolistService: TodolistService, private modalController: ModalController) { }
-
   
   ngOnInit() {
     //console.log(this.lista);
@@ -27,7 +26,7 @@ export class TodolistPage implements OnInit {
 
     this.todolistService.getData(JSON.stringify(data)).subscribe(
       (response) => {
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           var data = JSON.parse(response).ToDoList;
           this.todolist = [];
@@ -50,6 +49,7 @@ export class TodolistPage implements OnInit {
       }
     );
   }
+  
   dismisss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -57,6 +57,7 @@ export class TodolistPage implements OnInit {
       'dismissed': true
     });
   }
+
   dismiss(list: List, deleted: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -99,7 +100,7 @@ export class TodolistPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined && data.data.task) {
+      if (data.data != undefined && data.data.task != undefined) {
         let task = data.data.task;
         this.todolist.push(new Task(
           data.data.id,
@@ -137,15 +138,14 @@ export class TodolistPage implements OnInit {
     );
   }
 
-
-
   async deleteTask(task: Task) {
     //console.log(contact);
-    let datas = {
+    let data = {
       "user": sessionStorage.getItem("user"),
-      "idTask" : task.id,
+      "idTask": task.id,
     };
-    this.todolistService.removeTask(JSON.stringify(datas)).subscribe(
+
+    this.todolistService.removeTask(JSON.stringify(data)).subscribe(
       (response) => { 
         //console.log("Respuesta", response);
         if (response != '') {
@@ -161,7 +161,32 @@ export class TodolistPage implements OnInit {
     ); 
   }
 
+  async changeCheckState(event: any, task: Task) {
+    let checked = !event.currentTarget.checked;
 
+    let data = {
+      "user": sessionStorage.getItem("user"),
+      "nameTask": task.name,
+      "descriptionTask": task.description,
+      "statusTask": checked ? "Archived" : "ToDo",
+      "idLista": task.list,
+      "idTask": task.id  
+    };
+
+    this.todolistService.updateTask(JSON.stringify(data)).subscribe(
+      (response) => console.log("Respuesta", response),
+      (error) => console.log("Error", error),
+      () => {
+        console.log("Completed");
+        //this.dismisss();
+        //alert("Funciona!!!!");
+      }
+    );
+  }
+
+  taskDone(task: Task) {
+    return task.status == 'Archived';
+  }
 
 }
 

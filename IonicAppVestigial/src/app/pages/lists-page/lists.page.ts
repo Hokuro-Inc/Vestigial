@@ -23,7 +23,7 @@ export class ListsPage implements OnInit {
 
     this.TodolistService.getData(JSON.stringify(data)).subscribe(
       (response) => {
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           var data = JSON.parse(response).ToDoLists;
           this.lists = [];
@@ -63,10 +63,12 @@ export class ListsPage implements OnInit {
   }
 
   async addList() {
-    //console.log(listaElegida);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: AddTodolistPage,
+      componentProps: {
+        lists: this.lists
+      }
     });
     modal.onDidDismiss().then(data => {
       if (data.data != undefined && data.data.list != undefined) {
