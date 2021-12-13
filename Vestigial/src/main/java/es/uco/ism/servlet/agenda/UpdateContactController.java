@@ -94,6 +94,7 @@ public class UpdateContactController extends HttpServlet {
 				owner = (String) objJson.get("user");
 				JSONArray groups = objJson.getJSONArray("groups");
 				ArrayList <String> gruposElegidos = new ArrayList<>();
+				
 				for (Object grupo : groups) {
 					String aux = (String) grupo;
 					gruposElegidos.add(aux);
@@ -104,15 +105,13 @@ public class UpdateContactController extends HttpServlet {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar el contacto "  + name; 
 					}
 					else {
-						
-						ArrayList<String> contactoOld = contactGroupDAO.QueryByContact(newContact);
+						ArrayList<String> contactoOld = contactGroupDAO.QueryByContact(newContact);												
 						ContactDTO contactAntiguo = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 						contactAntiguo.setGroups(contactoOld);
 						contactGroupDAO.DeleteAllGroups(contactAntiguo);
 						newContact.setGroups(gruposElegidos);
-						contactGroupDAO.Insert(newContact);
+						contactGroupDAO.InsertGroups(newContact);
 						mensajeResultado = "[OK]Se ha actualizado correctamente el contacto " + name;
-						
 					}
 				}
 				else {

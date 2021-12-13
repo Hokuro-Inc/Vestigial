@@ -54,7 +54,7 @@ public class GetGroupsController extends HttpServlet {
 		Boolean login = usuario != null && !usuario.getEmail().equals("");
 		
 		RequestDispatcher disparador = null;
-		UserGroupDAO userlistDAO = new UserGroupDAO(url_bd, username_bd, password_bd, prop);
+		UserGroupDAO userGroupDAO = new UserGroupDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="VISTA_MOSTRAR_LOS_GRUPOS"; 
 		String mensajeNextPage = "";
 		String dataJson = request.getReader().readLine();
@@ -70,7 +70,7 @@ public class GetGroupsController extends HttpServlet {
 			if (!objJson.isEmpty()) {
 				String usuarioActual = (String) objJson.get("user");
 				UserDTO user = new UserDTO (usuarioActual, "", "", "", "");
-				ArrayList<String> listadoGrupos = userlistDAO.QueryByUser(user);
+				ArrayList<String> listadoGrupos = userGroupDAO.QueryByUser(user);
 				jsonDataEnviar.put("Groups",listadoGrupos);
 				mensajeResultado = "[OK]Se devuelven todos los grupos de " + usuarioActual;
 				jsonDataEnviar.put("Mensaje", mensajeResultado);
@@ -85,7 +85,7 @@ public class GetGroupsController extends HttpServlet {
 				
 				UserDTO user = new UserDTO(usuario.getEmail(), "", "", "", "");
 				
-				ArrayList<String> listadoGrupos = userlistDAO.QueryByUser(user);
+				ArrayList<String> listadoGrupos = userGroupDAO.QueryByUser(user);
 					
 						
 				session.setAttribute("ListadoListas", listadoGrupos);

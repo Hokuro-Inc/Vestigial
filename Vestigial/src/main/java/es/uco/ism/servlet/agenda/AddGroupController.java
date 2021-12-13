@@ -74,11 +74,12 @@ public class AddGroupController extends HttpServlet {
 				
 				String usuarioActual = (String) objJson.get("user");
 				
-				if (groupDAO.QueryByGroup(group) == null) {
+				/*if (groupDAO.QueryByGroup(group) == null) {
 					if (groupDAO.Insert(group) <= 0) {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de crear el grupo"  + group;
 					}
-				}
+				}*/
+
 				UserDTO user = new UserDTO (usuarioActual,"","","","");
 				ArrayList<String> gruposUsuario = new ArrayList<String>() ;
 				gruposUsuario.add(group);
