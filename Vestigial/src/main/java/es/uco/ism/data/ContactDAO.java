@@ -108,6 +108,7 @@ public class ContactDAO extends DBConnectImpl{
 	            String statement2 = sqlProp.getProperty("Select_Contact_Group_Distinct");
 	            PreparedStatement stmt2 = con.prepareStatement(statement2);
 	            stmt2.setString(1, set.getString(1));
+	            stmt2.setString(2, contacto.getOwner());
 	            ResultSet set2 = stmt2.executeQuery();
 	             
 	            ArrayList <String> groups = new ArrayList<String>();
