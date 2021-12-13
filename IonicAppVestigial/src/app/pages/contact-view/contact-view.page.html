@@ -19,6 +19,13 @@
         </ion-item>
         <ion-item>Direccion: {{contact.address}}</ion-item>
         <ion-item>Email: {{contact.email}}</ion-item>
+        <ion-item>Grupos:
+          <ion-buttons slot="end">
+            <ion-button (click)="showGroups()">
+              <ion-icon name="caret-down"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
         <ion-item>Descripcion: {{contact.description}}</ion-item>
         <ion-item> 
           <ion-grid>

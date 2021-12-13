@@ -31,7 +31,7 @@ export class ContactsPage implements OnInit {
 
     this.contactsService.getData(JSON.stringify(user)).subscribe(
       (response) => {
-				//console.log("Respuesta", response);
+				console.log("Respuesta", response);
 				if (response != '') {
           let data = JSON.parse(response).Agenda;
           this.contacts = [];
@@ -47,7 +47,8 @@ export class ContactsPage implements OnInit {
                 element.owner,
                 element.phone,
                 element.prefix,
-                element.surname
+                element.surname,
+                element.groups
               ));
             });
           }
@@ -102,7 +103,7 @@ export class ContactsPage implements OnInit {
 
     this.contactsService.getGroups(JSON.stringify(user)).subscribe(
       (response) => {
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           let data = JSON.parse(response).Groups;
           this.groups = [];
@@ -126,6 +127,7 @@ export class ContactsPage implements OnInit {
       component: ContactViewPage,
       componentProps: {
       	contact: contact,
+        groups: this.groups
       }
     });
     modal.onDidDismiss().then(data => {
@@ -147,7 +149,8 @@ export class ContactsPage implements OnInit {
             contact.owner,
             contact.phone,
             contact.prefix,
-            contact.surname
+            contact.surname,
+            contact.groups
           );
 
           this.sort();
@@ -188,7 +191,8 @@ export class ContactsPage implements OnInit {
           contact.owner,
           contact.phone,
           contact.prefix,
-          contact.surname
+          contact.surname,
+          contact.groups
         ));
         this.sort();
         this.filteredList = this.contacts;
@@ -214,7 +218,8 @@ export class ContactsPage implements OnInit {
           contact.owner,
           contact.phone,
           contact.prefix,
-          contact.surname
+          contact.surname,
+          contact.groups
         ));
         this.sort();
         this.filteredList = this.contacts;
@@ -235,9 +240,12 @@ export class Contact {
   phone: string;
   prefix: string;
   surname: string;
+  groups: string[];
   fullname: string;
 
-  constructor(address: string, alias: string, description: string, email: string, name: string, owner: string, phone: string, prefix: string, surname: string) {
+  constructor(address: string = "", alias: string = "", description: string = "", email: string = "", name: string = "",
+    owner: string = "", phone: string = "", prefix: string = "", surname: string = "", groups: string[] = [])
+  {
     this.address = address;
     this.alias = alias;
     this.description = description;
@@ -247,6 +255,8 @@ export class Contact {
     this.phone = phone;
     this.prefix = prefix;
     this.surname = surname;
+    this.groups = groups;
     this.fullname = name + " " + surname;
   }
+
 }

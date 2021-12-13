@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Contact } from '../contacts/contacts.page'
 import { ModifyContactPage } from '../modify-contact/modify-contact.page'
 import { ExportContactBluetoothPage } from '../export-contact-bluetooth/export-contact-bluetooth.page'
 
-import { NFC, Ndef, NfcTag} from '@awesome-cordova-plugins/nfc/ngx';
+import { NFC, Ndef } from '@awesome-cordova-plugins/nfc/ngx';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
+import { Subscription } from 'rxjs';
 
-import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 
 
 @Component({
@@ -19,12 +19,11 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 export class ContactViewPage implements OnInit {
 
 	contact: Contact;
-  listener;
+  listener: Subscription;
+  groups: string[];
 
   constructor(private contactsService: ContactsService, public modalController: ModalController,
-              private nfc: NFC, private ndef: Ndef,
-              private callNumber: CallNumber,private bluetoothSerial: BluetoothSerial) { 
-  }
+              private nfc: NFC, private ndef: Ndef, private callNumber: CallNumber, private alertController: AlertController) { }
 
   ngOnInit() {
     //console.log(this.contact);
@@ -46,6 +45,7 @@ export class ContactViewPage implements OnInit {
       component: ModifyContactPage,
       componentProps: {
         contact: contact,
+        groups: this.groups
       }
     });
     modal.onDidDismiss().then(data => {
@@ -81,13 +81,31 @@ export class ContactViewPage implements OnInit {
     ); 
   }
 
+  async showGroups() {
+    const alert = await this.alertController.create({
+      header: "Grupos",
+      message: this.getGroups(),
+      buttons: ['OK']
+    });
+    return await alert.present();
+  }
+
+  getGroups() {
+    let groups = this.contact.groups[0];
+
+    for (let i = 1; i < this.contact.groups.length; i += 1) {
+      groups += "<br>" + this.contact.groups[i];
+    }
+
+    return groups;
+  }
+
   async llamarContacto (contact: Contact) {
     let numeroTelefono = "+" + contact.prefix + contact.phone;
     console.log("Vamos a llamar al contacto",numeroTelefono);
     this.callNumber.callNumber(numeroTelefono, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
-
   }  
 
 
@@ -120,8 +138,7 @@ export class ContactViewPage implements OnInit {
         this.listener.unsubscribe();       
       },
       error => console.log('Write failed LISTENER', error)
-    )
-
+    );
 
   }
 

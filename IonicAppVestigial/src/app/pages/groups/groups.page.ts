@@ -42,10 +42,13 @@ export class GroupsPage implements OnInit {
   async addGroup() {
     const modal = await this.modalController.create({
       // Data passed in by componentProps
-      component: AddGroupPage
+      component: AddGroupPage,
+      componentProps: {
+        groups: this.groups
+      }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined) {
+      if (data.data != undefined && data.data.group != undefined) {
         let group = data.data.group;
         this.groups.push(group);
         this.sort();
@@ -58,7 +61,8 @@ export class GroupsPage implements OnInit {
     const modal = await this.modalController.create({
       component: ModifyGroupPage,
       componentProps: {
-        oldGroup: group
+        oldGroup: group,
+        groups: this.groups
       }
     });
     modal.onDidDismiss().then(data => {
@@ -72,7 +76,6 @@ export class GroupsPage implements OnInit {
   }
 
   async deleteGroup(group: string) {
-    console.log("delete");
     let data = {
       'user': sessionStorage.getItem("user"),
       'group': group

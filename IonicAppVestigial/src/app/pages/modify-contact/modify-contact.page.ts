@@ -13,8 +13,8 @@ import { Contact } from '../contacts/contacts.page'
 export class ModifyContactPage implements OnInit {
 
   validations_form: FormGroup;
-
   contact: Contact;
+  groups: string[];
   
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private contactService: ContactsService, private navController: NavController) { }
 
@@ -28,7 +28,8 @@ export class ModifyContactPage implements OnInit {
       email: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
-      owner: sessionStorage.getItem("user")
+      owner: sessionStorage.getItem("user"),
+      groups: new FormControl(''),
     })
   }
 
@@ -42,6 +43,8 @@ export class ModifyContactPage implements OnInit {
   }
 
   onSubmit(contact: any) {
+    if (contact.groups == '') contact.groups = [];
+
     let data = {
       "user": sessionStorage.getItem("user"),
       "name": contact.name,
@@ -52,8 +55,9 @@ export class ModifyContactPage implements OnInit {
       "email": contact.email,
       "description": contact.description,
       "alias": contact.alias,
-      "groups" : "[]"
+      "groups": contact.groups
     };
+
     this.contactService.updateContact(JSON.stringify(data)).subscribe(
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),

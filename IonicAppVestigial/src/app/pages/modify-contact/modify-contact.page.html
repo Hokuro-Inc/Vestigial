@@ -44,6 +44,13 @@
       <ion-input type="text" name="email" formControlName="email" [ngModel]="contact.email" required></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Grupos</ion-label>
+      <ion-select multiple="true" name="groups" formControlName="groups" [ngModel]="contact.groups" cancelText="Cancelar" okText = "Ok">
+        <ion-select-option *ngFor="let group of groups" value="{{group}}">{{group}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-item lines="full">
       <ion-label position="floating">Descripcion</ion-label>
       <ion-textarea rows="5" name="description" formControlName="description" [ngModel]="contact.description"  required></ion-textarea>
