@@ -29,6 +29,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             	
             	contact_group.add(set.getString(1));
             	contact_group.add(set.getString(2));
+            	contact_group.add(set.getString(3));
             	
             	contact_groups.add(contact_group);
             }
@@ -53,6 +54,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             String statement = sqlProp.getProperty("Select_Contact_Group");
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
+            stmt.setString(2, contact.getOwner());
             ResultSet set = stmt.executeQuery();
             
             while (set.next()) {
@@ -80,6 +82,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
             stmt.setString(2, contact.getGroups().get(0));
+            stmt.setString(3, contact.getOwner());
             status = stmt.executeUpdate();
                         
             if (stmt != null) {
@@ -105,6 +108,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             	PreparedStatement stmt = con.prepareStatement(statement);
                 stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
                 stmt.setString(2, contact.getGroups().get(i));
+                stmt.setString(3, contact.getOwner());
                 status = stmt.executeUpdate();
                 if (stmt != null) {
                 	stmt.close();
@@ -130,6 +134,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             stmt.setString(2, contact.getPhone()+"-"+contact.getPrefix());
             stmt.setString(3, contact.getGroups().get(0));
             stmt.setString(1, contact.getGroups().get(1));
+            stmt.setString(4, contact.getOwner());
 
             status = stmt.executeUpdate();
             
@@ -154,6 +159,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
             stmt.setString(2, contact.getGroups().get(0));
+            stmt.setString(3, contact.getOwner());
             results.add(stmt.executeUpdate());
             status = CheckResults(results);
             
