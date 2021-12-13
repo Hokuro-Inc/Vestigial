@@ -16,8 +16,7 @@
           <ion-item lines = "none">
           
           <ion-label>
-            <h2 *ngIf="!task.status">{{ task.name }}</h2>
-            <h2 *ngIf="task.status" style="text-decoration:line-through;">{{ task.name }}</h2>
+            <h2>{{ task.name }}</h2>
             <p>{{task.description}}</p>
           </ion-label>
         </ion-item>
