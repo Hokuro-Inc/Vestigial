@@ -14,7 +14,7 @@
         <ion-card *ngFor= "let task of todolist">
           <ion-item-sliding >
           <ion-item lines = "none">
-          <ion-checkbox (ionchange) = "changeCheckState(task)" [(ngModel)] = "task.status" color = "success" slot = "start"></ion-checkbox>
+          
           <ion-label>
             <h2 *ngIf="!task.status">{{ task.name }}</h2>
             <h2 *ngIf="task.status" style="text-decoration:line-through;">{{ task.name }}</h2>
@@ -33,7 +33,7 @@
       </ion-item-sliding>
 
       </ion-card>
-  
+
       
       <ion-fab vertical = "bottom" color ="primary" horizontal = "end" slot = "fixed">
           <ion-fab-button (click)="addTask()">

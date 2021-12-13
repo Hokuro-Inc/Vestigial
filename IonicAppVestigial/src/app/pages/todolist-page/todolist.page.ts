@@ -14,7 +14,6 @@ export class TodolistPage implements OnInit {
 
   todolist: Task[];
   lista: List;
-  task : Task;
 
   constructor(private todolistService: TodolistService, private modalController: ModalController) { }
 
@@ -163,25 +162,6 @@ export class TodolistPage implements OnInit {
   }
 
 
-  async changeCheckState(task: Task){
-
-    let data = {
-      "user": sessionStorage.getItem("user"),
-      "nameTask": task.name,
-      "descriptionTask" : task.description,
-      "statusTask" : task.status
-    };
-
-
-    this.todolistService.updateTask(JSON.stringify(data)).subscribe(
-      (response) => console.log("Respuesta", response),
-      (error) => console.log("Error", error),
-      () => {
-        this.dismisss();
-        //alert("Funciona!!!!");
-      }
-    );
-  }
 
 }
 
