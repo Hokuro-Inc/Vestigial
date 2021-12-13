@@ -154,7 +154,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Delete_User_Group");
+            String statement = sqlProp.getProperty("Delete_Contact_Group");
             Connection con = getConnection();
             PreparedStatement stmt = con.prepareStatement(statement);
             stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
@@ -178,7 +178,7 @@ public ArrayList<ArrayList<String>> QueryByAll() {
         int status = 0;
 
         try {
-            String statement = sqlProp.getProperty("Delete_User_Group");
+            String statement = sqlProp.getProperty("Delete_Contact_Group");
             Connection con = getConnection();
             ArrayList<String> grupos = contact.getGroups();
         	
