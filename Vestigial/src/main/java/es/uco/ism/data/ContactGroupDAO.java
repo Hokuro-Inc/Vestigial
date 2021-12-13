@@ -167,4 +167,29 @@ public ArrayList<ArrayList<String>> QueryByAll() {
 
         return status;
     }
+    
+    public int DeleteAllGroups(ContactDTO contact) {
+        int status = 0;
+
+        try {
+            String statement = sqlProp.getProperty("Delete_User_Group");
+            Connection con = getConnection();
+            ArrayList<String> grupos = contact.getGroups();
+        	
+        	for (int i = 0 ; i < grupos.size(); i++) {
+            	PreparedStatement stmt = con.prepareStatement(statement);
+                stmt.setString(1, contact.getPhone()+"-"+contact.getPrefix());
+                stmt.setString(2, contact.getGroups().get(i));
+                status = stmt.executeUpdate();
+                if (stmt != null) {
+                	stmt.close();
+                }
+        	}
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
 }

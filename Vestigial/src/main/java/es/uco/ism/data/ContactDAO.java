@@ -103,7 +103,28 @@ public class ContactDAO extends DBConnectImpl{
             	String[] tokens = set.getString(1).split("-");
             	
             	contacto = new ContactDTO(tokens[0], tokens[1], set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6), set.getString(7), email);
-            	contacts.add(contacto);
+            	
+            	
+	            String statement2 = sqlProp.getProperty("Select_Contact_Group_Distinct");
+	            PreparedStatement stmt2 = con.prepareStatement(statement2);
+	            stmt2.setString(1, set.getString(1));
+	            ResultSet set2 = stmt2.executeQuery();
+	             
+	            ArrayList <String> groups = new ArrayList<String>();
+	             
+	            while (set2.next()) {
+	            	 
+	            	groups.add(set2.getString(1));
+	            }
+	             
+	            contacto.setGroups(groups);
+	             
+	            if (stmt2 != null) {
+	            	stmt2.close();
+	            }
+	            
+	            contacts.add(contacto);
+                                  
             }
 
             if (stmt != null) {

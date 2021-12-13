@@ -29,7 +29,7 @@ public class Mail {
 	private String subject;
 	private String body;
  
-	public void sendEmail() throws UnsupportedEncodingException, MessagingException, IOException{
+	public void sendEmail(String email, String password) throws UnsupportedEncodingException, MessagingException, IOException{
  
 		Properties propertiesBD = new Properties();
 		FileReader fileReaderBD = new FileReader("/src/main/webapp/WEB-INF/server.properties");
@@ -65,7 +65,7 @@ public class Mail {
             System.out.println("Sending...");
             
             // Connect to Amazon SES using the SMTP username and password you specified above.
-            transport.connect(HOST, propertiesBD.getProperty("MAIL"), propertiesBD.getProperty("PWD"));
+            transport.connect(HOST, email, password);
         	
             // Send the email.
             transport.sendMessage(msg, msg.getAllRecipients());

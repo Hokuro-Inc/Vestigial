@@ -3,6 +3,7 @@ package es.uco.ism.servlet.agenda;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -12,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import es.uco.ism.business.contact.ContactDTO;
 import es.uco.ism.data.ContactDAO;
+import es.uco.ism.data.ContactGroupDAO;
 import es.uco.ism.display.ContactBean;
 import es.uco.ism.display.UserBean;
 
@@ -56,6 +59,7 @@ public class UpdateContactController extends HttpServlet {
 		RequestDispatcher disparador = null;
 		
 		ContactDAO contactDAO = new ContactDAO(url_bd, username_bd, password_bd, prop);
+		ContactGroupDAO contactGroupDAO = new ContactGroupDAO(url_bd, username_bd, password_bd, prop);
 		String nextPage ="View/Agenda/ShowAgenda.jsp"; 
 		String mensajeNextPage = "";
 		
@@ -88,14 +92,27 @@ public class UpdateContactController extends HttpServlet {
 				description = (String) objJson.get("description");
 				address = (String) objJson.get("address");
 				owner = (String) objJson.get("user");
-				
+				JSONArray groups = objJson.getJSONArray("groups");
+				ArrayList <String> gruposElegidos = new ArrayList<>();
+				for (Object grupo : groups) {
+					String aux = (String) grupo;
+					gruposElegidos.add(aux);
+				}
 				if (name != null && !name.equals("")) {
 					ContactDTO newContact = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
 					if (contactDAO.Update(newContact) <=0 )  {
 						mensajeResultado = "[ERROR]Ha surgido un problema a la hora de actualizar el contacto "  + name; 
 					}
 					else {
+						
+						ArrayList<String> contactoOld = contactGroupDAO.QueryByContact(newContact);
+						ContactDTO contactAntiguo = new ContactDTO (phone,prefix,name,surname,alias,email,description,address,owner);
+						contactAntiguo.setGroups(contactoOld);
+						contactGroupDAO.DeleteAllGroups(contactAntiguo);
+						newContact.setGroups(gruposElegidos);
+						contactGroupDAO.Insert(newContact);
 						mensajeResultado = "[OK]Se ha actualizado correctamente el contacto " + name;
+						
 					}
 				}
 				else {
