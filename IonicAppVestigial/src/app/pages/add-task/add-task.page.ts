@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodolistService } from 'src/app/services/todolist-service/todolist.service';
 import { List } from '../lists-page/lists.page'
+import { Task } from '../todolist-page/todolist.page';
 
 @Component({
   selector: 'app-add-task',
@@ -12,14 +13,32 @@ import { List } from '../lists-page/lists.page'
 export class AddTaskPage implements OnInit {
 
   validations_form: FormGroup;
-  lista : List;
+  lista: List;
+  todolist: Task[];
+
   constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-    })
+    }, { validator: this.taskAlredyExists('name') });
+  }
+
+  taskAlredyExists(task: string) {
+    return (formGroup: FormGroup): {[key: string]: any} => {
+      let t = formGroup.controls[task];
+
+      for (let i = 0; i < this.todolist.length; i += 1) {
+        if (String(t.value).indexOf(this.todolist[i].name) > -1 && String(t.value).trim() == this.todolist[i].name) {
+          return {
+            notepad: "La tarea ya existe"
+          }
+        }
+      }
+  
+      return {};
+    }
   }
 
   dismiss(task: any, id: string) {

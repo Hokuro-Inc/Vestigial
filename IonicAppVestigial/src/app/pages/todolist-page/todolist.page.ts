@@ -90,6 +90,7 @@ export class TodolistPage implements OnInit {
       component: AddTaskPage,
       componentProps: {
         lista: this.lista,
+        todolist: this.todolist
       }
     });
     modal.onDidDismiss().then(data => {
@@ -109,12 +110,15 @@ export class TodolistPage implements OnInit {
   }
 
   async editTask(task: Task) {
-    //console.log(contact);
+    let tmp = [];
+    this.todolist.forEach(item => tmp.push(item.name));
+
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ModifyTaskPage,
       componentProps: {
         task: task,
+        todolist: tmp
       }
     });
     return await modal.present();

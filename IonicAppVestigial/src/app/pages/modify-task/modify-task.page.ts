@@ -13,14 +13,32 @@ export class ModifyTaskPage implements OnInit {
 
   validations_form: FormGroup;
   task: Task;
+  todolist: string[];
   
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private todolistService: TodolistService) { }
+  constructor(private modalController: ModalController, private formBuilder: FormBuilder, private todolistService: TodolistService) { }
   
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-    });
+    }, { validator: this.taskAlredyExists('name') });
+  }
+
+  taskAlredyExists(task: string) {
+    console.log(this.todolist);
+    return (formGroup: FormGroup): {[key: string]: any} => {
+      let t = formGroup.controls[task];
+
+      for (let i = 0; i < this.todolist.length; i += 1) {
+        if (String(t.value).indexOf(this.todolist[i]) > -1 && String(t.value).trim() == this.todolist[i]) {
+          return {
+            notepad: "La tarea ya existe"
+          }
+        }
+      }
+  
+      return {};
+    }
   }
 
   dismiss() {
