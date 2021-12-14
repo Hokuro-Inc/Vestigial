@@ -15,7 +15,7 @@ export class ContactsPage implements OnInit {
 
   contacts: Contact[];
   filteredList: Contact[];
-  groups: String[];
+  groups: string[];
 
   constructor(private contactsService: ContactsService, private modalController: ModalController) { }
 
@@ -87,13 +87,23 @@ export class ContactsPage implements OnInit {
 
     if (value && value.trim() != '') {
       this.filteredList = this.contacts.filter(item => {
-        return item.fullname.toLowerCase().indexOf(value.toLowerCase()) > -1 ||
-          item.alias.toLowerCase().indexOf(value.toLowerCase()) > -1;
+        return item.fullname.toLowerCase().includes(value.toLowerCase()) ||
+          item.alias.toLowerCase().includes(value.toLowerCase()) || this.isInGroup(item, value.toLowerCase());
       });
     }
     else {
       this.filteredList = this.contacts;
     }
+  }
+
+  isInGroup(contact: Contact, item: string) {
+    for (let  j = 0; j < contact.groups.length; j += 1) {
+      if (contact.groups[j].toLowerCase().includes(item)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   getGroups () {
