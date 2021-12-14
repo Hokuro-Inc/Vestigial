@@ -13,8 +13,9 @@ import { ModifyTaskPage } from '../modify-task/modify-task.page';
 })
 export class TodolistPage implements OnInit {
 
-  todolist: Task[];
   lista: List;
+  todolist: Task[];
+  filteredList: Task[];
 
   constructor(private todolistService: TodolistService, private modalController: ModalController) { }
   
@@ -41,6 +42,8 @@ export class TodolistPage implements OnInit {
               element.list,
             ));
           });
+
+          this.filteredList = this.todolist;
         }
       },
       (error) => console.log("Error", error),
@@ -60,6 +63,19 @@ export class TodolistPage implements OnInit {
     });
   }
 
+  filter(event: any) {
+    let value = event.target.value;
+
+    if (value && value.trim() != '') {
+      this.filteredList = this.todolist.filter(item => {
+        return item.name.toLowerCase().includes(value.toLowerCase());
+     });
+    }
+    else {
+      this.filteredList = this.todolist;
+    }
+  }
+
   async showTask(task: Task) {
     const modal = await this.modalController.create({
       // Data passed in by componentProps
@@ -76,6 +92,8 @@ export class TodolistPage implements OnInit {
           let index = this.todolist.indexOf(task);
           this.todolist.splice(index, 1);
         }
+
+        this.filteredList = this.todolist;
       }
     });
     return await modal.present();
@@ -101,6 +119,7 @@ export class TodolistPage implements OnInit {
           "ToDo",
           task.lista
         ));
+        this.filteredList = this.todolist;
       }
     });
     return await modal.present();
@@ -117,7 +136,11 @@ export class TodolistPage implements OnInit {
       task.list
     );
     let tmp = [];
-    this.todolist.forEach(item => tmp.push(item.name));
+    this.todolist.forEach(item => {
+      if (item.name != task.name) {
+        tmp.push(item.name);
+      }
+    });
 
     const modal = await this.modalController.create({
       // Data passed in by componentProps
@@ -136,6 +159,8 @@ export class TodolistPage implements OnInit {
       else {
         this.todolist[index] = aux;
       }
+
+      this.filteredList = this.todolist;
     });
     return await modal.present();
   }

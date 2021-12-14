@@ -2,7 +2,7 @@
   <ion-app>
     <ion-header translucent>
       <ion-toolbar>
-        <ion-searchbar>
+        <ion-searchbar (ionInput)="filter($event)">
            <ion-buttons slot="start">
               <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
            </ion-buttons>
@@ -12,7 +12,7 @@
     <ion-content fullscreen>
 
       <ion-list>
-        <ion-item-sliding *ngFor= "let task of todolist">
+        <ion-item-sliding *ngFor= "let task of filteredList">
             <ion-item>
               <ion-checkbox (click) = "changeCheckState($event, task)" [ngModel] = "taskDone(task)" color = "success" slot = "start"></ion-checkbox>
               <ion-label>
