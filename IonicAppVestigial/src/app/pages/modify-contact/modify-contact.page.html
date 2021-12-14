@@ -41,7 +41,7 @@
 
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" name="email" formControlName="email" [ngModel]="contact.email" required></ion-input>
+      <ion-input type="text" name="email" formControlName="email"  [disabled]="contact.email == contact.owner" [ngModel]="contact.email" required></ion-input>
     </ion-item>
 
     <ion-item>
