@@ -12,6 +12,7 @@ import { AddTodolistPage } from '../add-todolist/add-todolist.page';
 export class ListsPage implements OnInit {
 
   lists: List[];
+  filteredList: List[];
 
   constructor(private TodolistService: TodolistService, private modalController: ModalController) { }
 
@@ -33,6 +34,8 @@ export class ListsPage implements OnInit {
               this.lists.push(new List(element));
             });
           }
+
+          this.filteredList = this.lists;
         }
       },
       (error) => console.log("Error", error),
@@ -40,6 +43,19 @@ export class ListsPage implements OnInit {
         console.log("Completed");
       }
     );
+  }
+
+  filter(event: any) {
+    let value = event.target.value;
+
+    if (value && value.trim() != '') {
+      this.filteredList = this.lists.filter(item => {
+        return item.name.toLowerCase().includes(value.toLowerCase());
+     });
+    }
+    else {
+      this.filteredList = this.lists;
+    }
   }
 
   async showList(listaElegida: List) {
@@ -58,6 +74,8 @@ export class ListsPage implements OnInit {
           this.lists.splice(index, 1);
         }
       }
+
+      this.filteredList = this.lists;
     });
     return await modal.present();
   }
@@ -74,7 +92,9 @@ export class ListsPage implements OnInit {
       if (data.data != undefined && data.data.list != undefined) {
         let list = data.data.list;
         this.lists.push(list);
+        this.filteredList = this.lists;
       }
+
     });
     return await modal.present();
   }
