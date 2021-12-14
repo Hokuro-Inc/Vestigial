@@ -28,8 +28,14 @@ export class RegisterPagePage implements OnInit {
         Validators.required,
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
       ])),
-      prefix: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
+      prefix: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{2,}')
+      ])),
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{9,}')
+      ])),
     })
 
   }

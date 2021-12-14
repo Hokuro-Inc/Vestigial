@@ -20,10 +20,19 @@ export class AddContactPage implements OnInit {
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
-      prefix: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
+      prefix: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{2,}')
+      ])),
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{9,}')
+      ])),
       address: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$')
+      ])),
       description: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
       owner: sessionStorage.getItem("user"),
