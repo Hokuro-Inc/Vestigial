@@ -12,7 +12,7 @@
         <ion-item>Alias: {{contact.alias}}</ion-item>
         <ion-item>Contacto: +{{contact.prefix}} {{contact.phone}}
           <ion-buttons slot="end">
-            <ion-button (click)="llamarContacto(contact)">
+            <ion-button (click)="call(contact)">
               <ion-icon  name="call"></ion-icon>
             </ion-button>
           </ion-buttons>

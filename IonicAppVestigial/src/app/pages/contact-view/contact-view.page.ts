@@ -4,12 +4,9 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Contact } from '../contacts/contacts.page'
 import { ModifyContactPage } from '../modify-contact/modify-contact.page'
 import { ExportContactBluetoothPage } from '../export-contact-bluetooth/export-contact-bluetooth.page'
-
 import { NFC, Ndef } from '@awesome-cordova-plugins/nfc/ngx';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 import { Subscription } from 'rxjs';
-
-
 
 @Component({
   selector: 'app-contact-view',
@@ -21,13 +18,12 @@ export class ContactViewPage implements OnInit {
 	contact: Contact;
   listener: Subscription;
   groups: string[];
+  modified: boolean = false;
 
-  constructor(private contactsService: ContactsService, public modalController: ModalController,
+  constructor(private contactsService: ContactsService, private modalController: ModalController,
               private nfc: NFC, private ndef: Ndef, private callNumber: CallNumber, private alertController: AlertController) { }
 
-  ngOnInit() {
-    //console.log(this.contact);
-  }
+  ngOnInit() { }
 
   dismiss(contact: Contact, deleted: boolean = false) {
     // using the injected ModalController this page
@@ -35,30 +31,51 @@ export class ContactViewPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true,
       'contact': contact,
-      'deleted': deleted
+      'deleted': deleted,
+      'modified': this.modified
     });
   }
 
   async editContact(contact: Contact) {
+    let tmp = new Contact(
+      contact.address,
+      contact.alias,
+      contact.description,
+      contact.email,
+      contact.name,
+      contact.owner,
+      contact.phone,
+      contact.prefix,
+      contact.surname,
+      contact.groups
+    );
+
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ModifyContactPage,
       componentProps: {
-        contact: contact,
+        contact: this.contact,
         groups: this.groups
       }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined && data.data.modified == true) {
-        this.contact = data.data.contact;
-        contact = data.data.contact;
+      if (data.data != undefined) {
+        if (!data.data.modified) {
+          this.contact = tmp;
+        }
+        else {
+          this.modified = true;
+          this.contact = data.data.contact;
+        }
+      }
+      else {
+        this.contact = tmp;
       }
     });
     return await modal.present();
   }
 
   async deleteContact(contact: Contact) {
-    //console.log(contact);
     let data = {
       "user": sessionStorage.getItem("user"),
       "phone" : contact.phone,
@@ -67,7 +84,7 @@ export class ContactViewPage implements OnInit {
     
     this.contactsService.removeContact(JSON.stringify(data)).subscribe(
       (response) => { 
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           let data = JSON.parse(response).Mensaje
           console.log("Mensaje",data)
@@ -100,10 +117,10 @@ export class ContactViewPage implements OnInit {
     return groups;
   }
 
-  async llamarContacto (contact: Contact) {
-    let numeroTelefono = "+" + contact.prefix + contact.phone;
-    console.log("Vamos a llamar al contacto",numeroTelefono);
-    this.callNumber.callNumber(numeroTelefono, true)
+  async call(contact: Contact) {
+    let phone = "+" + contact.prefix + contact.phone;
+    //console.log("Vamos a llamar al contacto", phone);
+    this.callNumber.callNumber(phone, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }  
@@ -121,7 +138,7 @@ export class ContactViewPage implements OnInit {
   }
 
   async exportContactNFC() {
-     this.listener = this.nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
+    this.listener = this.nfc.addNdefListener().subscribe(this.onNdefTagScanned.bind(this));
   }
   
   onNdefTagScanned(nfcEvent: any) {

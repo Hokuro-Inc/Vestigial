@@ -19,7 +19,6 @@ export class TodolistPage implements OnInit {
   constructor(private todolistService: TodolistService, private modalController: ModalController) { }
   
   ngOnInit() {
-    //console.log(this.lista);
     let data = {
       "user": sessionStorage.getItem("user"),
       "idLista": this.lista.name
@@ -62,7 +61,6 @@ export class TodolistPage implements OnInit {
   }
 
   async showTask(task: Task) {
-    //console.log(task);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       //Cambiar a vista TaskPage
@@ -84,7 +82,6 @@ export class TodolistPage implements OnInit {
   }
 
   async addTask() {
-    //console.log(listaElegida);
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: AddTaskPage,
@@ -110,6 +107,15 @@ export class TodolistPage implements OnInit {
   }
 
   async editTask(task: Task) {
+    let index = this.todolist.indexOf(task);
+    let aux = new Task(
+      task.id,
+      task.owner,
+      task.name,
+      task.description,
+      task.status,
+      task.list
+    );
     let tmp = [];
     this.todolist.forEach(item => tmp.push(item.name));
 
@@ -121,11 +127,20 @@ export class TodolistPage implements OnInit {
         todolist: tmp
       }
     });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        if (!data.data.modified) {
+          this.todolist[index] = aux;
+        }
+      }
+      else {
+        this.todolist[index] = aux;
+      }
+    });
     return await modal.present();
   }
 
   async deleteList() {
-    //console.log(this.lista);
     let data = {
       "user": sessionStorage.getItem("user"),
       "idLista": this.lista.name
@@ -133,7 +148,7 @@ export class TodolistPage implements OnInit {
 
     this.todolistService.removeToDoList(JSON.stringify(data)).subscribe(
       (response) => { 
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           let data = JSON.parse(response).Mensaje
           console.log("Mensaje",data)
@@ -148,7 +163,6 @@ export class TodolistPage implements OnInit {
   }
 
   async deleteTask(task: Task) {
-    //console.log(contact);
     let data = {
       "user": sessionStorage.getItem("user"),
       "idTask": task.id,
@@ -156,7 +170,7 @@ export class TodolistPage implements OnInit {
 
     this.todolistService.removeTask(JSON.stringify(data)).subscribe(
       (response) => { 
-        //console.log("Respuesta", response);
+        console.log("Respuesta", response);
         if (response != '') {
           let data = JSON.parse(response).Mensaje
           console.log("Mensaje",data)

@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Event } from 'src/app/pages/calendar/calendar.page';
 import { CalendarService } from 'src/app/services/calendar-service/calendar.service';
-import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modify-event',
@@ -17,7 +16,7 @@ export class ModifyEventPage implements OnInit {
   minDate: string;
   maxDate: string;
 
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private calendarService: CalendarService, private navController: NavController) { }
+  constructor(private modalController: ModalController, private formBuilder: FormBuilder, private calendarService: CalendarService) { }
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
@@ -43,11 +42,13 @@ export class ModifyEventPage implements OnInit {
     }
   }
 
-  dismiss() {
+  dismiss(event: any, modified: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'event': event,
+      'modified': modified
     });
   }
 
@@ -65,8 +66,8 @@ export class ModifyEventPage implements OnInit {
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
-        this.dismiss();
-        //this.navController.navigateBack(['/calendar']);
+        console.log("Completed");
+        this.dismiss(data, true);
         //alert("Funciona!!!!");
       }
     );

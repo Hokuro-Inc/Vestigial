@@ -12,10 +12,9 @@ import { Notepad } from '../notepads/notepads.page';
 export class ModifyNotePage implements OnInit {
 
   validations_form: FormGroup;
-
   note: Notepad;
   
-  constructor(private modalController: ModalController, public formBuilder: FormBuilder, private notepadService: NotepadService) { }
+  constructor(private modalController: ModalController, private formBuilder: FormBuilder, private notepadService: NotepadService) { }
   
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
@@ -24,11 +23,13 @@ export class ModifyNotePage implements OnInit {
     });
   }
 
-  dismiss() {
+  dismiss(note: any, modified: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'note': note,
+      'modified': modified
     });
   }
 
@@ -43,7 +44,7 @@ export class ModifyNotePage implements OnInit {
       (response) => console.log("Respuesta", response),
       (error) => console.log("Error", error),
       () => {
-        this.dismiss();
+        this.dismiss(data, true);
         //alert("Funciona!!!!");
       }
     );

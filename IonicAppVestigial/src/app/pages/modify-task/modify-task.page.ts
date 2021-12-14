@@ -25,7 +25,6 @@ export class ModifyTaskPage implements OnInit {
   }
 
   taskAlredyExists(task: string) {
-    console.log(this.todolist);
     return (formGroup: FormGroup): {[key: string]: any} => {
       let t = formGroup.controls[task];
 
@@ -41,11 +40,13 @@ export class ModifyTaskPage implements OnInit {
     }
   }
 
-  dismiss() {
+  dismiss(task: any, modified: boolean = false) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'task': task,
+      'modified': modified
     });
   }
 
@@ -64,7 +65,7 @@ export class ModifyTaskPage implements OnInit {
       (error) => console.log("Error", error),
       () => {
         console.log("Completed");
-        this.dismiss();
+        this.dismiss(data, true);
         //alert("Funciona!!!!");
       }
     );

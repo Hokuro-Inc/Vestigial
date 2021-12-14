@@ -87,12 +87,24 @@ export class NotepadsPage implements OnInit {
   }
 
   async editNotePad(notepad: Notepad) {
-    //console.log(notepad);
+    let index = this.notepads.indexOf(notepad);
+    let aux = new Notepad(notepad.name, notepad.text);
+
     const modal = await this.modalController.create({
       // Data passed in by componentProps
       component: ModifyNotePage,
       componentProps: {
         note: notepad,
+      }
+    });
+    modal.onDidDismiss().then(data => {
+      if (data.data != undefined) {
+        if (!data.data.modified) {
+          this.notepads[index] = aux;
+        }
+      }
+      else {
+        this.notepads[index] = aux;
       }
     });
     return await modal.present();

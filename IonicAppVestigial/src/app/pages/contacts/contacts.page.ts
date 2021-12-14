@@ -131,6 +131,18 @@ export class ContactsPage implements OnInit {
 
   async showContact(contact: Contact) {
     let index = this.contacts.indexOf(contact);
+    let tmp = new Contact(
+      contact.address,
+      contact.alias,
+      contact.description,
+      contact.email,
+      contact.name,
+      contact.owner,
+      contact.phone,
+      contact.prefix,
+      contact.surname,
+      contact.groups
+    );
 
     const modal = await this.modalController.create({
       // Data passed in by componentProps
@@ -141,31 +153,36 @@ export class ContactsPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(data => {
-      if (data.data != undefined  && data.data.contact != undefined) {
-        let contact = data.data.contact;
-
-        if (data.data.deleted == true) {
+      if (data.data != undefined) {
+        if (data.data.deleted) {
+          let contact = data.data.contact;
           let index = this.contacts.indexOf(contact);
           this.contacts.splice(index, 1);
-          this.filteredList = this.contacts;
+        }
+        else if (data.data.modified) {
+          this.contacts[index] = new Contact(
+            data.data.contact.address,
+            data.data.contact.alias,
+            data.data.contact.description,
+            data.data.contact.email,
+            data.data.contact.name,
+            data.data.contact.owner,
+            data.data.contact.phone,
+            data.data.contact.prefix,
+            data.data.contact.surname,
+            data.data.contact.groups
+          );
         }
         else {
-          this.contacts[index] = new Contact(
-            contact.address,
-            contact.alias,
-            contact.description,
-            contact.email,
-            contact.name,
-            contact.owner,
-            contact.phone,
-            contact.prefix,
-            contact.surname,
-            contact.groups
-          );
-
-          this.sort();
+          this.contacts[index] = tmp;
         }
       }
+      else {
+        this.contacts[index] = tmp;
+      }
+
+      this.filteredList = this.contacts;
+      this.sort();
     });
     return await modal.present();
   }
