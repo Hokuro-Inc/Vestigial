@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { ContactsService } from 'src/app/services/contacts-service/contacts.service';
 import { Contact } from '../contacts/contacts.page'
-
 import { NFC } from '@awesome-cordova-plugins/nfc/ngx';
-
 
 @Component({
   selector: 'app-import-contact',
@@ -13,13 +11,19 @@ import { NFC } from '@awesome-cordova-plugins/nfc/ngx';
 })
 export class ImportContactPage implements OnInit {
 
-  agente : String;
-  readerModePage : any;
-  contact : Contact = new Contact("","","","","","","","","");
+  agente: String;
+  readerModePage: any;
+  contact: Contact = new Contact();
 
-  constructor(private modalController: ModalController, private nfc: NFC, private contactService: ContactsService) { }
+  constructor(private modalController: ModalController, private nfc: NFC, private contactService: ContactsService, private loadingController: LoadingController) { }
   
   async ngOnInit() {
+    const loader = await this.loadingController.create({
+      spinner: "crescent",
+      message: "Buscando dispositivo NFC"
+    });
+    await loader.present();
+
     let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
     this.readerModePage = this.nfc.readerMode(flags).subscribe(
       tag => {
@@ -61,7 +65,11 @@ export class ImportContactPage implements OnInit {
           }
         );
       },
-      err => console.log('Error reading tag', err)
+      err => console.log('Error reading tag', err),
+      () => {
+        console.log("Completed");
+        loader.dismiss();
+      }
     );
 
     // Read NFC Tag - iOS
@@ -78,6 +86,9 @@ export class ImportContactPage implements OnInit {
     catch (err) {
       console.log('Error reading tag', err);
     }
+    finally {
+      loader.dismiss();
+    }    
   }
 
   dismiss(contact: Contact) {
